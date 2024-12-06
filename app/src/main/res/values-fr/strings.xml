@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <!--    Splash Screen   -->
+    <string name="app_name">Food</string>
+    <string name="slogan">Votre nourriture est à portée de main !</string>
+
+    <!--    Onboarding Page 1   -->
+    <string name="Onboarding_title1">Collectez vos commandes</string>
+    <string name="Onboarding_description1">Avec notre application "Nourriture", vous pouvez rassembler vos commandes de divers magasins et restaurants au même endroit, et elles seront livrées à l\'endroit que vous spécifiez !</string>
+
+    <!--    Onboarding Page 2   -->
+    <string name="Onboarding_title2">Livraison ultra rapide</string>
+    <string name="Onboarding_description2">Nous servons la vitesse sur un plateau. Faim ? Nous vous livrons votre nourriture avant même que vous ayez eu le temps de dire « miam ! »</string>
+
+    <!--    Onboarding Page 3   -->
+    <string name="Onboarding_title3">Choisissez votre repas</string>
+    <string name="Onboarding_description3">Découvrez les meilleurs restaurants, mettant en avant leurs plats phares, prêts à explorer, savourer et déguster à chaque bouchée !</string>
+    <string name="cta_get_started">Commencer</string>
+
+    <!--    Login    -->
+    <string name="login_title">Connectez-vous à votre compte</string>
+    <string name="login_description">Entrez votre email et votre mot de passe pour vous connecter</string>
+    <string name="cta_login_with_google">Continuer avec Google</string>
+    <string name="login_with_other_methods">Ou connectez-vous avec</string>
+    <string name="remember_me">Se souvenir de moi</string>
+    <string name="forgot_password">Mot de passe oublié ?</string>
+    <string name="cta_login_btn">Se connecter</string>
+    <string name="user_not_registered">Vous n\'avez pas de compte ?</string>
+    <string name="cta_signup_btn">S\'inscrire</string>
+
+    <!--    Sign up    -->
+    <string name="signup_title">S\'inscrire</string>
+    <string name="signup_description">Rejoignez-nous et commencez votre aventure en quelques clics !</string>
+    <string name="input_first_name">Prénom</string>
+    <string name="input_last_name">Nom</string>
+    <string name="input_email">Email</string>
+    <string name="input_phone_number">Numéro de téléphone</string>
+    <string name="input_password">Mot de passe</string>
+    <string name="privacy_and_policy_message">En sélectionnant "Accepter et continuer", j\'accepte les Conditions d\'utilisation, les Conditions de paiement et la Politique de notification de Dynamic Layers et je reconnais la Politique de confidentialité.</string>
+    <string name="user_registered">Vous avez déjà un compte ?</string>
+    <string name="cta_login_msg">Se connecter</string>
+
+    <!--    Change Password    -->
+    <string name="change_password_title">Changer de mot de passe ?</string>
+    <string name="change_password_description">Entrez l\'adresse e-mail associée à votre compte. Vous recevrez un e-mail pour définir un nouveau mot de passe.</string>
+    <string name="input_write_your_email">Entrez votre adresse e-mail</string>
+    <string name="cta_send_code">Envoyer le code</string>
+    <string name="remember_password">Se souvenir du mot de passe ?</string>
+    <string name="check_email_title">Veuillez vérifier votre e-mail</string>
+    <string name="check_email_description">Nous avons envoyé un code à</string>
+    <string name="cta_verify_code">Vérifier</string>
+    <string name="send_code_again">Renvoyer le code dans</string>
+    <string name="reset_password_title">Réinitialiser le mot de passe</string>
+    <string name="reset_password_description">Veuillez insérer un autre mot de passe</string>
+    <string name="label_new_password">Nouveau mot de passe</string>
+    <string name="label_confirm_new_password">Confirmer le nouveau mot de passe</string>
+    <string name="input_new_password">doit comporter au moins 8 caractères</string>
+    <string name="input_confirm_new_password">répéter le mot de passe</string>
+
+    <!--    Order    -->
+    <string name="order_ongoing_title">En cours</string>
+    <string name="order_history_title">Historique</string>
+    <string name="order_empty_title">Aucune demande</string>
+    <string name="order_empty_subtitle">Vous n\'avez actuellement aucune demande. Vous pouvez créer une commande maintenant !</string>
+    <string name="cta_back_home">Retour à l\'accueil</string>
+    <string name="total_order_price">Prix total de la commande</string>
+    <string name="cta_confirm_order">Confirmer ma commande</string>
+    <string name="cta_cancel">Annuler</string>
+    <string name="cart_title">Panier</string>
+    <string name="cart_note">Note :</string>
+    <string name="modify_note">Modifier la note</string>
+    <string name="order_location">Lieu de la commande</string>
+    <string name="delivery_location">Lieu de livraison</string>
+    <string name="order_price">Prix de la commande</string>
+    <string name="cta_track_order">Suivre ma commande</string>
+    <string name="cta_order_delivered">Commande livrée</string>
+
+    <!--    Favorites    -->
+    <string name="favorites_restaurants_title">Restaurants</string>
+    <string name="favorites_menu_title">Menus</string>
+    <string name="favorites_food_title">Plats</string>
+    <string name="favorites_empty_title">Rien sauvegardé !</string>
+    <string name="favorites_empty_restaurants_subtitle">Vous n\'avez actuellement aucun restaurant préféré.</string>
+    <string name="favorites_empty_menus_subtitle">Vous n\'avez actuellement aucun menu préféré.</string>
+    <string name="favorites_empty_foods_subtitle">Vous n\'avez actuellement aucun plat préféré.</string>
+    <string name="input_search_restaurant">Rechercher un restaurant</string>
+    <string name="input_search_menu">Rechercher un menu</string>
+    <string name="input_search_food">Rechercher un plat</string>
+    <string name="cta_details">Détails</string>
+    <string name="top_picks">Meilleures sélections</string>
+    <string name="info_title">Informations</string>
+
+    <!--    Favorites Filter    -->
+    <string name="filter_title">Filtrer les propriétés</string>
+    <string name="cta_reset_btn">Réinitialiser tout</string>
+    <string name="filter_by_cuisine_type">Type de cuisine</string>
+    <string name="filter_by_price_range">Plage de prix</string>
+    <string name="filter_by_rating_range">Plage de notation</string>
+    <string name="filter_by_menu_type">Type de menu</string>
+    <string name="filter_by_food_type">Type de plat</string>
+    <string name="stars">étoiles</string>
+    <string name="star">étoile</string>
+    <string name="cta_more_info">Plus d\'infos</string>
+    <string name="current_location_title">Emplacement actuel</string>
+    <string name="known_for_title">Connu pour</string>
+    <string name="categories_title">Catégories</string>
+    <string name="cta_order_now">Commander maintenant</string>
+    <string name="reviews_title">Avis</string>
+    <string name="categorized_under_title">Catégorisé sous</string>
+    <string name="description_title">Description</string>
+    <string name="customize_your_menu_title">Personnalisez votre menu</string>
+    <string name="cta_add_to_cart">Ajouter au panier</string>
+    <string name="drinks_title">Boissons</string>
+    <string name="cta_save">Sauvegarder</string>
+    <string name="add_note_title">Ajouter une note</string>
+    <string name="add_note_description">Vous souhaitez personnaliser votre commande ? Ajoutez une note pour nous le faire savoir !</string>
+    <string name="input_add_note">Écrire ici</string>
+    <string name="customize_your_food_title">Personnalisez votre plat</string>
+
+    <!--    Home    -->
+    <string name="cusines_types_title">Cuisine</string>
+    <string name="top_categories_title">Top catégories</string>
+    <string name="top_restaurants_title">Meilleurs restaurants</string>
+    <string name="near_restaurants_title">Restaurants proches</string>
+
+
+    <!--    Profile     -->
+    <string name="input_location">Emplacement actuel</string>
+    <string name="cta_notifications">Notifications</string>
+</resources>

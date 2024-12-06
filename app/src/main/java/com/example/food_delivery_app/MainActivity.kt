@@ -4,17 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
 import com.example.food_delivery_app.ui.theme.*
 
 class MainActivity : ComponentActivity() {
@@ -25,7 +24,7 @@ class MainActivity : ComponentActivity() {
             Food_Delivery_AppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
-                        name = "Android",
+                        name = stringResource(R.string.Onboarding_description1),
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -38,18 +37,11 @@ class MainActivity : ComponentActivity() {
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     val customColors = LocalCustomColorScheme.current
     val customTypography = LocalCustomTypographyScheme.current
-    Column{
-        Text(
-            text = "Hello $name!",
-            modifier = modifier,
-            style = customTypography.heading3,
-        )
-        Text(
-            text = "Hello $name!",
-            modifier = modifier,
-            style = customTypography.p_large,
-        )
-    }
+
+    Text(
+        text = name,
+        modifier = modifier,
+    )
 }
 
 @Preview(showBackground = true)
