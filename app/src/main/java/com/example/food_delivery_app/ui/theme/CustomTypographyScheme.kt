@@ -48,48 +48,48 @@ val defaultCustomTypographyScheme = CustomTypographyScheme(
     ),
     heading4 = TextStyle(
         fontFamily = urbanistFontFamily,
-        fontSize = 20.sp,
+        fontSize = 24.sp,
         fontWeight = FontWeight.Bold
     ),
     heading5 = TextStyle(
         fontFamily = urbanistFontFamily,
-        fontSize = 16.sp,
+        fontSize = 20.sp,
         fontWeight = FontWeight.Bold
     ),
 
     p_large = TextStyle(
         fontFamily = ralewayFontFamily,
-        fontSize = 16.sp,
+        fontSize = 18.sp,
         fontWeight = FontWeight.Normal
     ),
     p_largeBold = TextStyle(
         fontFamily = ralewayFontFamily,
-        fontSize = 16.sp,
+        fontSize = 18.sp,
         fontWeight = FontWeight.Bold
     ),
     p_medium = TextStyle(
         fontFamily = ralewayFontFamily,
-        fontSize = 14.sp,
+        fontSize = 16.sp,
         fontWeight = FontWeight.Normal
     ),
     p_mediumBold = TextStyle(
         fontFamily = ralewayFontFamily,
-        fontSize = 14.sp,
+        fontSize = 16.sp,
         fontWeight = FontWeight.Bold
     ),
     p_small = TextStyle(
         fontFamily = ralewayFontFamily,
-        fontSize = 10.sp,
+        fontSize = 14.sp,
         fontWeight = FontWeight.Normal
     ),
     p_smallBold = TextStyle(
         fontFamily = ralewayFontFamily,
-        fontSize = 10.sp,
+        fontSize = 14.sp,
         fontWeight = FontWeight.Bold
     ),
     p_smallSemiBold = TextStyle(
         fontFamily = ralewayFontFamily,
-        fontSize = 10.sp,
+        fontSize = 14.sp,
         fontWeight = FontWeight.SemiBold
     )
 )
