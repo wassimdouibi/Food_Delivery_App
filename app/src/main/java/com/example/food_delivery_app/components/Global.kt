@@ -68,3 +68,14 @@ fun TextWithIconRow(
         }
     }
 }
+
+
+enum class OrderControlState {
+    ONGOING,
+    HISTORY
+}
+
+enum class FavoritesControlState {
+    RESTAURANTS,
+    FOODS
+}

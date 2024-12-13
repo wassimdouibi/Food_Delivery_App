@@ -17,6 +17,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.food_delivery_app.components.*
 import com.example.food_delivery_app.ui.theme.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,7 +40,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Food_Delivery_AppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Scaffold(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.White),
+                ) { innerPadding ->
                     Box(
                         modifier = Modifier
                             .padding(
@@ -34,7 +54,7 @@ class MainActivity : ComponentActivity() {
                         contentAlignment = Alignment.Center
                     ){
                         Greeting(
-                            name = stringResource(R.string.Onboarding_description1)
+                            modifier = Modifier.fillMaxWidth()
                         )
                     }
                 }
@@ -47,7 +67,19 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
+fun Greeting(modifier: Modifier = Modifier) {
+    SegmentedButton(modifier = modifier)
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    Food_Delivery_AppTheme {
+        Greeting()
+    }
+}
+
+
 //    Column {
 //        SquareIconButton(
 //            onClick = {},
@@ -111,12 +143,3 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 //            enabled = false
 //        )
 //    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Food_Delivery_AppTheme {
-        Greeting("Android")
-    }
-}
