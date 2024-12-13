@@ -68,7 +68,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(modifier: Modifier = Modifier) {
-    SegmentedButton(modifier = modifier)
+    SegmentedButton(
+        modifier = modifier,
+        options = listOf("Ongoing", "History")
+    )
 }
 
 @Preview(showBackground = true)
