@@ -36,8 +36,6 @@ fun RoundedIconBtn(
            Icon(
                imageVector = icon,
                contentDescription = iconDescription,
-               modifier = Modifier
-                   .padding(4.dp)
            )
     }
 
