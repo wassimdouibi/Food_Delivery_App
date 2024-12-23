@@ -1,5 +1,6 @@
 package com.example.food_delivery_app.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -31,9 +32,10 @@ fun BorderlessTextButton(
     isPLargeBold: Boolean = false,
 
     icon: ButtonIcon = ButtonIcon.None,
-    contentColor: Color = LocalCustomColorScheme.current.primary400,
+    contentColor: Color = LocalCustomColorScheme.current.primary700,
     containerColor: Color = Color.Transparent,
 ) {
+    val sizedModifier = modifier.sizeModifier(buttonSize)
     val textStyle: TextStyle = if (isPLargeBold) {
         LocalCustomTypographyScheme.current.p_largeBold
     } else if (buttonSize == ButtonSize.SMALL) {
@@ -49,15 +51,15 @@ fun BorderlessTextButton(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() }
             )
-            .then(modifier),
-
+            .then(sizedModifier),
     ) {
         TextWithIconRow(
             textContent = textContent,
             textStyle = textStyle.copy(
-                color = LocalCustomColorScheme.current.utilityError
+                color = contentColor
             ),
-            icon = icon
+            icon = icon,
+            modifier = modifier.background(containerColor)
         )
     }
 }

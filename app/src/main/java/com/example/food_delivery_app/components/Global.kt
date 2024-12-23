@@ -43,7 +43,8 @@ fun Modifier.applySquareButtonSize(buttonSize: ButtonSize): Modifier {
 fun TextWithIconRow(
     textContent: String,
     textStyle: TextStyle,
-    icon: ButtonIcon
+    icon: ButtonIcon,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,

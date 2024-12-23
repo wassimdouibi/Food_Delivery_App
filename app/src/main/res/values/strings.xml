@@ -4,6 +4,9 @@
     <!--    Splash Screen   -->
     <string name="slogan">Your food is just a tap away !</string>
 
+    <string name="Onboarding_cta_next">Next</string>
+    <string name="Onboarding_cta_back">Back</string>
+    <string name="Onboarding_cta_skip">Skip</string>
     <!--    Onboarding Page 1   -->
     <string name="Onboarding_title1">Collect Your Orders</string>
     <string name="Onboarding_description1">With our "Food" app, you can gather your orders from various stores and restaurants in one place, and they’ll be delivered to the location you specify!</string>

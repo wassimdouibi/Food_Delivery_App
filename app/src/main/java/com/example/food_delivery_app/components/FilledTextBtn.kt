@@ -25,7 +25,7 @@ fun FilledTextButton(
     icon: ButtonIcon = ButtonIcon.None,
 
     contentColor: Color = LocalCustomColorScheme.current.ink50,
-    containerColor: Color = LocalCustomColorScheme.current.primary400
+    containerColor: Color = LocalCustomColorScheme.current.primary700
 ) {
     val sizedModifier = modifier.sizeModifier(buttonSize)
     val textStyle: TextStyle = if (isPLargeBold) {

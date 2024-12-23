@@ -5,6 +5,9 @@
     <string name="app_name">Food</string>
     <string name="slogan">Votre nourriture est à portée de main !</string>
 
+    <string name="Onboarding_cta_next">Suivant</string>
+    <string name="Onboarding_cta_back">Retour</string>
+    <string name="Onboarding_cta_skip">Passer</string>
     <!--    Onboarding Page 1   -->
     <string name="Onboarding_title1">Collectez vos commandes</string>
     <string name="Onboarding_description1">Avec notre application "Nourriture", vous pouvez rassembler vos commandes de divers magasins et restaurants au même endroit, et elles seront livrées à l\'endroit que vous spécifiez !</string>
