@@ -33,7 +33,6 @@ fun Onboarding(navController: NavHostController) {
         modifier = Modifier
             .fillMaxSize()
             .systemBarsPadding(),
-        verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
             Image(
@@ -43,15 +42,18 @@ fun Onboarding(navController: NavHostController) {
                 contentScale = ContentScale.Crop
             )
 
+            Spacer(modifier = Modifier.weight(2f))
+
             Text(
                 text = stringResource(onboardingItems[selectedItem.value].title),
                 style = LocalCustomTypographyScheme.current.heading3.copy(
-                    color = LocalCustomColorScheme.current.primary700
+                    color = LocalCustomColorScheme.current.primary500
                 ),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
 
+            Spacer(modifier = Modifier.weight(1f))
 
             Text(
                 text = stringResource(onboardingItems[selectedItem.value].description),
@@ -62,12 +64,14 @@ fun Onboarding(navController: NavHostController) {
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
 
+            Spacer(modifier = Modifier.weight(1f))
 
             IndicatorsBox(
                 nbIndicators = onboardingItems.size,
                 selectedIndicator = selectedItem.value
             )
 
+            Spacer(modifier = Modifier.weight(2f))
 
             if (selectedItem.value == onboardingItems.size - 1) {
                 FilledTextButton(
@@ -75,19 +79,18 @@ fun Onboarding(navController: NavHostController) {
                         navController.navigate(Screen.Signup.route)
                     },
                     textContent = stringResource(R.string.cta_get_started),
-                    buttonSize = ButtonSize.LARGE,
-                    isPLargeBold = true,
+                    textStyle = LocalCustomTypographyScheme.current.p_largeBold,
                     icon = ButtonIcon.Right(
                         icon = Icons.Filled.ArrowForward,
                         description = "Arrow Forward"
                     ),
-                    modifier = Modifier.padding(horizontal = 16.dp)
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 32.dp)
                 )
             } else {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
+                        .padding(horizontal = 32.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -99,16 +102,16 @@ fun Onboarding(navController: NavHostController) {
                                 selectedItem.value = 0
                         },
                         textContent = stringResource(R.string.Onboarding_cta_back),
+                        textStyle = LocalCustomTypographyScheme.current.p_mediumBold
                     )
                     FilledTextButton(
-                        onClick = {
-                            selectedItem.value += 1
-                        },
+                        onClick = { selectedItem.value += 1 },
                         textContent = stringResource(R.string.Onboarding_cta_next),
+                        textStyle = LocalCustomTypographyScheme.current.p_mediumBold
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.height(1.dp))
+            Spacer(modifier = Modifier.weight(2f))
     }
 }

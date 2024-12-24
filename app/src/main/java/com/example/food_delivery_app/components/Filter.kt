@@ -31,7 +31,7 @@ fun Filter(
             onClick = onDismiss,
             icon = Icons.Default.Close,
             iconDescription = "Go back",
-            containerColor = LocalCustomColorScheme.current.utilityError
+            containerColorEnabled = LocalCustomColorScheme.current.utilityError
         )
         Column(
             verticalArrangement = Arrangement.spacedBy(40.dp)

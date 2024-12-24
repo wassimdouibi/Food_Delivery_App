@@ -67,7 +67,7 @@
     <string name="order_empty_subtitle">You currently have no requests. you can create an order now!</string>
     <string name="cta_back_home">Back to Home</string>
     <string name="total_order_price">Total order price</string>
-    <string name="cta_confirm_order">Confirm my order</string>
+    <string name="cta_confirm_order">Confirm order</string>
     <string name="cta_cancel">Cancel</string>
     <string name="cart_title">Cart</string>
     <string name="cart_note">Note:</string>

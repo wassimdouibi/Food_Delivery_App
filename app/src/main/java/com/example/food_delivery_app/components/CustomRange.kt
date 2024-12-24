@@ -46,7 +46,7 @@ fun CustomRange(
                     sliderPosition.value = 1f..5f
                 },
                 contentColor = LocalCustomColorScheme.current.utilityError,
-                buttonSize = ButtonSize.SMALL,
+                textStyle = LocalCustomTypographyScheme.current.p_smallBold
             )
         }
         Spacer(modifier = modifier.height(16.dp))

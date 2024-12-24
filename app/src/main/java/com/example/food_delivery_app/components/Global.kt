@@ -6,6 +6,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -22,6 +23,7 @@ sealed class ButtonIcon {
     data object None : ButtonIcon()
 }
 
+
 fun Modifier.sizeModifier(buttonSize: ButtonSize): Modifier {
     return when (buttonSize) {
         ButtonSize.LARGE -> this.fillMaxWidth().padding(vertical = 14.dp)
@@ -30,23 +32,16 @@ fun Modifier.sizeModifier(buttonSize: ButtonSize): Modifier {
     }
 }
 
-fun Modifier.applySquareButtonSize(buttonSize: ButtonSize): Modifier {
-    val size = when (buttonSize) {
-        ButtonSize.LARGE -> 48.dp
-        ButtonSize.MEDIUM -> 32.dp
-        ButtonSize.SMALL -> 24.dp
-    }
-    return this.size(size).padding(4.dp)
-}
 
 @Composable
 fun TextWithIconRow(
     textContent: String,
     textStyle: TextStyle,
     icon: ButtonIcon,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     Row(
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
@@ -79,4 +74,9 @@ enum class OrderControlState {
 enum class FavoritesControlState {
     RESTAURANTS,
     FOODS
+}
+
+sealed class IconType {
+    data class VectorIcon(val imageVector: ImageVector, val iconDescription: String) : IconType()
+    data class PainterIcon(val painter: Painter, val iconDescription: String) : IconType()
 }

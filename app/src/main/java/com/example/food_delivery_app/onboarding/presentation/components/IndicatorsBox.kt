@@ -27,7 +27,7 @@ fun Indicator(isSelected: Boolean) {
             .clip(RoundedCornerShape(percent = 50))
             .background(
                 if (isSelected)
-                    LocalCustomColorScheme.current.primary700
+                    LocalCustomColorScheme.current.primary500
                 else
                     LocalCustomColorScheme.current.primary200
             ),

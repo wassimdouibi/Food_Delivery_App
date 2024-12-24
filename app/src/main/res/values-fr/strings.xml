@@ -68,7 +68,7 @@
     <string name="order_empty_subtitle">Vous n\'avez actuellement aucune demande. Vous pouvez créer une commande maintenant !</string>
     <string name="cta_back_home">Retour à l\'accueil</string>
     <string name="total_order_price">Prix total de la commande</string>
-    <string name="cta_confirm_order">Confirmer ma commande</string>
+    <string name="cta_confirm_order">Confirmer commande</string>
     <string name="cta_cancel">Annuler</string>
     <string name="cart_title">Panier</string>
     <string name="cart_note">Note :</string>

@@ -25,7 +25,6 @@ fun SignupCard(
 ) {
     Column(
         modifier = Modifier
-            .fillMaxWidth()
             .padding(24.dp)
             .clip(RoundedCornerShape(10.dp))
             .background(LocalCustomColorScheme.current.utilityWhiteBackground),
@@ -36,11 +35,10 @@ fun SignupCard(
 
         FilledTextButton(
             onClick = {},
-            buttonSize = ButtonSize.LARGE,
             textContent = stringResource(R.string.cta_signup_btn),
+            textStyle = LocalCustomTypographyScheme.current.p_largeBold,
             containerColor = LocalCustomColorScheme.current.utilityActive
         )
-
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,

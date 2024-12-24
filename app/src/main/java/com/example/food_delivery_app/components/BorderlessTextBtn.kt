@@ -10,10 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.remember
 import androidx.compose.ui.text.TextStyle
@@ -25,33 +22,24 @@ import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
 fun BorderlessTextButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    buttonSize: ButtonSize = ButtonSize.MEDIUM,
     enabled: Boolean = true,
 
     textContent: String,
-    isPLargeBold: Boolean = false,
+    textStyle: TextStyle,
 
     icon: ButtonIcon = ButtonIcon.None,
-    contentColor: Color = LocalCustomColorScheme.current.primary700,
+    contentColor: Color = LocalCustomColorScheme.current.primary500,
     containerColor: Color = Color.Transparent,
 ) {
-    val sizedModifier = modifier.sizeModifier(buttonSize)
-    val textStyle: TextStyle = if (isPLargeBold) {
-        LocalCustomTypographyScheme.current.p_largeBold
-    } else if (buttonSize == ButtonSize.SMALL) {
-        LocalCustomTypographyScheme.current.p_smallSemiBold
-    } else {
-        LocalCustomTypographyScheme.current.p_mediumBold
-    }
-
     Box(
         modifier = modifier
+            .wrapContentSize()
+            .background(containerColor) // Apply background here
             .clickable(
                 onClick = onClick,
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() }
             )
-            .then(sizedModifier),
     ) {
         TextWithIconRow(
             textContent = textContent,
@@ -59,7 +47,7 @@ fun BorderlessTextButton(
                 color = contentColor
             ),
             icon = icon,
-            modifier = modifier.background(containerColor)
+            modifier = Modifier.padding(8.dp)
         )
     }
 }

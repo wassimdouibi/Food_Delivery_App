@@ -1,6 +1,5 @@
 package com.example.food_delivery_app.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
@@ -50,8 +49,8 @@ fun CustomCheckboxList(
                 onClick = {
                     checkedStates.forEach { it.value = false }
                 },
+                textStyle = LocalCustomTypographyScheme.current.p_smallBold,
                 contentColor = LocalCustomColorScheme.current.utilityError,
-                buttonSize = ButtonSize.SMALL,
             )
         }
 //        Spacer(modifier = modifier.height(8.dp))

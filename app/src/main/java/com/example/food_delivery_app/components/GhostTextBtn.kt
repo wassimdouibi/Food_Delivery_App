@@ -26,6 +26,7 @@ fun GhostTextButton(
     icon: ButtonIcon = ButtonIcon.None,
     contentColor: Color = LocalCustomColorScheme.current.primary400,
     containerColor: Color = Color.Transparent,
+    borderColor: Color = LocalCustomColorScheme.current.primary400
 ) {
     val sizedModifier = modifier.sizeModifier(buttonSize)
     val textStyle: TextStyle = if (isPLargeBold) {
@@ -38,7 +39,7 @@ fun GhostTextButton(
 
     Button(
         onClick = onClick,
-        modifier = sizedModifier.border(2.dp, LocalCustomColorScheme.current.primary400),
+        modifier = sizedModifier.border(2.dp, borderColor),
         colors = ButtonDefaults.buttonColors(
             contentColor = contentColor,
             containerColor = containerColor
