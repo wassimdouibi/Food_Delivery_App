@@ -81,8 +81,10 @@ fun Onboarding(navController: NavHostController) {
                     textContent = stringResource(R.string.cta_get_started),
                     textStyle = LocalCustomTypographyScheme.current.p_largeBold,
                     icon = ButtonIcon.Right(
-                        icon = Icons.Filled.ArrowForward,
-                        description = "Arrow Forward"
+                        IconType.VectorIcon(
+                            imageVector = Icons.Filled.ArrowForward,
+                            iconDescription = "Arrow Forward"
+                        )
                     ),
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 32.dp)
                 )

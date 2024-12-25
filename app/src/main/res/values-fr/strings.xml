@@ -22,7 +22,7 @@
     <string name="cta_get_started">Commencer</string>
 
     <!--    Login    -->
-    <string name="login_title">Connectez-vous à votre compte</string>
+    <string name="login_title">Connectez-vous\nà votre compte</string>
     <string name="login_description">Entrez votre email et votre mot de passe pour vous connecter</string>
     <string name="cta_login_with_google">Continuer avec Google</string>
     <string name="login_with_other_methods">Ou connectez-vous avec</string>

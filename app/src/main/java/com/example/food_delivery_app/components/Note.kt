@@ -38,7 +38,6 @@ fun Note(
             style = LocalCustomTypographyScheme.current.p_mediumBold,
             color = LocalCustomColorScheme.current.ink500
         )
-//        Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = content,
             style = LocalCustomTypographyScheme.current.p_medium,

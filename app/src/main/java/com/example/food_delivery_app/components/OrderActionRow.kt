@@ -31,6 +31,7 @@ fun OrderActionRow(
         GhostTextButton(
             onClick = onB1Click,
             textContent = button1Text,
+            textStyle = LocalCustomTypographyScheme.current.p_mediumBold,
             contentColor = ghostButtonColor,
             borderColor = ghostButtonColor
         )

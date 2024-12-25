@@ -10,11 +10,11 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun FieldsCard(
-
+    modifier: Modifier = Modifier,
 ){
     Column(
-        modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         Text("First Name")
         Text("Last Name")

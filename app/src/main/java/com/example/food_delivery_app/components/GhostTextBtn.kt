@@ -18,28 +18,18 @@ import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
 fun GhostTextButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    buttonSize: ButtonSize = ButtonSize.MEDIUM,
 
     textContent: String,
-    isPLargeBold: Boolean = false,
+    textStyle: TextStyle,
 
     icon: ButtonIcon = ButtonIcon.None,
     contentColor: Color = LocalCustomColorScheme.current.primary400,
     containerColor: Color = Color.Transparent,
     borderColor: Color = LocalCustomColorScheme.current.primary400
 ) {
-    val sizedModifier = modifier.sizeModifier(buttonSize)
-    val textStyle: TextStyle = if (isPLargeBold) {
-        LocalCustomTypographyScheme.current.p_largeBold
-    } else if (buttonSize == ButtonSize.SMALL) {
-        LocalCustomTypographyScheme.current.p_smallSemiBold
-    } else {
-        LocalCustomTypographyScheme.current.p_mediumBold
-    }
-
     Button(
         onClick = onClick,
-        modifier = sizedModifier.border(2.dp, borderColor),
+        modifier = modifier.border(2.dp, borderColor),
         colors = ButtonDefaults.buttonColors(
             contentColor = contentColor,
             containerColor = containerColor

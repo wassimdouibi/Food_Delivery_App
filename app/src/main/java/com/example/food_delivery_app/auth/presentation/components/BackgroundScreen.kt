@@ -11,13 +11,12 @@ fun BackgroundScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .systemBarsPadding()
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
-                .background(LocalCustomColorScheme.current.primary800)
+                .background(LocalCustomColorScheme.current.primary700)
         )
         Box(
             modifier = Modifier

@@ -1,32 +1,76 @@
 package com.example.food_delivery_app
 
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.ui.Modifier
 import com.example.food_delivery_app.ui.theme.*
 import androidx.compose.material3.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.unit.dp
-import com.example.food_delivery_app.components.*
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.navigation.compose.rememberNavController
+import com.example.food_delivery_app.auth.domain.AuthViewModel
+import com.example.food_delivery_app.auth.presentation.login.view.Login
 import com.example.food_delivery_app.navigation.Navigation
 
+var userId = 1;
 
 class MainActivity : ComponentActivity() {
+
+    private val authViewModel: AuthViewModel by viewModels {
+        AuthViewModel.Factory((application as FoodDeliveryApplication).authRepository)
+    }
+
+    private fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT > -Build.VERSION_CODES.TIRAMISU) {
+            val hasPermission = ContextCompat.checkSelfPermission(
+                this, android.Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+            if (!hasPermission) {
+                ActivityCompat.requestPermissions(
+                    this, arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 0
+                )
+            }
+        }
+    }
+
+    @RequiresApi(34)
     override fun onCreate(savedInstanceState: Bundle?) {
+        requestNotificationPermission()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
             Food_Delivery_AppTheme {
                 Scaffold(
                     modifier = Modifier
                         .fillMaxSize()
                 ) {
-                    innerPadding ->
-                    Navigation()
-//                    Signup(navController = rememberNavController(),)
+                    val context = LocalContext.current
+                    val pref = context.getSharedPreferences("local", Context.MODE_PRIVATE)
+
+                    Navigation(
+                        authViewModel = authViewModel,
+                        pref = pref
+                    )
+
+                }
+            }
+        }
+    }
+}
+
+
+
+
 //                    Column(
 //                        modifier = Modifier
 //                            .fillMaxSize()
@@ -95,8 +139,3 @@ class MainActivity : ComponentActivity() {
 //                            modifier = Modifier.padding(16.dp)
 //                        )
 //                    }
-                }
-            }
-        }
-    }
-}
