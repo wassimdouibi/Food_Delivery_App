@@ -13,7 +13,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -71,7 +73,6 @@ fun PasswordTextField(
                 } else {
                     Color.Transparent
                 },
-                shape = RoundedCornerShape(10.dp)
 
             ),
 
@@ -119,7 +120,6 @@ fun EmailInput(
             .border(
                 width = 2.dp,
                 color = if (isFocused) defaultCustomColorScheme.primary400 else Color.Transparent,
-                shape = RoundedCornerShape(10.dp)
             ),
         leadingIcon = {
             Icon(
@@ -141,7 +141,6 @@ fun PhoneNumberInput(
     onValueChange: (String) -> Unit,
     placeholder: String = "Phone Number",
     modifier: Modifier = Modifier,
-    countryCode: String = "+1" // Default country code for example
 ) {
     // State to track focus
     var isFocused by remember { mutableStateOf(false) }
@@ -155,14 +154,55 @@ fun PhoneNumberInput(
             .border(
                 width = 2.dp,
                 color = if (isFocused) defaultCustomColorScheme.primary400 else Color.Transparent,
-                shape = RoundedCornerShape(10.dp)
             ),
         singleLine = true,
         leadingIcon = {
             // Display the country code as a leading icon
-            Text(text = countryCode)
+            Text(text = "+213")
         },
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone),
         textStyle = defaultCustomTypographyScheme.p_medium,
     )
+}
+
+//function to display the 3 inputs incase someone wants to visualise them to test
+@Composable
+fun InputsPreview() {
+    // State variables for input values
+    val emailValue = remember { mutableStateOf("") }
+    val passwordValue = remember { mutableStateOf("") }
+    val phoneNumberValue = remember { mutableStateOf("") }
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        // Email Input
+        EmailInput(
+            value = emailValue.value,
+            onValueChange = { emailValue.value = it },
+            placeholder = "Enter your email"
+        )
+
+        // Space between inputs
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Password Input
+        PasswordTextField(
+            value = passwordValue.value,
+            onValueChange = { passwordValue.value = it },
+            placeholder = "Enter your password"
+        )
+
+        // Space between inputs
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Phone Number Input
+        PhoneNumberInput(
+            value = phoneNumberValue.value,
+            onValueChange = { phoneNumberValue.value = it },
+            placeholder = "Enter your phone number",
+        )
+    }
 }
