@@ -25,7 +25,7 @@
     <string name="login_title">Connectez-vous\nà votre compte</string>
     <string name="login_description">Entrez votre email et votre mot de passe pour vous connecter</string>
     <string name="cta_login_with_google">Continuer avec Google</string>
-    <string name="login_with_other_methods">Ou connectez-vous avec</string>
+    <string name="login_with_other_methods"> Ou </string>
     <string name="remember_me">Se souvenir de moi</string>
     <string name="forgot_password">Mot de passe oublié ?</string>
     <string name="cta_login_btn">Se connecter</string>
@@ -55,11 +55,19 @@
     <string name="cta_verify_code">Vérifier</string>
     <string name="send_code_again">Renvoyer le code dans</string>
     <string name="reset_password_title">Réinitialiser le mot de passe</string>
-    <string name="reset_password_description">Veuillez insérer un autre mot de passe</string>
+    <string name="reset_password_description">Créez votre nouveau mot de passe</string>
     <string name="label_new_password">Nouveau mot de passe</string>
     <string name="label_confirm_new_password">Confirmer le nouveau mot de passe</string>
     <string name="input_new_password">doit comporter au moins 8 caractères</string>
     <string name="input_confirm_new_password">répéter le mot de passe</string>
+    <string name="cta_go_back">Retourner</string>
+    <string name="congratulations">Félicitations</string>
+    <string name="modification_with_success">Votre compte est prêt à être utilisé</string>
+    <string name="cta_go_back_to_login">Connectez votre compte</string>
+    <string name="contact_type">Sélectionnez les coordonnées que nous devons utiliser pour réinitialiser votre mot de passe</string>
+    <string name="via_email">Par Email</string>
+    <string name="via_sms">Par SMS</string>
+
 
     <!--    Order    -->
     <string name="order_ongoing_title">En cours</string>

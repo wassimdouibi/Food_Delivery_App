@@ -14,6 +14,7 @@ class AuthRepository(
     suspend fun login(user: AuthRequest): Response<User> {
         return authService.login(user);
     }
+
     fun saveUserId(userId: Int){
         val pref =
             context.getSharedPreferences("local"
@@ -31,6 +32,7 @@ class AuthRepository(
         )
         return pref.getInt("userId", -1)
     }
+
     suspend fun register(user: AuthRequest): Response<User> {
         return authService.register(user)
     }

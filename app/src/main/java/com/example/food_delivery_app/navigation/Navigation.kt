@@ -1,13 +1,14 @@
 package com.example.food_delivery_app.navigation
 
 import android.content.SharedPreferences
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import auth.presentation.forgotpassword.view.ResetPassword
 import com.example.food_delivery_app.auth.domain.AuthViewModel
+import com.example.food_delivery_app.auth.presentation.forgotpassword.view.ForgotPassword
+import com.example.food_delivery_app.auth.presentation.forgotpassword.view.OTPScreen
 import com.example.food_delivery_app.auth.presentation.login.view.Login
 import com.example.food_delivery_app.auth.presentation.signup.view.Signup
 import com.example.food_delivery_app.onboarding.presentation.Onboarding
@@ -47,6 +48,24 @@ fun Navigation(
             Signup(
                 navController = navController,
                 authViewModel= authViewModel
+            )
+        }
+
+        composable(Screen.ForgotPassword.route) {
+            ForgotPassword(
+                navController = navController
+            )
+        }
+
+        composable(Screen.OTPScreen.route) {
+            OTPScreen(
+                navController = navController
+            )
+        }
+
+        composable(Screen.ResetPassword.route) {
+            ResetPassword(
+                navController = navController
             )
         }
     }

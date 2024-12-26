@@ -10,7 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.example.food_delivery_app.R
 import com.example.food_delivery_app.components.*
 import com.example.food_delivery_app.onboarding.data.OnboardingItem
@@ -20,12 +19,13 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.navigation.NavController
 import com.example.food_delivery_app.navigation.Screen
 import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
 import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
 
 @Composable
-fun Onboarding(navController: NavHostController) {
+fun Onboarding(navController: NavController) {
     val onboardingItems: List<OnboardingItem> = OnboardingItem.get();
     var selectedItem = remember { mutableStateOf(0) }
 

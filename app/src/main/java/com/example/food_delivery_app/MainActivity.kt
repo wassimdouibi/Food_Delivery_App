@@ -18,6 +18,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.compose.rememberNavController
 import com.example.food_delivery_app.auth.domain.AuthViewModel
+import com.example.food_delivery_app.auth.presentation.components.ResetPasswordSuccessBox
 import com.example.food_delivery_app.auth.presentation.login.view.Login
 import com.example.food_delivery_app.navigation.Navigation
 
@@ -57,9 +58,13 @@ class MainActivity : ComponentActivity() {
                     val context = LocalContext.current
                     val pref = context.getSharedPreferences("local", Context.MODE_PRIVATE)
 
-                    Navigation(
-                        authViewModel = authViewModel,
-                        pref = pref
+//                    Navigation(
+//                        authViewModel = authViewModel,
+//                        pref = pref
+//                    )
+
+                    ResetPasswordSuccessBox(
+                        onClick = {}
                     )
 
                 }

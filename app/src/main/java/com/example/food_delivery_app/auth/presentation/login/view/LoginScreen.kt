@@ -12,10 +12,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.food_delivery_app.R
 import com.example.food_delivery_app.auth.domain.AuthViewModel
 import com.example.food_delivery_app.auth.presentation.components.BackgroundScreen
-import com.example.food_delivery_app.auth.presentation.signup.components.SignupCard
+import com.example.food_delivery_app.auth.presentation.login.components.SigninCard
 import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
 import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
 
@@ -35,7 +36,7 @@ fun Login(
             BackgroundScreen()
 
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
@@ -70,11 +71,12 @@ fun Login(
 
                 Spacer(modifier = Modifier.weight(.5f))
 
-                SignupCard(
+                SigninCard(
+                    authViewModel = authViewModel,
                     navController = navController,
                     modifier = Modifier
-                        .weight(2f)
-                        .fillMaxWidth(.75f)
+                        .weight(3f)
+                        .fillMaxWidth()
                 )
 
                 Spacer(modifier = Modifier.weight(1.25f))

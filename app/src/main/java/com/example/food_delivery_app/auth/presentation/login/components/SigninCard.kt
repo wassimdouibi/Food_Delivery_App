@@ -1,12 +1,11 @@
-package com.example.food_delivery_app.auth.presentation.signup.components
+package com.example.food_delivery_app.auth.presentation.login.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -15,6 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.food_delivery_app.R
 import com.example.food_delivery_app.auth.domain.AuthViewModel
+import com.example.food_delivery_app.auth.presentation.components.CheckBoxBtn
 import com.example.food_delivery_app.auth.presentation.components.OAuthSection
 import com.example.food_delivery_app.components.BorderlessTextButton
 import com.example.food_delivery_app.components.FilledTextButton
@@ -26,10 +26,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Composable
-fun SignupCard(
+fun SigninCard(
     navController: NavController,
     modifier: Modifier = Modifier,
-    authViewModel: AuthViewModel,
+    authViewModel: AuthViewModel
 ) {
     Card(
         modifier = modifier,
@@ -48,6 +48,29 @@ fun SignupCard(
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            OAuthSection(
+                navController = navController,
+                authViewModel = authViewModel
+            )
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                HorizontalDivider(
+                    modifier = Modifier.weight(1f)
+                )
+                Text(
+                    text = stringResource(R.string.login_with_other_methods),
+                    style = LocalCustomTypographyScheme.current.p_small,
+                    color = LocalCustomColorScheme.current.ink400
+                )
+                HorizontalDivider(
+                    modifier = Modifier.weight(1f)
+                )
+            }
+
+
             // Fields
             Text("Email")
             Text("Password")
@@ -55,15 +78,46 @@ fun SignupCard(
             FilledTextButton(
                 onClick = {
                     CoroutineScope(Dispatchers.IO).launch {
-                        authViewModel.register()
+                        authViewModel.login()
                     }
-
                 },
-                textContent = stringResource(R.string.cta_signup_btn),
+                textContent = stringResource(R.string.cta_login_btn),
                 textStyle = LocalCustomTypographyScheme.current.p_mediumBold,
-                containerColor = LocalCustomColorScheme.current.utilityActive,
                 modifier = Modifier.fillMaxWidth()
             )
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    CheckBoxBtn(
+                        value = authViewModel.rememberMe,
+                    ) {
+                        authViewModel.rememberMe = !authViewModel.rememberMe
+                    }
+
+                    Text(
+                        text = stringResource(R.string.remember_me),
+                        style = LocalCustomTypographyScheme.current.p_small,
+                        color = LocalCustomColorScheme.current.ink400
+                    )
+                }
+
+                BorderlessTextButton(
+                    textContent = stringResource(R.string.forgot_password),
+                    textStyle = LocalCustomTypographyScheme.current.p_smallSemiBold,
+                    contentColor = LocalCustomColorScheme.current.utilityActive,
+                    onClick = {
+                        navController.navigate(Screen.ForgotPassword.route)
+                    }
+                )
+
+            }
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -75,7 +129,6 @@ fun SignupCard(
                     color = LocalCustomColorScheme.current.ink400,
                     style = LocalCustomTypographyScheme.current.p_small
                 )
-                Spacer(modifier = Modifier.width(2.dp))
                 BorderlessTextButton(
                     onClick = {
                         navController.navigate(Screen.Login.route)
@@ -85,28 +138,6 @@ fun SignupCard(
                     contentColor = LocalCustomColorScheme.current.utilityActive,
                 )
             }
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                HorizontalDivider(
-                    modifier = Modifier.weight(1f)
-                )
-                Text(
-                    text = " or ",
-                    style = LocalCustomTypographyScheme.current.p_small,
-                    color = LocalCustomColorScheme.current.ink400
-                )
-                HorizontalDivider(
-                    modifier = Modifier.weight(1f)
-                )
-            }
-
-            OAuthSection(
-                navController = navController,
-                authViewModel = authViewModel
-            )
         }
     }
 }
