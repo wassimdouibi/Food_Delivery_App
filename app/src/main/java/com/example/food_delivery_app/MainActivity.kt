@@ -4,74 +4,113 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.food_delivery_app.components.EmailInput
-import com.example.food_delivery_app.components.PasswordTextField
-import com.example.food_delivery_app.components.PhoneNumberInput
+import androidx.navigation.compose.rememberNavController
+import com.example.food_delivery_app.components.*
 import com.example.food_delivery_app.ui.theme.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContent {
             Food_Delivery_AppTheme {
-                InputsPreview()
+                Scaffold(
+                    bottomBar = {
+                        BottomBar( rememberNavController())
+                }
+                ){
+
+                }
             }
         }
     }
 }
 
-@Preview
+
+
+
 @Composable
-fun InputsPreview() {
-    // State variables for input values
-    val emailValue = remember { mutableStateOf("") }
-    val passwordValue = remember { mutableStateOf("") }
-    val phoneNumberValue = remember { mutableStateOf("") }
+fun Greeting(name: String, modifier: Modifier = Modifier) {
+//    Column {
+//        SquareIconButton(
+//            onClick = {},
+//            modifier = modifier,
+//            icon = Icons.Filled.Add,
+//            iconDescription = "Add",
+//            buttonSize = ButtonSize.LARGE
+//        )
+//        FilledTextButton(
+//            onClick = {},
+//            modifier = modifier,
+//            textContent = "Log in",
+//            buttonSize = ButtonSize.LARGE,
+//            isPLargeBold = true
+//        )
+//        FilledTextButton(
+//            onClick = {},
+//            modifier = modifier,
+//            textContent = "Log in",
+//            buttonSize = ButtonSize.LARGE,
+//            isPLargeBold = true,
+//            enabled = false
+//        )
+//        GhostTextButton(
+//            onClick = {},
+//            modifier = modifier,
+//            textContent = "Log in",
+//            buttonSize = ButtonSize.LARGE,
+//            isPLargeBold = true
+//        )
+//        BorderlessTextButton(
+//            onClick = {},
+//            modifier = modifier,
+//            textContent = "Log in",
+//            buttonSize = ButtonSize.LARGE,
+//            isPLargeBold = true,
+//        )
+//        BorderlessTextButton(
+//            onClick = {},
+//            modifier = modifier,
+//            textContent = "Log in",
+//            buttonSize = ButtonSize.LARGE,
+//            isPLargeBold = true,
+//            enabled = false
+//        )
+//        RoundedIconBtn(
+//            onClick = {},
+//            modifier = modifier,
+//            icon = Icons.Filled.Delete,
+//            iconDescription = "Delete",
+//            contentColor = LocalCustomColorScheme.current.ink50,
+//            containerColor = LocalCustomColorScheme.current.utilityError
+//        )
+//        RoundedIconBtn(
+//            onClick = {},
+//            modifier = modifier,
+//            icon = Icons.Filled.Delete,
+//            iconDescription = "Delete",
+//            contentColor = LocalCustomColorScheme.current.ink50,
+//            containerColor = LocalCustomColorScheme.current.utilityError,
+//            enabled = false
+//        )
+//    }
+}
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // Email Input
-        EmailInput(
-            value = emailValue.value,
-            onValueChange = { emailValue.value = it },
-            placeholder = "Enter your email"
-        )
-
-        // Space between inputs
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Password Input
-        PasswordTextField(
-            value = passwordValue.value,
-            onValueChange = { passwordValue.value = it },
-            placeholder = "Enter your password"
-        )
-
-        // Space between inputs
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Phone Number Input
-        PhoneNumberInput(
-            value = phoneNumberValue.value,
-            onValueChange = { phoneNumberValue.value = it },
-            placeholder = "Enter your phone number",
-        )
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    Food_Delivery_AppTheme {
+        Greeting("Android")
     }
 }
