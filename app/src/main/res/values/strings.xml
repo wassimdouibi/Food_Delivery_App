@@ -136,7 +136,23 @@
 
 
     <!--    Profile     -->
-    <string name="input_location">Current Location</string>
+    <string name="profile_title">Profile</string>
+    <string name="edit_profile_title">Edit profile</string>
+    <string name="field_first_name">First Name</string>
+    <string name="field_last_name">First Name</string>
+    <string name="field_birthday">Date of birth</string>
+    <string name="field_email">Email</string>
+    <string name="field_phone_number">Phone number</string>
+    <string name="update_profile_infos">Update</string>
     <string name="cta_notifications">Notifications</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="payement">Payment</string>
+    <string name="notifications">Notifications</string>
+    <string name="theme">Theme</string>
+    <string name="logout">Logout</string>
+    <string name="security">Security</string>
+    <string name="send_feedback">Send Feedback</string>
+    <string name="about">About</string>
+    <string name="help">Help</string>
 
 </resources>
