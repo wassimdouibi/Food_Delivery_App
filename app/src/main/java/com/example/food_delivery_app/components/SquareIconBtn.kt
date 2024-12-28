@@ -47,9 +47,9 @@ fun SquareIconButton(
         ),
         shape = RectangleShape
     ) {
-        Text(
-            text = "+",
-            fontSize = 16.dp
-        )
+        //Text(
+         //   text = "+",
+          //  fontSize = 16.dp
+       // )
     }
 }
