@@ -155,5 +155,6 @@
     <string name="send_feedback">Envoyer des commentaires</string>
     <string name="about">À propos</string>
     <string name="help">Aide</string>
+    <string name="confirm_logout">Êtes-vous sûr de vouloir vous déconnecter ?</string>
 
 </resources>

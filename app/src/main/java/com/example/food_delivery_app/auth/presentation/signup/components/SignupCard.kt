@@ -7,6 +7,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -17,7 +19,9 @@ import com.example.food_delivery_app.R
 import com.example.food_delivery_app.auth.domain.AuthViewModel
 import com.example.food_delivery_app.auth.presentation.components.OAuthSection
 import com.example.food_delivery_app.components.BorderlessTextButton
+import com.example.food_delivery_app.components.EmailInput
 import com.example.food_delivery_app.components.FilledTextButton
+import com.example.food_delivery_app.components.PasswordTextField
 import com.example.food_delivery_app.navigation.Screen
 import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
 import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
@@ -31,6 +35,10 @@ fun SignupCard(
     modifier: Modifier = Modifier,
     authViewModel: AuthViewModel,
 ) {
+    // State variables for input values
+    val emailValue = remember { mutableStateOf("") }
+    val passwordValue = remember { mutableStateOf("") }
+
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(10.dp),
@@ -48,9 +56,19 @@ fun SignupCard(
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Fields
-            Text("Email")
-            Text("Password")
+            // Email Input
+            EmailInput(
+                value = emailValue.value,
+                onValueChange = { emailValue.value = it },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            // Password Input
+            PasswordTextField(
+                value = passwordValue.value,
+                onValueChange = { passwordValue.value = it },
+                modifier = Modifier.fillMaxWidth()
+            )
 
             FilledTextButton(
                 onClick = {
@@ -61,7 +79,6 @@ fun SignupCard(
                 },
                 textContent = stringResource(R.string.cta_signup_btn),
                 textStyle = LocalCustomTypographyScheme.current.p_mediumBold,
-                containerColor = LocalCustomColorScheme.current.utilityActive,
                 modifier = Modifier.fillMaxWidth()
             )
 

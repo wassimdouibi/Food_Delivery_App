@@ -49,7 +49,7 @@ fun FoodDeliveryTextField(
     singleLine: Boolean = false,
     maxLines: Int = 1,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    shape: Shape = RoundedCornerShape(size = 10.dp),
+    shape: Shape = RoundedCornerShape(size = 8.dp),
     colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
     modifier: Modifier = Modifier,
 ) {
@@ -128,7 +128,7 @@ fun FoodDeliveryTextField(
                 width = if (isFocused) 2.dp else 0.dp,
                 shape = RoundedCornerShape(size = 10.dp)
             )
-            .clip(RoundedCornerShape(size = 10.dp))
+            .clip(shape)
             .fillMaxWidth()
             .onFocusChanged {
                 isFocused = it.isFocused

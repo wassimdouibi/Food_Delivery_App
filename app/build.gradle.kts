@@ -90,4 +90,7 @@ dependencies {
 
     // Firebase Messaging
     implementation("com.google.firebase:firebase-messaging")
+
+    // Material 3 extended
+    implementation("androidx.compose.material:material-icons-extended:1.5.0")
 }

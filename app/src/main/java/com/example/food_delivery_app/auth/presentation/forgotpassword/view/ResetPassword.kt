@@ -17,10 +17,7 @@ import com.example.food_delivery_app.R
 import com.example.food_delivery_app.auth.presentation.components.BackUpBar
 import com.example.food_delivery_app.auth.presentation.components.CheckBoxBtn
 import com.example.food_delivery_app.auth.presentation.components.ResetPasswordSuccessBox
-import com.example.food_delivery_app.components.ButtonIcon
-import com.example.food_delivery_app.components.FilledTextButton
-import com.example.food_delivery_app.components.FoodDeliveryTextField
-import com.example.food_delivery_app.components.IconType
+import com.example.food_delivery_app.components.*
 import com.example.food_delivery_app.navigation.Screen
 import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
 import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
@@ -72,24 +69,22 @@ fun ResetPassword(
             style = LocalCustomTypographyScheme.current.p_large,
         )
 
-        FoodDeliveryTextField(
+        PasswordTextField(
             value = password,
             onValueChange = {
                 password = it
             },
-            placeHolderText = stringResource(R.string.label_new_password),
-            leadingIconId = R.drawable.lock_bold,
-            trailingIconId = R.drawable.show_outlined,
+            placeholder = stringResource(R.string.label_new_password),
+            modifier = Modifier.fillMaxWidth(),
         )
 
-        FoodDeliveryTextField(
+        PasswordTextField(
             value = confirmationPassword,
             onValueChange = {
                 confirmationPassword = it
             },
-            placeHolderText = stringResource(R.string.label_confirm_new_password),
-            leadingIconId = R.drawable.lock_bold,
-            trailingIconId = R.drawable.show_outlined,
+            placeholder = stringResource(R.string.label_confirm_new_password),
+            modifier = Modifier.fillMaxWidth(),
         )
 
         Row(

@@ -154,5 +154,6 @@
     <string name="send_feedback">Send Feedback</string>
     <string name="about">About</string>
     <string name="help">Help</string>
+    <string name="confirm_logout">Are you sure you want to logout?</string>
 
 </resources>

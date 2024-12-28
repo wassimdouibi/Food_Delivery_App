@@ -17,7 +17,9 @@ import com.example.food_delivery_app.auth.domain.AuthViewModel
 import com.example.food_delivery_app.auth.presentation.components.CheckBoxBtn
 import com.example.food_delivery_app.auth.presentation.components.OAuthSection
 import com.example.food_delivery_app.components.BorderlessTextButton
+import com.example.food_delivery_app.components.EmailInput
 import com.example.food_delivery_app.components.FilledTextButton
+import com.example.food_delivery_app.components.PasswordTextField
 import com.example.food_delivery_app.navigation.Screen
 import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
 import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
@@ -31,6 +33,10 @@ fun SigninCard(
     modifier: Modifier = Modifier,
     authViewModel: AuthViewModel
 ) {
+    // State variables for input values
+    val emailValue = remember { mutableStateOf("") }
+    val passwordValue = remember { mutableStateOf("") }
+
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(10.dp),
@@ -71,9 +77,19 @@ fun SigninCard(
             }
 
 
-            // Fields
-            Text("Email")
-            Text("Password")
+            // Email Input
+            EmailInput(
+                value = emailValue.value,
+                onValueChange = { emailValue.value = it },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            // Password Input
+            PasswordTextField(
+                value = passwordValue.value,
+                onValueChange = { passwordValue.value = it },
+                modifier = Modifier.fillMaxWidth()
+            )
 
             FilledTextButton(
                 onClick = {
