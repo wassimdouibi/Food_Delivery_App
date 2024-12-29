@@ -53,7 +53,6 @@ fun CustomCheckboxList(
                 contentColor = LocalCustomColorScheme.current.utilityError,
             )
         }
-//        Spacer(modifier = modifier.height(8.dp))
         Column{
             list.forEachIndexed { index, element ->
                 element(

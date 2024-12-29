@@ -46,7 +46,7 @@ fun CustomRange(
                 textStyle = LocalCustomTypographyScheme.current.p_smallBold
             )
         }
-        Spacer(modifier = modifier.height(16.dp))
+        Spacer(modifier = modifier.height(4.dp))
         Column {
             Row(
                 modifier = modifier.fillMaxWidth(),

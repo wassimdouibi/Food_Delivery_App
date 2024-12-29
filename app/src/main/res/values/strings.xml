@@ -155,5 +155,8 @@
     <string name="about">About</string>
     <string name="help">Help</string>
     <string name="confirm_logout">Are you sure you want to logout?</string>
+    
+    <string name="restaurants">Restaurants</string>
+    <string name="foods">Foods</string>
 
 </resources>

@@ -9,7 +9,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
@@ -17,28 +16,29 @@ import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
 
 
 @Composable
-fun SegmentedButton(
+fun CustomControl(
     modifier: Modifier = Modifier,
     options: List<String>,
+    selectedIndex: Int,
+    onOptionSelected: (Int) -> Unit
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(LocalCustomColorScheme.current.ink100)
-            .shadow(
-                elevation = 8.dp,
-                shape = RoundedCornerShape(4.dp),
-                ambientColor = Color(0x5F000000),
-                spotColor = Color(0x5F000000)
-            ),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-
+    Surface(
+        shadowElevation = 2.dp,
+        shape = RoundedCornerShape(4.dp),
     ) {
-        SingleChoiceSegmentedButton(
-            modifier = modifier,
-            options = options
-        )
+        Box(
+            modifier = modifier
+                .wrapContentSize()
+                .background(LocalCustomColorScheme.current.ink100),
+            contentAlignment = Alignment.Center,
+        ) {
+            SingleChoiceSegmentedButton(
+                modifier = modifier,
+                options = options,
+                selectedIndex = selectedIndex,
+                onOptionSelected = { onOptionSelected(it) },
+            )
+        }
     }
 }
 
@@ -48,10 +48,12 @@ fun SegmentedButton(
 fun SingleChoiceSegmentedButton(
     modifier:Modifier = Modifier,
     options: List<String>,
+    selectedIndex: Int,
+    onOptionSelected: (Int) -> Unit
 ) {
-    var selectedIndex by remember { mutableStateOf(0) }
     SingleChoiceSegmentedButtonRow(
         modifier = modifier
+            .fillMaxWidth(.75f)
             .border
                 (
                 width = 0.dp,
@@ -59,16 +61,16 @@ fun SingleChoiceSegmentedButton(
                 shape = RoundedCornerShape(8.dp)
             )
             .padding(horizontal = 4.dp)
-        ) {
+    ) {
         options.forEachIndexed { index, label ->
             SegmentedButton(
                 shape = RoundedCornerShape(4.dp),
-                onClick = { selectedIndex = index },
+                onClick = { onOptionSelected(index) },
                 selected = index == selectedIndex,
                 label = {
                     Text(
                         label,
-                        style = if( index == selectedIndex) LocalCustomTypographyScheme.current.p_smallBold else LocalCustomTypographyScheme.current.p_small,
+                        style = if( index == selectedIndex) LocalCustomTypographyScheme.current.p_smallBold else LocalCustomTypographyScheme.current.p_smallSemiBold
                     )
                 },
                 colors = SegmentedButtonDefaults.colors(

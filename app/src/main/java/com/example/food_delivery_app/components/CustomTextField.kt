@@ -2,9 +2,11 @@ package com.example.food_delivery_app.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -17,6 +19,8 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.vector.DefaultTintColor
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
@@ -33,9 +37,11 @@ fun FoodDeliveryTextField(
     onValueChange: (String) -> Unit,
     leadingIcon: @Composable (() -> Unit)? = null,
     leadingIconId: Int? = null,
+    leadingIconVector: ImageVector? = null,
     leadingIconDescription: String = "",
     trailingIcon: @Composable (() -> Unit)? = null,
     trailingIconId: Int? = null,
+    trailingIconVector: ImageVector? = null,
     trailingIconDescription: String = "",
     enabled: Boolean = true,
     readOnly: Boolean = false,
@@ -52,87 +58,112 @@ fun FoodDeliveryTextField(
     shape: Shape = RoundedCornerShape(size = 8.dp),
     colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
     modifier: Modifier = Modifier,
+    changeShowFilterState: () -> Unit = {}
 ) {
     var isFocused by remember { mutableStateOf(false) }
 
-    androidx.compose.material3.TextField(value = value,
+    TextField(
+
+        value = value,
+
         onValueChange = onValueChange,
+
         placeholder = {
             Text(
                 text = placeHolderText,
                 style = MaterialTheme.typography.bodyMedium,
             )
         },
+
         textStyle = MaterialTheme.typography.labelLarge.merge(textStyle),
+
+
+
+
         leadingIcon = {
-            if (leadingIconId != null) Image(
-                painter = painterResource(id = leadingIconId),
-                contentDescription = leadingIconDescription,
-                colorFilter = ColorFilter.tint(
-                    if (isFocused)
-                        LocalCustomColorScheme.current.primary500
-                    else if (value.isNotEmpty())
-                        LocalCustomColorScheme.current.ink500
-                    else
-                        LocalCustomColorScheme.current.ink100
-                ),
-                modifier = Modifier.size(20.dp),
-            ) else if (leadingIcon != null) leadingIconId
+            if (leadingIconId != null)
+                Image(
+                    painter = painterResource(id = leadingIconId),
+                    contentDescription = leadingIconDescription,
+                    modifier = Modifier.size(24.dp),
+                    colorFilter = ColorFilter.tint(LocalCustomColorScheme.current.primary400)
+
+                )
+            else if (leadingIcon != null)
+                leadingIconId
+            else if (leadingIconVector != null)
+                Icon(
+                    imageVector = leadingIconVector,
+                    contentDescription = leadingIconDescription,
+                    modifier = Modifier.size(24.dp),
+                    tint = LocalCustomColorScheme.current.primary400
+                )
         },
         trailingIcon = {
-            if (trailingIconId != null) Image(
-                painter = painterResource(id = trailingIconId),
-                contentDescription = trailingIconDescription,
-                colorFilter = ColorFilter.tint(
-                    if (isFocused)
-                        LocalCustomColorScheme.current.primary500
-                    else if (value.isNotEmpty())
-                        LocalCustomColorScheme.current.ink500
-                    else
-                        LocalCustomColorScheme.current.ink100
-                ),
-                modifier = Modifier.size(20.dp),
-            ) else {
-            }
+            if (trailingIconId != null)
+                Image(
+                    painter = painterResource(id = trailingIconId),
+                    contentDescription = trailingIconDescription,
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable {
+                            changeShowFilterState()
+                        },
+                    colorFilter = ColorFilter.tint(LocalCustomColorScheme.current.primary400)
+                )
+            else if (trailingIconVector != null)
+                Icon(
+                    imageVector = trailingIconVector,
+                    contentDescription = leadingIconDescription,
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable {
+                            changeShowFilterState()
+                        },
+                    tint = LocalCustomColorScheme.current.primary400
+                )
         },
+
+
         maxLines = maxLines,
         enabled = enabled,
         readOnly = readOnly,
+
         label = label,
         supportingText = supportingText,
+
         isError = isError,
+
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
+
         singleLine = singleLine,
         interactionSource = interactionSource,
+
+
+
+
         shape = shape,
         colors = TextFieldDefaults.textFieldColors(
-            containerColor =
-            if (isFocused)
-                LocalCustomColorScheme.current.primary500
-            else
-                LocalCustomColorScheme.current.ink100,
+            containerColor = Color.Transparent,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
             errorIndicatorColor = Color.Transparent,
         ).apply { colors },
         modifier = Modifier
+            .clip(shape)
+            .onFocusChanged { isFocused = it.isFocused }
             .border(
                 color =
                 if (isFocused)
-                    LocalCustomColorScheme.current.primary500
+                    LocalCustomColorScheme.current.primary400
                 else
-                    LocalCustomColorScheme.current.ink100,
-                width = if (isFocused) 2.dp else 0.dp,
-                shape = RoundedCornerShape(size = 10.dp)
+                    LocalCustomColorScheme.current.primary400,
+                width = 2.dp,
+                shape = RoundedCornerShape(size = 8.dp)
             )
-            .clip(shape)
-            .fillMaxWidth()
-            .onFocusChanged {
-                isFocused = it.isFocused
-            }
-            .height(58.dp)
-            .then(modifier))
+            .then(modifier)
+    )
 }
