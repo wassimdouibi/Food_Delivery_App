@@ -25,7 +25,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Food_Delivery_AppTheme {
+                PreviewRestaurantInfo()
                 Scaffold(
+
                     bottomBar = {
                         BottomBar( rememberNavController())
                 }
