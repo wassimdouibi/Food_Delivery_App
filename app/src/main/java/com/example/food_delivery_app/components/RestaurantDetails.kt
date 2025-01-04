@@ -41,18 +41,6 @@ import com.example.food_delivery_app.ui.theme.defaultCustomColorScheme
 import com.example.food_delivery_app.ui.theme.defaultCustomTypographyScheme
 
 
-data class Restaurant(
-    val name: String,
-    val location: String,
-    val rating: Double,
-    val reviews: Int,
-    val phone: String,
-    val email: String,
-    val instagram: String,
-    val facebook: String,
-    val painterRes : Int
-)
-
 @Composable
 fun RestaurantInfo(restaurant: Restaurant, onClose: () -> Unit) {
 
@@ -95,7 +83,7 @@ fun RestaurantInfo(restaurant: Restaurant, onClose: () -> Unit) {
 
         ) {
             Image(
-                painter = painterResource( restaurant.painterRes),
+                painter = painterResource( restaurant.locationImage),
                 contentDescription = "Restaurant Location image",
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
@@ -152,7 +140,10 @@ fun PreviewRestaurantInfo() {
         email = "hichamcook@gmail.com",
         instagram = "hicham_cook",
         facebook = "hicham.cook",
-        painterRes = R.drawable.img_map_location
+        locationImage = R.drawable.img_map_location,
+        restaurantPictures = listOf(R.drawable.img_food_one),
+        topPicks = null,
+
     )
 
     RestaurantInfo(restaurant = restaurant, onClose = {})
