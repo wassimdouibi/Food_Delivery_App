@@ -23,7 +23,7 @@ import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
 @SuppressLint("DefaultLocale")
 @Composable
 fun OrderNotConfirmed(
-    price: Float,
+    price: Double,
 
     onButton1Click: () -> Unit,
     onButton2Click: () -> Unit,
