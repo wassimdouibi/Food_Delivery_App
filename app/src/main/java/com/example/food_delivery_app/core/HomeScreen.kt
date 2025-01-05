@@ -1,4 +1,4 @@
-package com.example.food_delivery_app.core.home
+package com.example.food_delivery_app.core
 
 import com.example.food_delivery_app.R
 import androidx.compose.foundation.Image
@@ -240,4 +240,3 @@ fun PreviewHomeScreen() {
         navController = rememberNavController()
     )
 }
-
