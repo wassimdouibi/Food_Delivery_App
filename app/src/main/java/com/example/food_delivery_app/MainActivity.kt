@@ -16,6 +16,7 @@ import androidx.compose.material3.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.food_delivery_app.auth.domain.AuthViewModel
 import com.example.food_delivery_app.auth.presentation.components.ResetPasswordSuccessBox
@@ -25,11 +26,6 @@ import com.example.food_delivery_app.navigation.Navigation
 var userId = 1;
 
 class MainActivity : ComponentActivity() {
-
-    private val authViewModel: AuthViewModel by viewModels {
-        AuthViewModel.Factory((application as FoodDeliveryApplication).authRepository)
-    }
-
     private fun requestNotificationPermission() {
         if (Build.VERSION.SDK_INT > -Build.VERSION_CODES.TIRAMISU) {
             val hasPermission = ContextCompat.checkSelfPermission(
@@ -58,15 +54,10 @@ class MainActivity : ComponentActivity() {
                     val context = LocalContext.current
                     val pref = context.getSharedPreferences("local", Context.MODE_PRIVATE)
 
-//                    Navigation(
-//                        authViewModel = authViewModel,
-//                        pref = pref
-//                    )
-
-                    ResetPasswordSuccessBox(
-                        onClick = {}
+                    Navigation(
+                        authViewModel = viewModel(),
+                        pref = pref
                     )
-
                 }
             }
         }

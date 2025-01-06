@@ -1,4 +1,4 @@
-package com.example.food_delivery_app.core
+package com.example.food_delivery_app.core.Home
 
 import com.example.food_delivery_app.R
 import androidx.compose.foundation.Image
@@ -25,6 +25,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.food_delivery_app.components.BottomBar
@@ -45,7 +46,7 @@ fun HomeScreen(
     cuisines: List<Cuisine>,
     categories: List<Cuisine>,
     restaurants: List<Restaurant>,
-    navController : NavHostController
+    navController : NavController
 ) {
     var search by remember { mutableStateOf("") }
     var showFilterState by rememberSaveable { mutableStateOf(false) }

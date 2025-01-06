@@ -11,6 +11,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.food_delivery_app.R
 import com.example.food_delivery_app.components.BottomBar
@@ -21,7 +22,7 @@ import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
 
 @Composable
 fun EmptyFavoritesScreen(
-    navController: NavHostController,
+    navController: NavController,
 ) {
     var selectedIndex by remember { mutableStateOf(0) }
 
@@ -88,6 +89,7 @@ fun EmptyFavoritesScreen(
             FilledTextButton(
                 onClick = {
                     // Navigate to home
+
                 },
                 textContent = stringResource(R.string.cta_back_home),
                 textStyle = LocalCustomTypographyScheme.current.p_largeBold

@@ -4,6 +4,8 @@
     <!--    Splash Screen   -->
     <string name="app_name">Food</string>
     <string name="slogan">Votre nourriture est à portée de main !</string>
+    <string name="default_web_client_id">998483298414-1tqdqeu9ucotg9p0gk10bgp05f3hov5v.apps.googleusercontent.com</string>
+
 
     <string name="Onboarding_cta_next">Suivant</string>
     <string name="Onboarding_cta_back">Retour</string>

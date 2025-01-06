@@ -10,15 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Checklist
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.outlined.Check
-import androidx.compose.material.icons.outlined.Checklist
-import androidx.compose.material.icons.outlined.Favorite
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -27,10 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.food_delivery_app.R
-import com.example.food_delivery_app.ui.theme.CustomColorScheme
 import com.example.food_delivery_app.ui.theme.defaultCustomColorScheme
 
 sealed class CustomIconType {
@@ -107,7 +97,7 @@ sealed class BottomNavItem(
 
 @Composable
 fun BottomBar(
-    navController: NavHostController,
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
     val screens = listOf(

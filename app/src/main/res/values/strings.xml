@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Food</string>
+    <string name="default_web_client_id">998483298414-1tqdqeu9ucotg9p0gk10bgp05f3hov5v.apps.googleusercontent.com</string>
 
     <!--    Splash Screen   -->
     <string name="slogan">Your food is just a tap away !</string>

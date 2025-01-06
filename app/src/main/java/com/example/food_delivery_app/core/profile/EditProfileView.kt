@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.food_delivery_app.R
 import com.example.food_delivery_app.components.ConfirmLogoutAlertBox
 import com.example.food_delivery_app.components.CustomSwitch
@@ -25,7 +26,7 @@ import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
 
 @Composable
 fun ProfileView(
-//    navController: NavHostController
+    navController: NavController
 ) {
     val scope = rememberCoroutineScope()
 

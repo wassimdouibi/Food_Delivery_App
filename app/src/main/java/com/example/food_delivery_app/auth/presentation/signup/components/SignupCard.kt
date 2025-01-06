@@ -73,7 +73,7 @@ fun SignupCard(
             FilledTextButton(
                 onClick = {
                     CoroutineScope(Dispatchers.IO).launch {
-                        authViewModel.register()
+//                        authViewModel.register()
                     }
 
                 },

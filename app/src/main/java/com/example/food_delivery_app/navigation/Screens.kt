@@ -8,4 +8,5 @@ sealed class Screen(val route:String) {
     object ForgotPassword:Screen("/forgot_password")
     object OTPScreen:Screen("/otp_screen")
     object ResetPassword:Screen("/reset_password")
+
 }

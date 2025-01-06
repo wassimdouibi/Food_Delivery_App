@@ -42,6 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.food_delivery_app.ui.theme.CustomTypographyScheme
+import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
 import com.example.food_delivery_app.ui.theme.defaultCustomColorScheme
 import com.example.food_delivery_app.ui.theme.defaultCustomTypographyScheme
 
@@ -109,13 +110,19 @@ fun RestaurantCard(
                 }
 
         }
-            FilledTextButtonWithIcon(
+            FilledTextButton(
                 onClick = onDetailsClick,
                 textContent = "Details",
-                icon = Icons.Filled.Info,  // Use any icon you prefer
-                iconDescription = "info",
-                shape = RoundedCornerShape(2.dp)
-
+                textStyle = LocalCustomTypographyScheme.current.p_smallSemiBold,
+                icon = ButtonIcon.Right(
+                    IconType.VectorIcon(
+                        imageVector = Icons.Default.Info,
+                        iconDescription = "Info"
+                    )
+                ),
+                modifier = Modifier.clip(
+                    RoundedCornerShape(2.dp)
+                )
             )
 
         }

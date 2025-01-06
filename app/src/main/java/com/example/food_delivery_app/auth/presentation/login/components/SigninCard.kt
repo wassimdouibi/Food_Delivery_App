@@ -94,7 +94,7 @@ fun SigninCard(
             FilledTextButton(
                 onClick = {
                     CoroutineScope(Dispatchers.IO).launch {
-                        authViewModel.login()
+//                        authViewModel.login()
                     }
                 },
                 textContent = stringResource(R.string.cta_login_btn),
@@ -112,9 +112,10 @@ fun SigninCard(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     CheckBoxBtn(
-                        value = authViewModel.rememberMe,
+                        value = true
+//                        value = authViewModel.rememberMe,
                     ) {
-                        authViewModel.rememberMe = !authViewModel.rememberMe
+//                        authViewModel.rememberMe = !authViewModel.rememberMe
                     }
 
                     Text(

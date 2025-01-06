@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.food_delivery_app.R
 import com.example.food_delivery_app.auth.presentation.components.BackUpBar
@@ -20,7 +21,7 @@ import kotlinx.coroutines.delay
 
 
 @Composable
-fun OTPScreen(navController: NavHostController) {
+fun OTPScreen(navController: NavController) {
     var char1 by remember {
         mutableStateOf("")
     }
@@ -134,6 +135,7 @@ fun OTPScreen(navController: NavHostController) {
 
         FilledTextButton(
             onClick = {
+
             },
 
             textContent = stringResource(R.string.cta_verify_code),

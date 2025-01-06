@@ -11,6 +11,7 @@ import com.example.food_delivery_app.auth.presentation.forgotpassword.view.Forgo
 import com.example.food_delivery_app.auth.presentation.forgotpassword.view.OTPScreen
 import com.example.food_delivery_app.auth.presentation.login.view.Login
 import com.example.food_delivery_app.auth.presentation.signup.view.Signup
+import com.example.food_delivery_app.core.Home.HomeScreen
 import com.example.food_delivery_app.onboarding.presentation.Onboarding
 import com.example.food_delivery_app.splash.presentation.Splash
 
