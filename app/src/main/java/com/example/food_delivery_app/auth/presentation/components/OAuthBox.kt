@@ -11,9 +11,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.food_delivery_app.R
 import com.example.food_delivery_app.auth.domain.AuthState
@@ -97,31 +94,6 @@ fun OAuthSection(
                     Toast.LENGTH_SHORT
                 ).show()
             }
-        }
-    }
-
-    // Show loading state if necessary
-    if (authState is AuthState.Loading) {
-        CircularProgressIndicator(
-            modifier = Modifier.size(24.dp),
-            color = LocalCustomColorScheme.current.ink500
-        )
-    }
-
-    // Handle auth state changes
-    LaunchedEffect(authState) {
-        when (authState) {
-            is AuthState.Success -> {
-                navController.navigate(Screen.EditProfileView.route)
-            }
-            is AuthState.Error -> {
-                Toast.makeText(
-                    context,
-                    (authState as AuthState.Error).message,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            else -> {}
         }
     }
 

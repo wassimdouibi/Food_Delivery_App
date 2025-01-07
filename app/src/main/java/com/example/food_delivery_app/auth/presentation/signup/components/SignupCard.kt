@@ -42,13 +42,6 @@ fun SignupCard(
     val context = LocalContext.current
     val authState by authViewModel.authState.collectAsState()
 
-    // Show loading state if necessary
-    if (authState is AuthState.Loading) {
-        CircularProgressIndicator(
-            modifier = Modifier.size(24.dp),
-            color = LocalCustomColorScheme.current.ink500
-        )
-    }
     // Handle auth state changes
     LaunchedEffect(authState) {
         when (authState) {
