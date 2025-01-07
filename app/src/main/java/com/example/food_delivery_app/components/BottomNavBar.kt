@@ -11,11 +11,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Checklist
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.Check
-import androidx.compose.material.icons.outlined.Checklist
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
@@ -111,7 +109,7 @@ fun BottomBar(
     modifier: Modifier = Modifier
 ) {
     val screens = listOf(
-       BottomNavItem.Home , BottomNavItem.Orders, BottomNavItem.Favorites, BottomNavItem.Profile
+        BottomNavItem.Home , BottomNavItem.Orders, BottomNavItem.Favorites, BottomNavItem.Profile
     )
 
 
