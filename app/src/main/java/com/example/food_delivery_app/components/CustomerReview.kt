@@ -29,10 +29,7 @@ import com.example.food_delivery_app.ui.theme.defaultCustomTypographyScheme
 
 @Composable
 fun CustomerReview(
-     username: String,
-     reviewTitle: String,
-     rating: Int,
-     reviewText: String,
+     customerReview: CustomerReview,
      modifier : Modifier = Modifier
           .fillMaxWidth()
           .border(1.dp, defaultCustomColorScheme.ink200)
@@ -56,7 +53,7 @@ fun CustomerReview(
                     Spacer(modifier = Modifier.height(4.dp))
 
                     Text(
-                         text = username,
+                         text = customerReview.customerUsername,
                          style = usernameFont,
                          color = usernameFontColor
                     )
@@ -64,13 +61,13 @@ fun CustomerReview(
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
-                         text = reviewTitle,
+                         text = customerReview.title,
                          style = bodyFont,
                          color = bodyFontColor
                     )
                }
 
-               StarRating(rating = rating)
+               StarRating(rating = customerReview.rating)
           }
 
 
@@ -78,7 +75,7 @@ fun CustomerReview(
           Spacer(modifier = Modifier.height(12.dp))
 
           Text(
-               text = reviewText,
+               text = customerReview.text,
                style = bodyFont,
                color = bodyFontColor ,
                lineHeight = 20.sp,

@@ -50,7 +50,6 @@ import com.example.food_delivery_app.components.CustomerReview
 import com.example.food_delivery_app.components.FoodDeliveryTextField
 import com.example.food_delivery_app.components.FoodMenuCard
 import com.example.food_delivery_app.components.InfoRow
-import com.example.food_delivery_app.components.PreviewCustomerReview
 import com.example.food_delivery_app.components.Restaurant
 import com.example.food_delivery_app.components.RestaurantCard
 import com.example.food_delivery_app.components.restaurant1
