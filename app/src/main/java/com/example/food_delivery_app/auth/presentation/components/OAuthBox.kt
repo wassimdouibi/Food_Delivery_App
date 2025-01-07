@@ -1,6 +1,7 @@
 package com.example.food_delivery_app.auth.presentation.components
 
 import android.app.Activity
+import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -11,12 +12,17 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.food_delivery_app.R
+import com.example.food_delivery_app.auth.domain.AuthState
 import com.example.food_delivery_app.auth.domain.AuthViewModel
 import com.example.food_delivery_app.components.ButtonIcon
 import com.example.food_delivery_app.components.GhostTextButton
 import com.example.food_delivery_app.components.IconType
+import com.example.food_delivery_app.navigation.Screen
 import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
 import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -24,6 +30,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.gson.Gson
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.*
+import java.io.IOException
 
 @Composable
 fun OAuthSection(
@@ -33,10 +45,10 @@ fun OAuthSection(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
-    var googleId: String? = null
+    // Collect the auth state
+    val authState by authViewModel.authState.collectAsState()
 
-    // Collect the auth status
-    val isAuthenticated by authViewModel.authStatus.collectAsState()
+    var googleId: String? = null
 
     // Initialize Firebase Auth
     val firebaseAuth = remember { FirebaseAuth.getInstance() }
@@ -69,15 +81,11 @@ fun OAuthSection(
                                 val user = firebaseAuth.currentUser
                                 Log.d("GoogleSignIn", "Google ID: $googleId")
 
-                                // Update ViewModel using signIn() instead of updateAuthStatus()
-                                authViewModel.signIn()
+                                // Call the ViewModel's googleLogin method
+                                googleId?.let { id ->
+                                    authViewModel.googleLogin(id, context)
+                                }
 
-                                // Show success message
-                                Toast.makeText(
-                                    context,
-                                    "Successfully signed in as $googleId",
-                                    Toast.LENGTH_SHORT
-                                ).show()
                             } else {
                                 Log.w("FirebaseAuth", "signInWithCredential:failure", task.exception)
                                 Toast.makeText(
@@ -99,6 +107,31 @@ fun OAuthSection(
         }
     }
 
+    // Show loading state if necessary
+    if (authState is AuthState.Loading) {
+        CircularProgressIndicator(
+            modifier = Modifier.size(24.dp),
+            color = LocalCustomColorScheme.current.ink500
+        )
+    }
+
+    // Handle auth state changes
+    LaunchedEffect(authState) {
+        when (authState) {
+            is AuthState.Success -> {
+                navController.navigate(Screen.EditProfileView.route)
+            }
+            is AuthState.Error -> {
+                Toast.makeText(
+                    context,
+                    (authState as AuthState.Error).message,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            else -> {}
+        }
+    }
+
     GhostTextButton(
         onClick = {
             val signInIntent = googleSignInClient.signInIntent
@@ -116,14 +149,4 @@ fun OAuthSection(
         contentColor = LocalCustomColorScheme.current.ink500,
         borderColor = LocalCustomColorScheme.current.ink100
     )
-
-    // Handle navigation after successful authentication
-//    LaunchedEffect(isAuthenticated) {
-//        if (isAuthenticated) {
-//            // Navigate to your desired screen
-//            navController.navigate("forgot_password") {
-//                popUpTo("login") { inclusive = true }  // Remove login from back stack
-//            }
-//        }
-//    }
 }

@@ -105,6 +105,28 @@ fun OTPScreen(navController: NavController) {
                         },
                     )
                 }
+                Box(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    FoodDeliveryTextField(
+                        value = char1,
+                        onValueChange = {
+                            char1 = it
+                        },
+                        leadingIcon = null,
+                    )
+                }
+                Box(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    FoodDeliveryTextField(
+                        value = char1,
+                        onValueChange = {
+                            char1 = it
+                        },
+                        leadingIcon = null,
+                    )
+                }
             }
             Spacer(modifier = Modifier.height(25.dp))
 

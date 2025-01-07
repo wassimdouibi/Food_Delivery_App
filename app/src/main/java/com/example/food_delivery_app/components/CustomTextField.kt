@@ -160,7 +160,7 @@ fun FoodDeliveryTextField(
                 if (isFocused)
                     LocalCustomColorScheme.current.primary400
                 else
-                    LocalCustomColorScheme.current.primary400,
+                    LocalCustomColorScheme.current.ink200,
                 width = 2.dp,
                 shape = RoundedCornerShape(size = 8.dp)
             )

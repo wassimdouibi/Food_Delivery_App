@@ -39,6 +39,7 @@
     <string name="input_last_name">Last Name</string>
     <string name="input_email">Email</string>
     <string name="input_phone_number">Phone Number</string>
+    <string name="input_email_or_phone_number">Phone number or email </string>
     <string name="input_password">Password</string>
     <string name="privacy_and_policy_message">By selecting Agree and continue, I agree to Dynamic Layers Terms of Service, Payments Terms of Service and Notification Policy and acknowledge the Privacy Policy.</string>
     <string name="user_registered">Already have an account ?</string>
@@ -139,8 +140,8 @@
     <!--    Profile     -->
     <string name="profile_title">Profile</string>
     <string name="edit_profile_title">Edit profile</string>
-    <string name="field_first_name">First Name</string>
-    <string name="field_last_name">First Name</string>
+    <string name="field_first_name">First name</string>
+    <string name="field_last_name">Last name</string>
     <string name="field_birthday">Date of birth</string>
     <string name="field_email">Email</string>
     <string name="field_phone_number">Phone number</string>

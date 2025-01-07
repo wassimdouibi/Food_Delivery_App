@@ -1,18 +1,19 @@
 package com.example.food_delivery_app.auth.presentation.login.components
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.food_delivery_app.R
+import com.example.food_delivery_app.auth.domain.AuthState
 import com.example.food_delivery_app.auth.domain.AuthViewModel
 import com.example.food_delivery_app.auth.presentation.components.CheckBoxBtn
 import com.example.food_delivery_app.auth.presentation.components.OAuthSection
@@ -34,8 +35,47 @@ fun SigninCard(
     authViewModel: AuthViewModel
 ) {
     // State variables for input values
-    val emailValue = remember { mutableStateOf("") }
-    val passwordValue = remember { mutableStateOf("") }
+    var emailorPhoneValue by remember { mutableStateOf("") }
+    var passwordValue by remember { mutableStateOf("") }
+
+    val context = LocalContext.current
+    val authState by authViewModel.authState.collectAsState()
+
+    // Show loading state if necessary
+    if (authState is AuthState.Loading) {
+        CircularProgressIndicator(
+            modifier = Modifier.size(24.dp),
+            color = LocalCustomColorScheme.current.ink500
+        )
+    }
+    // Handle auth state changes
+    LaunchedEffect(authState) {
+        when (authState) {
+            is AuthState.Success -> {
+                Toast.makeText(
+                    context,
+                    "Successfully signed in",
+                    Toast.LENGTH_SHORT
+                ).show()
+                navController.navigate(Screen.EditProfileView.route) {
+                    popUpTo("login") {
+                        inclusive = true
+                    }
+                }
+            }
+            is AuthState.Error -> {
+                Toast.makeText(
+                    context,
+                    (authState as AuthState.Error).message,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            else -> {} // Handle other states if needed
+        }
+    }
+
+
+
 
     Card(
         modifier = modifier,
@@ -77,26 +117,31 @@ fun SigninCard(
             }
 
 
-            // Email Input
+            // Email or phone number Input
             EmailInput(
-                value = emailValue.value,
-                onValueChange = { emailValue.value = it },
-                modifier = Modifier.fillMaxWidth()
+                value = emailorPhoneValue,
+                onValueChange = { emailorPhoneValue = it },
+                modifier = Modifier.fillMaxWidth(),
+                placeholder = stringResource(R.string.input_email_or_phone_number)
             )
 
             // Password Input
             PasswordTextField(
-                value = passwordValue.value,
-                onValueChange = { passwordValue.value = it },
+                value = passwordValue,
+                onValueChange = { passwordValue = it },
                 modifier = Modifier.fillMaxWidth()
             )
 
             FilledTextButton(
                 onClick = {
                     CoroutineScope(Dispatchers.IO).launch {
-//                        authViewModel.login()
+                        authViewModel.login(
+                            emailorPhoneValue,
+                            passwordValue
+                        )
                     }
                 },
+
                 textContent = stringResource(R.string.cta_login_btn),
                 textStyle = LocalCustomTypographyScheme.current.p_mediumBold,
                 modifier = Modifier.fillMaxWidth()
@@ -107,7 +152,6 @@ fun SigninCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {

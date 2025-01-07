@@ -19,7 +19,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import com.example.food_delivery_app.R
 import com.example.food_delivery_app.auth.presentation.components.BackUpBar
 import com.example.food_delivery_app.components.ButtonIcon
@@ -61,7 +60,7 @@ fun ForgotPassword(
         )
 
         var selectedWay by remember {
-            mutableStateOf("SMS")
+            mutableStateOf("Email")
         }
 
         Row(

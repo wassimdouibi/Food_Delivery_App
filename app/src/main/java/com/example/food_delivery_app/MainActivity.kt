@@ -18,31 +18,30 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.food_delivery_app.auth.data.entity.AuthPreferences
+import com.example.food_delivery_app.auth.data.entity.UserRepository
 import com.example.food_delivery_app.auth.domain.AuthViewModel
 import com.example.food_delivery_app.auth.presentation.components.ResetPasswordSuccessBox
 import com.example.food_delivery_app.auth.presentation.login.view.Login
+import com.example.food_delivery_app.core.profile.EditProfileView
 import com.example.food_delivery_app.navigation.Navigation
+import com.example.food_delivery_app.onboarding.presentation.Onboarding
 
-var userId = 1;
 
 class MainActivity : ComponentActivity() {
-    private fun requestNotificationPermission() {
-        if (Build.VERSION.SDK_INT > -Build.VERSION_CODES.TIRAMISU) {
-            val hasPermission = ContextCompat.checkSelfPermission(
-                this, android.Manifest.permission.POST_NOTIFICATIONS
-            ) == PackageManager.PERMISSION_GRANTED
-            if (!hasPermission) {
-                ActivityCompat.requestPermissions(
-                    this, arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 0
-                )
-            }
-        }
-    }
+    private lateinit var authPreferences: AuthPreferences
 
-    @RequiresApi(34)
     override fun onCreate(savedInstanceState: Bundle?) {
-        requestNotificationPermission()
         super.onCreate(savedInstanceState)
+        authPreferences = AuthPreferences(applicationContext)
+
+        val authViewModel = AuthViewModel(
+            repository = UserRepository(),
+            authPreferences = authPreferences
+        )
+
+        // Request permissions after super.onCreate()
+        requestNotificationPermission()
         enableEdgeToEdge()
 
         setContent {
@@ -50,19 +49,78 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     modifier = Modifier
                         .fillMaxSize()
-                ) {
+                ) { paddingValues ->  // Add paddingValues parameter
                     val context = LocalContext.current
                     val pref = context.getSharedPreferences("local", Context.MODE_PRIVATE)
 
                     Navigation(
-                        authViewModel = viewModel(),
+                        authViewModel = authViewModel,
                         pref = pref
                     )
+
                 }
             }
         }
     }
+
+    private fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val hasPermission = ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+
+            if (!hasPermission) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
+                    0
+                )
+            }
+        }
+    }
 }
+
+
+
+//class MainActivity : ComponentActivity() {
+//    private fun requestNotificationPermission() {
+//        if (Build.VERSION.SDK_INT > -Build.VERSION_CODES.TIRAMISU) {
+//            val hasPermission = ContextCompat.checkSelfPermission(
+//                this, android.Manifest.permission.POST_NOTIFICATIONS
+//            ) == PackageManager.PERMISSION_GRANTED
+//            if (!hasPermission) {
+//                ActivityCompat.requestPermissions(
+//                    this, arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 0
+//                )
+//            }
+//        }
+//    }
+//
+//    @RequiresApi(34)
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        requestNotificationPermission()
+//        super.onCreate(savedInstanceState)
+//        enableEdgeToEdge()
+//
+//        setContent {
+//            Food_Delivery_AppTheme {
+//                Scaffold(
+//                    modifier = Modifier
+//                        .fillMaxSize()
+//                ) {
+//                    val context = LocalContext.current
+//                    val pref = context.getSharedPreferences("local", Context.MODE_PRIVATE)
+//
+//                    Navigation(
+//                        authViewModel = viewModel(),
+//                        pref = pref
+//                    )
+//                }
+//            }
+//        }
+//    }
+//}
 
 
 

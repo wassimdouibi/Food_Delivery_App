@@ -11,24 +11,28 @@ import com.example.food_delivery_app.auth.presentation.forgotpassword.view.Forgo
 import com.example.food_delivery_app.auth.presentation.forgotpassword.view.OTPScreen
 import com.example.food_delivery_app.auth.presentation.login.view.Login
 import com.example.food_delivery_app.auth.presentation.signup.view.Signup
-import com.example.food_delivery_app.core.Home.HomeScreen
+import com.example.food_delivery_app.core.profile.EditProfileView
+import com.example.food_delivery_app.core.profile.NotificationsSettingsView
 import com.example.food_delivery_app.onboarding.presentation.Onboarding
 import com.example.food_delivery_app.splash.presentation.Splash
-
+import com.example.parkir.views.core.profile.ProfileView
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.food_delivery_app.auth.data.entity.AuthPreferences
+import com.example.food_delivery_app.core.profile.domain.EditProfileViewModel
 
 @Composable
 fun Navigation(
     authViewModel: AuthViewModel,
     pref: SharedPreferences
 ) {
+    val isLoggedIn by authViewModel.isLoggedIn.collectAsState(initial = false)
     val navController = rememberNavController()
-
-    val userId = pref.getInt("userId",-1);
-    val startScreen = if (userId == -1) Screen.Onboarding.route else Screen.Login.route
 
     NavHost(
         navController = navController,
-        startDestination = Screen.Splash.route
+        startDestination = if (isLoggedIn) Screen.ProfileView.route else Screen.Onboarding.route
     ) {
         composable(Screen.Splash.route) {
             Splash(navController = navController)
@@ -66,6 +70,26 @@ fun Navigation(
 
         composable(Screen.ResetPassword.route) {
             ResetPassword(
+                navController = navController
+            )
+        }
+
+        composable(Screen.EditProfileView.route) {
+            val viewModel: EditProfileViewModel = viewModel() // Instantiate or inject ViewModel
+            EditProfileView(
+                navController = navController,
+                authViewModel = authViewModel
+            )
+        }
+
+        composable(Screen.ProfileView.route) {
+            ProfileView(
+                navController = navController
+            )
+        }
+
+        composable(Screen.NotificationsSettingsView.route) {
+            NotificationsSettingsView(
                 navController = navController
             )
         }
