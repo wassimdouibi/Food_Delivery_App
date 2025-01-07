@@ -1,21 +1,20 @@
 package com.example.food_delivery_app.auth.presentation.signup.components
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.food_delivery_app.R
+import com.example.food_delivery_app.auth.domain.AuthState
 import com.example.food_delivery_app.auth.domain.AuthViewModel
 import com.example.food_delivery_app.auth.presentation.components.OAuthSection
 import com.example.food_delivery_app.components.BorderlessTextButton
@@ -36,8 +35,12 @@ fun SignupCard(
     authViewModel: AuthViewModel,
 ) {
     // State variables for input values
-    val emailValue = remember { mutableStateOf("") }
-    val passwordValue = remember { mutableStateOf("") }
+    var emailValue by remember { mutableStateOf("") }
+    var passwordValue by remember { mutableStateOf("") }
+    val authState by authViewModel.authState.collectAsState()
+    val context = LocalContext.current
+
+
 
     Card(
         modifier = modifier,
@@ -58,33 +61,29 @@ fun SignupCard(
         ) {
             // Email Input
             EmailInput(
-                value = emailValue.value,
-                onValueChange = { emailValue.value = it },
+                value = emailValue,
+                onValueChange = { emailValue = it },
                 modifier = Modifier.fillMaxWidth()
             )
 
             // Password Input
             PasswordTextField(
-                value = passwordValue.value,
-                onValueChange = { passwordValue.value = it },
+                value = passwordValue,
+                onValueChange = { passwordValue = it },
                 modifier = Modifier.fillMaxWidth()
             )
 
             FilledTextButton(
                 onClick = {
-                    CoroutineScope(Dispatchers.IO).launch {
+                    if (emailValue != "" && passwordValue != "") {
                         authViewModel.register(
-                            email = emailValue.value,
-                            password = passwordValue.value
+                            email = emailValue,
+                            password = passwordValue
                         )
-
-                        navController.navigate(Screen.EditProfileView.route) {
-                            popUpTo(Screen.Signup.route) {
-                                inclusive = true
-                            }
-                        }
+                        navController.navigate(Screen.EditProfileView.route)
+                    } else {
+                        Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show()
                     }
-
                 },
                 textContent = stringResource(R.string.cta_signup_btn),
                 textStyle = LocalCustomTypographyScheme.current.p_mediumBold,

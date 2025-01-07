@@ -57,11 +57,7 @@ fun SigninCard(
                     "Successfully signed in",
                     Toast.LENGTH_SHORT
                 ).show()
-                navController.navigate(Screen.EditProfileView.route) {
-                    popUpTo("login") {
-                        inclusive = true
-                    }
-                }
+                navController.navigate(Screen.ProfileView.route)
             }
             is AuthState.Error -> {
                 Toast.makeText(
@@ -186,15 +182,15 @@ fun SigninCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = stringResource(R.string.user_registered),
+                    text = stringResource(R.string.user_not_registered),
                     color = LocalCustomColorScheme.current.ink400,
                     style = LocalCustomTypographyScheme.current.p_small
                 )
                 BorderlessTextButton(
                     onClick = {
-                        navController.navigate(Screen.Login.route)
+                        navController.navigate(Screen.Signup.route)
                     },
-                    textContent = stringResource(R.string.cta_login_msg),
+                    textContent = stringResource(R.string.cta_signup_btn),
                     textStyle = LocalCustomTypographyScheme.current.p_smallSemiBold,
                     contentColor = LocalCustomColorScheme.current.utilityActive,
                 )

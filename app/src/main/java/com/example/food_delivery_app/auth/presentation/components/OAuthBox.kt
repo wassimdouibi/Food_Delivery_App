@@ -1,7 +1,6 @@
 package com.example.food_delivery_app.auth.presentation.components
 
 import android.app.Activity
-import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -30,12 +29,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.gson.Gson
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
-import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.*
-import java.io.IOException
+
+
 
 @Composable
 fun OAuthSection(
@@ -80,12 +75,10 @@ fun OAuthSection(
                             if (task.isSuccessful) {
                                 val user = firebaseAuth.currentUser
                                 Log.d("GoogleSignIn", "Google ID: $googleId")
-
                                 // Call the ViewModel's googleLogin method
                                 googleId?.let { id ->
-                                    authViewModel.googleLogin(id, context)
+                                    authViewModel.googleLogin(id)
                                 }
-
                             } else {
                                 Log.w("FirebaseAuth", "signInWithCredential:failure", task.exception)
                                 Toast.makeText(

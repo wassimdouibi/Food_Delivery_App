@@ -1,4 +1,4 @@
-package com.example.food_delivery_app.auth.data
+package com.example.food_delivery_app.auth.data.service
 
 import com.example.food_delivery_app.auth.data.entity.*
 import com.example.food_delivery_app.auth.data.service.request.GoogleLoginRequest
@@ -26,11 +26,14 @@ interface UserApi {
     suspend fun getUserFields(@Body request: UserFieldsRequest): Response<UserFieldResponse>
 
     @PUT("users/update-address")
-    suspend fun updateAddress(@Body request: UpdateAddressRequest): Response<UserResponse>
+    suspend fun updateAddress(@Body request: UpdateAddressRequest): Response<UserFieldResponse>
 
     @PUT("users/update-name")
-    suspend fun updateName(@Body request: UpdateNameRequest): Response<UserResponse>
+    suspend fun updateName(@Body request: UpdateNameRequest): Response<UserFieldResponse>
 
     @PUT("users/update-profile-picture")
-    suspend fun updateProfilePicture(@Body request: UpdateProfilePictureRequest): Response<UserResponse>
+    suspend fun updateProfilePicture(@Body request: UpdateProfilePictureRequest): Response<UserFieldResponse>
+
+    @PUT("users/update-phone-number")
+    suspend fun updatePhoneNumber(@Body request: UpdatePhoneNumberRequest): Response<UserFieldResponse>
 }

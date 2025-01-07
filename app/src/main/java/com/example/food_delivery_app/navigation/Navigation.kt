@@ -30,6 +30,7 @@ fun Navigation(
     val isLoggedIn by authViewModel.isLoggedIn.collectAsState(initial = false)
     val navController = rememberNavController()
 
+
     NavHost(
         navController = navController,
         startDestination = if (isLoggedIn) Screen.ProfileView.route else Screen.Onboarding.route
@@ -75,7 +76,6 @@ fun Navigation(
         }
 
         composable(Screen.EditProfileView.route) {
-            val viewModel: EditProfileViewModel = viewModel() // Instantiate or inject ViewModel
             EditProfileView(
                 navController = navController,
                 authViewModel = authViewModel
@@ -84,7 +84,8 @@ fun Navigation(
 
         composable(Screen.ProfileView.route) {
             ProfileView(
-                navController = navController
+                navController = navController,
+                authViewModel = authViewModel
             )
         }
 

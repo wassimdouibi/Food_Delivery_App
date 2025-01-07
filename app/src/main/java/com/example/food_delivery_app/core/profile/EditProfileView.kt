@@ -5,15 +5,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -23,15 +19,15 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.food_delivery_app.R
-import com.example.food_delivery_app.auth.data.entity.AuthPreferences
+import com.example.food_delivery_app.auth.data.entity.UserRepository
 import com.example.food_delivery_app.auth.domain.AuthViewModel
 import com.example.food_delivery_app.auth.presentation.components.BackUpBar
 import com.example.food_delivery_app.components.*
 import com.example.food_delivery_app.core.profile.domain.EditProfileViewModel
+import com.example.food_delivery_app.core.profile.domain.EditProfileViewModelFactory
 import com.example.food_delivery_app.navigation.Screen
 import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
 import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
@@ -39,41 +35,58 @@ import kotlinx.coroutines.launch
 fun EditProfileView(
     navController: NavController,
     authViewModel: AuthViewModel,
-    editProfileViewModel: EditProfileViewModel = viewModel()
+    editProfileViewModel: EditProfileViewModel = viewModel(
+        factory = EditProfileViewModelFactory(UserRepository())
+    )
 ) {
     var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
-    var phoneNumber by remember { mutableStateOf("") }
+    var phonenumber by remember { mutableStateOf("") }
+    var profilePicture by remember { mutableStateOf("") }
     val context = LocalContext.current
 
-//    // Collect user fields from EditProfileViewModel
-//    val userFields by editProfileViewModel.userFields.collectAsState()
-//
-//    // Collect userId from AuthViewModel
-//    val userId by authViewModel.userId.collectAsState()
-//
-//    // Effect to fetch user data when userId is available
-//    LaunchedEffect(userId) {
-////        userId?.let { id ->
-////            editProfileViewModel.fetchUserFields(id)
-////        }
-//    }
-//
-//    // Effect to update the UI when user fields are received
-//    LaunchedEffect(userFields) {
-//        userFields?.let {
-//            firstName = it.fullName.substringBefore(" ")
-//            lastName = it.fullName.substringAfter(" ")
-//            phoneNumber = it.phoneNumber
+    // Collect all states
+    val userId by authViewModel.userId.collectAsState()
+    val userFields by editProfileViewModel.userFields.collectAsState()
+    val isLoading by editProfileViewModel.isLoading.collectAsState()
+    val error by editProfileViewModel.error.collectAsState()
+
+    // Create a coroutine scope for launching the suspend function
+    val coroutineScope = rememberCoroutineScope()
+
+    // Fetch user data when userId is available
+    LaunchedEffect(userId) {
+        userId?.let { id ->
+            editProfileViewModel.fetchUserFields(id)
+        }
+    }
+
+    // Handle error messages
+//    LaunchedEffect(error) {
+//        error?.let {
+//            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
 //        }
-//
-//        Toast.makeText(
-//            context,
-//            firstName,
-//            Toast.LENGTH_SHORT
-//        ).show()
 //    }
 
+    // Update UI when user fields are received
+    LaunchedEffect(userFields) {
+        userFields?.let { fields ->
+            // Handle nullable name field
+            fields.name?.let { fullName ->
+                firstName = fullName.substringBefore(" ", "")
+                lastName = fullName.substringAfter(" ", "")
+            }
+            // Handle nullable phone number
+            phonenumber = fields.phonenumber ?: ""
+            // Handle nullable profile picture
+            profilePicture = fields.profilepicture ?: ""
+        }
+    }
+
+    // Show loading state
+    if (isLoading) {
+        CircularProgressIndicator()
+    }
 
     Column(
         modifier = Modifier
@@ -137,9 +150,9 @@ fun EditProfileView(
             )
 
             FoodDeliveryTextField(
-                value = phoneNumber,
+                value = phonenumber,
                 onValueChange = {
-                    phoneNumber = it
+                    phonenumber = it
                 },
                 placeHolderText = stringResource(R.string.field_phone_number),
                 leadingIconId = R.drawable.phone,
@@ -158,10 +171,16 @@ fun EditProfileView(
                 textStyle = LocalCustomTypographyScheme.current.p_mediumBold,
                 modifier = Modifier.padding(),
                 onClick = {
-//                    navController.popBackStack()
-                    navController.navigate(Screen.ProfileView.route)
-
-                },
+                    coroutineScope.launch {
+                        userId?.let { id ->
+                            // Call suspend functions inside the coroutine scope
+                            editProfileViewModel.updateUserName(id, "$firstName $lastName")
+                            editProfileViewModel.updateUserPhoneNumber(id, phonenumber)
+                            editProfileViewModel.updateProfilePicture(id, profilePicture)
+                        }
+                        navController.navigate(Screen.ProfileView.route)
+                    }
+                }
             )
         }
 

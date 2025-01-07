@@ -29,7 +29,9 @@ fun BackUpBar(
             contentDescription = "Go Back",
             modifier = Modifier
                 .size(32.dp)
-                .clickable {}
+                .clickable {
+                    navController.popBackStack()
+                }
         )
         Text(
             text = title,

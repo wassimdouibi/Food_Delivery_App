@@ -1,5 +1,6 @@
 package com.example.parkir.views.core.profile
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,13 +14,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.food_delivery_app.R
+import com.example.food_delivery_app.auth.data.entity.UserRepository
+import com.example.food_delivery_app.auth.domain.AuthViewModel
 import com.example.food_delivery_app.components.*
+import com.example.food_delivery_app.core.profile.domain.EditProfileViewModel
+import com.example.food_delivery_app.core.profile.domain.EditProfileViewModelFactory
 import com.example.food_delivery_app.navigation.Screen
 import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
 import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
@@ -27,7 +34,11 @@ import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
 
 @Composable
 fun ProfileView(
-    navController: NavController
+    navController: NavController,
+    authViewModel: AuthViewModel,
+    editProfileViewModel: EditProfileViewModel = viewModel(
+        factory = EditProfileViewModelFactory(UserRepository())
+    )
 ) {
     val scope = rememberCoroutineScope()
 
@@ -35,7 +46,45 @@ fun ProfileView(
         mutableStateOf(false)
     }
 
+    val context = LocalContext.current
+    val isLoading by editProfileViewModel.isLoading.collectAsState()
+    val error by editProfileViewModel.error.collectAsState()
+
+    val userId by authViewModel.userId.collectAsState()
+    val userFields by editProfileViewModel.userFields.collectAsState()
+
     val darkThemeColor = rememberSaveable { mutableStateOf(false) }
+    var fullName by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var profilepicture by remember { mutableStateOf("") }
+
+
+    // Fetch user data when userId is available
+    LaunchedEffect(userId) {
+        userId?.let { id ->
+            editProfileViewModel.fetchUserFields(id)
+        }
+    }
+    // Handle error messages
+    LaunchedEffect(error) {
+        error?.let {
+            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    // Update UI when user fields are received
+    LaunchedEffect(userFields) {
+        userFields?.let { fields ->
+            fullName = fields.name ?: "Full Name"
+            email = fields.email ?: "Email"
+            profilepicture = fields.profilepicture ?: ""
+        }
+    }
+
+    // Show loading state
+    if (isLoading) {
+        CircularProgressIndicator()
+    }
 
 
     Column(
@@ -68,11 +117,11 @@ fun ProfileView(
                     .clip(CircleShape),
             )
             Text(
-                text = "DOUIBI Wassim",
+                text = fullName,
                 style = LocalCustomTypographyScheme.current.p_largeBold
             )
             Text(
-                text = "lw_douibi@esi.dz",
+                text = email,
                 style = LocalCustomTypographyScheme.current.p_medium
             )
         }
@@ -141,8 +190,14 @@ fun ProfileView(
 
     if (ConfirmLogoutAlertBox) {
         ConfirmLogoutAlertBox(
-            onLogout = {},
-            onCancel = { ConfirmLogoutAlertBox = false } 
+            onLogout = {
+                authViewModel.logout()
+                navController.navigate(Screen.Login.route)
+                ConfirmLogoutAlertBox = false
+            },
+            onCancel = {
+                ConfirmLogoutAlertBox = false
+            }
         )
     }
 
