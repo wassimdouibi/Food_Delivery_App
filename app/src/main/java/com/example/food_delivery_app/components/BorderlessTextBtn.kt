@@ -1,53 +1,47 @@
 package com.example.food_delivery_app.components
 
-import androidx.compose.foundation.shape.CutCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.runtime.remember
+import androidx.compose.ui.text.TextStyle
 import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
-import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
 
 
 @Composable
 fun BorderlessTextButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    buttonSize: ButtonSize = ButtonSize.MEDIUM,
-    enabled: Boolean = true,
 
     textContent: String,
-    isPLargeBold: Boolean = false,
+    textStyle: TextStyle,
 
     icon: ButtonIcon = ButtonIcon.None,
-    contentColor: Color = LocalCustomColorScheme.current.primary400,
+    contentColor: Color = LocalCustomColorScheme.current.primary500,
     containerColor: Color = Color.Transparent,
 ) {
-    val textStyle: TextStyle = if (isPLargeBold) {
-        LocalCustomTypographyScheme.current.p_largeBold
-    } else if (buttonSize == ButtonSize.SMALL) {
-        LocalCustomTypographyScheme.current.p_smallSemiBold
-    } else {
-        LocalCustomTypographyScheme.current.p_mediumBold
-    }
-
-    Button(
-        onClick = onClick,
-        modifier = modifier,
-        enabled = enabled,
-        colors = ButtonDefaults.buttonColors(
-            contentColor = contentColor,
-            containerColor = containerColor
-        ),
-        shape = CutCornerShape(size = 2.dp)
+    Box(
+        modifier = modifier
+            .wrapContentSize()
+            .background(containerColor) // Apply background here
+            .clickable(
+                onClick = onClick,
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }
+            )
     ) {
         TextWithIconRow(
             textContent = textContent,
-            textStyle = textStyle,
-            icon = icon
+            textStyle = textStyle.copy(
+                color = contentColor
+            ),
+            icon = icon,
+            modifier = Modifier.padding(8.dp)
         )
     }
 }

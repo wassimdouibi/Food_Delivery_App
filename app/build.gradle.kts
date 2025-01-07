@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -66,4 +67,34 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Navigation
+    implementation ("androidx.navigation:navigation-compose:2.8.3")
+
+    // Splash Screen Animation
+    implementation("com.airbnb.android:lottie-compose:5.2.0")
+
+    // Google Sign-In
+    implementation("com.google.android.gms:play-services-auth:20.0.0")
+    implementation("androidx.credentials:credentials:1.3.0-alpha04")
+    implementation("androidx.credentials:credentials-play-services-auth:1.3.0-alpha04")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.0")
+
+    //Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.9.0")
+    implementation("com.google.code.gson:gson:2.8.5")
+
+    // Coil
+    implementation("io.coil-kt:coil-compose:2.4.0")
+
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
+
+    // Firebase Messaging
+    implementation("com.google.firebase:firebase-messaging")
+
+    // Material 3 extended
+    implementation("androidx.compose.material:material-icons-extended:1.5.0")
 }

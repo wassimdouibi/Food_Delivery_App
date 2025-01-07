@@ -4,13 +4,16 @@
     <!--    Splash Screen   -->
     <string name="slogan">Your food is just a tap away !</string>
 
+    <string name="Onboarding_cta_next">Next</string>
+    <string name="Onboarding_cta_back">Back</string>
+    <string name="Onboarding_cta_skip">Skip</string>
     <!--    Onboarding Page 1   -->
     <string name="Onboarding_title1">Collect Your Orders</string>
     <string name="Onboarding_description1">With our "Food" app, you can gather your orders from various stores and restaurants in one place, and they’ll be delivered to the location you specify!</string>
 
     <!--    Onboarding Page 2   -->
     <string name="Onboarding_title2">Lightning Fast Delivery</string>
-    <string name="Onboarding_description2">We serve up speed on a platter. Hungry? We’ll have your food at your door before you can say “yum!” in a record time!</string>
+    <string name="Onboarding_description2">We serve up speed on a platter. Hungry ? We’ll have your food at your door before you can say “yum!” in a record time!</string>
 
     <!--    Onboarding Page 3   -->
     <string name="Onboarding_title3">Choose Your Meal</string>
@@ -18,14 +21,14 @@
     <string name="cta_get_started">Get Started</string>
 
     <!--    Login    -->
-    <string name="login_title">Log In Your Account</string>
+    <string name="login_title">Log In\nYour Account</string>
     <string name="login_description">Enter your email and password to log in</string>
     <string name="cta_login_with_google">Continue with Google</string>
-    <string name="login_with_other_methods">Or login with</string>
+    <string name="login_with_other_methods"> Or </string>
     <string name="remember_me">Remember me</string>
     <string name="forgot_password">Forgot password ?</string>
     <string name="cta_login_btn">Log In</string>
-    <string name="user_not_registered">Don\'t have an account?</string>
+    <string name="user_not_registered">Don\'t have an account ?</string>
     <string name="cta_signup_btn">Sign up</string>
 
     <!--    Sign up    -->
@@ -37,25 +40,33 @@
     <string name="input_phone_number">Phone Number</string>
     <string name="input_password">Password</string>
     <string name="privacy_and_policy_message">By selecting Agree and continue, I agree to Dynamic Layers Terms of Service, Payments Terms of Service and Notification Policy and acknowledge the Privacy Policy.</string>
-    <string name="user_registered">Already have an account?</string>
+    <string name="user_registered">Already have an account ?</string>
     <string name="cta_login_msg">Log in</string>
 
     <!--    Change Password    -->
-    <string name="change_password_title">Change password?</string>
+    <string name="change_password_title">Change password ?</string>
     <string name="change_password_description">Enters the email address associated to your account. You will receive an email to define a new password.</string>
     <string name="input_write_your_email">Enter your email address</string>
     <string name="cta_send_code">Send code</string>
-    <string name="remember_password">Remember password?</string>
+    <string name="remember_password">Remember password ?</string>
     <string name="check_email_title">Please check your email</string>
     <string name="check_email_description">We’ve sent a code to</string>
     <string name="cta_verify_code">Verify</string>
-    <string name="send_code_again">Send code again in</string>
+    <string name="send_code_again">Resend code</string>
     <string name="reset_password_title">Reset password</string>
-    <string name="reset_password_description">Please insert another password</string>
+    <string name="reset_password_description">Create Your New Password</string>
     <string name="label_new_password">New password</string>
     <string name="label_confirm_new_password">Confirm new password</string>
     <string name="input_new_password">must be at least 8 characters</string>
     <string name="input_confirm_new_password">repeat password</string>
+    <string name="cta_go_back">Go Back</string>
+    <string name="congratulations">Congratulations</string>
+    <string name="modification_with_success">Your account is ready to use</string>
+    <string name="cta_go_back_to_login">Login Your Account</string>
+    <string name="contact_type">Select which contact details should we use to reset your password</string>
+    <string name="via_email">Via Email</string>
+    <string name="via_sms">Via SMS</string>
+
 
     <!--    Order    -->
     <string name="order_ongoing_title">Ongoing</string>
@@ -64,8 +75,8 @@
     <string name="order_empty_subtitle">You currently have no requests. you can create an order now!</string>
     <string name="cta_back_home">Back to Home</string>
     <string name="total_order_price">Total order price</string>
-    <string name="cta_confirm_order">Confirm my order</string>
-    <string name="cta_cancel">Cancel</string>
+    <string name="cta_confirm_order">Confirm order</string>
+    <string name="cta_cancel">Cancel</string>F
     <string name="cart_title">Cart</string>
     <string name="cart_note">Note:</string>
     <string name="modify_note">Modify note</string>
@@ -125,7 +136,27 @@
 
 
     <!--    Profile     -->
-    <string name="input_location">Current Location</string>
+    <string name="profile_title">Profile</string>
+    <string name="edit_profile_title">Edit profile</string>
+    <string name="field_first_name">First Name</string>
+    <string name="field_last_name">First Name</string>
+    <string name="field_birthday">Date of birth</string>
+    <string name="field_email">Email</string>
+    <string name="field_phone_number">Phone number</string>
+    <string name="update_profile_infos">Update</string>
     <string name="cta_notifications">Notifications</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="payement">Payment</string>
+    <string name="notifications">Notifications</string>
+    <string name="theme">Theme</string>
+    <string name="logout">Logout</string>
+    <string name="security">Security</string>
+    <string name="send_feedback">Send Feedback</string>
+    <string name="about">About</string>
+    <string name="help">Help</string>
+    <string name="confirm_logout">Are you sure you want to logout?</string>
+    
+    <string name="restaurants">Restaurants</string>
+    <string name="foods">Foods</string>
 
 </resources>

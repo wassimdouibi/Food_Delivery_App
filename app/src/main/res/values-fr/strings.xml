@@ -5,6 +5,9 @@
     <string name="app_name">Food</string>
     <string name="slogan">Votre nourriture est à portée de main !</string>
 
+    <string name="Onboarding_cta_next">Suivant</string>
+    <string name="Onboarding_cta_back">Retour</string>
+    <string name="Onboarding_cta_skip">Passer</string>
     <!--    Onboarding Page 1   -->
     <string name="Onboarding_title1">Collectez vos commandes</string>
     <string name="Onboarding_description1">Avec notre application "Nourriture", vous pouvez rassembler vos commandes de divers magasins et restaurants au même endroit, et elles seront livrées à l\'endroit que vous spécifiez !</string>
@@ -19,10 +22,10 @@
     <string name="cta_get_started">Commencer</string>
 
     <!--    Login    -->
-    <string name="login_title">Connectez-vous à votre compte</string>
+    <string name="login_title">Connectez-vous\nà votre compte</string>
     <string name="login_description">Entrez votre email et votre mot de passe pour vous connecter</string>
     <string name="cta_login_with_google">Continuer avec Google</string>
-    <string name="login_with_other_methods">Ou connectez-vous avec</string>
+    <string name="login_with_other_methods"> Ou </string>
     <string name="remember_me">Se souvenir de moi</string>
     <string name="forgot_password">Mot de passe oublié ?</string>
     <string name="cta_login_btn">Se connecter</string>
@@ -52,11 +55,19 @@
     <string name="cta_verify_code">Vérifier</string>
     <string name="send_code_again">Renvoyer le code dans</string>
     <string name="reset_password_title">Réinitialiser le mot de passe</string>
-    <string name="reset_password_description">Veuillez insérer un autre mot de passe</string>
+    <string name="reset_password_description">Créez votre nouveau mot de passe</string>
     <string name="label_new_password">Nouveau mot de passe</string>
     <string name="label_confirm_new_password">Confirmer le nouveau mot de passe</string>
     <string name="input_new_password">doit comporter au moins 8 caractères</string>
     <string name="input_confirm_new_password">répéter le mot de passe</string>
+    <string name="cta_go_back">Retourner</string>
+    <string name="congratulations">Félicitations</string>
+    <string name="modification_with_success">Votre compte est prêt à être utilisé</string>
+    <string name="cta_go_back_to_login">Connectez votre compte</string>
+    <string name="contact_type">Sélectionnez les coordonnées que nous devons utiliser pour réinitialiser votre mot de passe</string>
+    <string name="via_email">Par Email</string>
+    <string name="via_sms">Par SMS</string>
+
 
     <!--    Order    -->
     <string name="order_ongoing_title">En cours</string>
@@ -65,7 +76,7 @@
     <string name="order_empty_subtitle">Vous n\'avez actuellement aucune demande. Vous pouvez créer une commande maintenant !</string>
     <string name="cta_back_home">Retour à l\'accueil</string>
     <string name="total_order_price">Prix total de la commande</string>
-    <string name="cta_confirm_order">Confirmer ma commande</string>
+    <string name="cta_confirm_order">Confirmer commande</string>
     <string name="cta_cancel">Annuler</string>
     <string name="cart_title">Panier</string>
     <string name="cart_note">Note :</string>
@@ -126,6 +137,27 @@
 
 
     <!--    Profile     -->
-    <string name="input_location">Emplacement actuel</string>
+    <string name="profile_title">Profil</string>
+    <string name="edit_profile_title">Modifier le profil</string>
+    <string name="field_first_name">Prénom</string>
+    <string name="field_last_name">Nom</string>
+    <string name="field_birthday">Date de naissance</string>
+    <string name="field_email">Email</string>
+    <string name="field_phone_number">Numéro de téléphone</string>
+    <string name="update_profile_infos">Enregistrer</string>
     <string name="cta_notifications">Notifications</string>
+    <string name="edit_profile">Modifier le profil</string>
+    <string name="payement">Paiement</string>
+    <string name="notifications">Notifications</string>
+    <string name="theme">Thème</string>
+    <string name="logout">Déconnexion</string>
+    <string name="security">Sécurité</string>
+    <string name="send_feedback">Envoyer des commentaires</string>
+    <string name="about">À propos</string>
+    <string name="help">Aide</string>
+    <string name="confirm_logout">Êtes-vous sûr de vouloir vous déconnecter ?</string>
+    <string name="restaurants">Restaurants</string>
+    <string name="foods">Plats</string>
+
+
 </resources>

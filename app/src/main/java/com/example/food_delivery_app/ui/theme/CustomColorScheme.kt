@@ -48,7 +48,6 @@ data class CustomColorScheme(
 )
 
 
-
 val defaultCustomColorScheme = CustomColorScheme(
     primary50 = ReferenceOrange50,
     primary100 = ReferenceOrange100,

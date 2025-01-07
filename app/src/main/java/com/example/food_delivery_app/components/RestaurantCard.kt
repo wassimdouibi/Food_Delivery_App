@@ -100,9 +100,8 @@ fun RestaurantCard(
 
         }
             FilledTextButtonWithIcon(
-                onClick = { navController.navigate("restdetail") },
+                onClick = {  },
                 textContent = "Details",
-                icon = Icons.Filled.Info,
                 iconDescription = "info",
                 shape = RoundedCornerShape(2.dp)
 
