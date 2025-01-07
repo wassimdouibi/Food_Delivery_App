@@ -41,38 +41,24 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.food_delivery_app.ui.theme.CustomTypographyScheme
-import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
-import com.example.food_delivery_app.ui.theme.defaultCustomColorScheme
-import com.example.food_delivery_app.ui.theme.defaultCustomTypographyScheme
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.food_delivery_app.ui.theme.*
 
-data class Restaurant(
-    val name: String,
-    val location: String,
-    val rating: Double,
-    val reviews: Int,
-    val phone: String,
-    val email: String,
-    val instagram: String,
-    val facebook: String,
-    val locationImage : Int,
-    val restaurantPictures: List<Int>, // List of images
-    val topPicks: List<String>? // Top picks tags
-)
 
 @Composable
 fun RestaurantCard(
     restaurant: Restaurant,
-    onDetailsClick: () -> Unit // Callback for "Details" button
+    navController: NavController // Callback for "Details" button
 ) {
     Column(
         modifier = Modifier
             .width(320.dp)
-            //.padding(16.dp)
-            /*.background(
-                color = Color.White,
-                //shape = RoundedCornerShape(8.dp)
-            )*/
+        //.padding(16.dp)
+        /*.background(
+            color = Color.White,
+            //shape = RoundedCornerShape(8.dp)
+        )*/
     ) {
         CardImageSection( pictures = restaurant.restaurantPictures, rating = restaurant.rating)
 
@@ -109,20 +95,18 @@ fun RestaurantCard(
                     )
                 }
 
-        }
+            }
             FilledTextButton(
-                onClick = onDetailsClick,
+                onClick = {  },
                 textContent = "Details",
-                textStyle = LocalCustomTypographyScheme.current.p_smallSemiBold,
+                textStyle = LocalCustomTypographyScheme.current.p_mediumBold,
                 icon = ButtonIcon.Right(
                     IconType.VectorIcon(
                         imageVector = Icons.Default.Info,
                         iconDescription = "Info"
                     )
                 ),
-                modifier = Modifier.clip(
-                    RoundedCornerShape(2.dp)
-                )
+                modifier = Modifier.clip(RoundedCornerShape(2.dp))
             )
 
         }
@@ -144,14 +128,15 @@ fun RestaurantCard(
         ) {
             items(restaurant.topPicks ?: emptyList()) { pick ->
                 Box(
-                    modifier = Modifier.background(
-                        color = Color.White,
-                        //shape = RoundedCornerShape(16.dp)
-                    )
-                        .border(width = 2.dp , color = defaultCustomColorScheme.ink300)
+                    modifier = Modifier
+                        .background(
+                            color = Color.White,
+                            //shape = RoundedCornerShape(16.dp)
+                        )
+                        .border(width = 2.dp, color = defaultCustomColorScheme.ink300)
                         .padding(horizontal = 16.dp, vertical = 8.dp)
 
-                        )
+                )
                 {
                     Text(
                         text = pick,
@@ -170,7 +155,9 @@ fun RestaurantCard(
 fun CardImageSection(pictures : List<Int> , rating: Double){
     // Image Section
     Row(
-        modifier = Modifier.fillMaxWidth().height(260.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(260.dp)
 
     ) {
         // Left: Main Image
@@ -240,18 +227,6 @@ fun CardImageSection(pictures : List<Int> , rating: Double){
 @Composable
 fun PreviewRestaurantCard() {
     val restaurants =
-        Restaurant(
-            name = "Pizzaz",
-            location = "Downtown",
-            rating = 4.5,
-            reviews = 120,
-            phone = "123-456-7890",
-            email = "contact@pizzaz.com",
-            instagram = "@pizzaz",
-            facebook = "Pizzaz",
-            locationImage = R.drawable.img_map_location,
-            restaurantPictures = listOf(R.drawable.img_food_one, R.drawable.img_food_two, R.drawable.img_food_three),
-            topPicks = listOf("Pizza", "Burgers", "Tacos", "Sandwiches", "Desserts")
-        )
-    RestaurantCard(restaurant = restaurants, onDetailsClick = { /* Navigate to details */ })
+        restaurant1
+    RestaurantCard(restaurant = restaurants, navController = rememberNavController())
 }

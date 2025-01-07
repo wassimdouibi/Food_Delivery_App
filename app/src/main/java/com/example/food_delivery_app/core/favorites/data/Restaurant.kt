@@ -1,6 +1,6 @@
 package com.example.food_delivery_app.favorites.data
 
-data class Restaurant(
+data class RestaurantData(
     val restaurantId: String,
     val restaurantName: String,
     val restaurantImageUrl: String,

@@ -1,4 +1,4 @@
-package com.example.food_delivery_app.core.Home
+package com.example.food_delivery_app.core
 
 import com.example.food_delivery_app.R
 import androidx.compose.foundation.Image
@@ -29,24 +29,28 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.food_delivery_app.components.BottomBar
+import com.example.food_delivery_app.components.Cuisine
 import com.example.food_delivery_app.components.FoodDeliveryTextField
 import com.example.food_delivery_app.components.Restaurant
 import com.example.food_delivery_app.components.RestaurantCard
+import com.example.food_delivery_app.components.categoriesList
+import com.example.food_delivery_app.components.cuisinesList
+import com.example.food_delivery_app.components.restaurant1
+import com.example.food_delivery_app.components.restaurant2
+import com.example.food_delivery_app.components.restaurant3
 import com.example.food_delivery_app.ui.theme.defaultCustomColorScheme
 import com.example.food_delivery_app.ui.theme.defaultCustomTypographyScheme
 
+/* ce qui reste : reasearch result page , which will be the result of the clicking
+* on the cuisine and categories cards as well as reasearch */
 
-data class Cuisine(
-    val name: String,
-    val imageRes: Int
-)
 
 @Composable
 fun HomeScreen(
     cuisines: List<Cuisine>,
     categories: List<Cuisine>,
     restaurants: List<Restaurant>,
-    navController : NavController
+    navController: NavController
 ) {
     var search by remember { mutableStateOf("") }
     var showFilterState by rememberSaveable { mutableStateOf(false) }
@@ -122,7 +126,7 @@ fun HomeScreen(
                 items(restaurants) { restaurant ->
                     RestaurantCard(
                         restaurant = restaurant,
-                        onDetailsClick = {} // Pass NavController for navigation
+                        navController = navController
                     )
                 }
             }
@@ -141,7 +145,7 @@ fun HomeScreen(
                 items(restaurants) { restaurant ->
                     RestaurantCard(
                         restaurant = restaurant,
-                        onDetailsClick = {} // Pass NavController for navigation
+                        navController = navController
                     )
                 }
             }
@@ -175,7 +179,7 @@ fun CuisineIcon(cuisine: Cuisine, onClick: () -> Unit) {
                 .width(90.dp)
                 .height(80.dp)
                 .clip(RoundedCornerShape(8.dp)) ,
-         contentScale = ContentScale.Crop,
+            contentScale = ContentScale.Crop,
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
@@ -191,47 +195,10 @@ fun CuisineIcon(cuisine: Cuisine, onClick: () -> Unit) {
 // Example usage
 @Composable
 fun PreviewHomeScreen() {
-    val cuisines = listOf(
-        Cuisine("Algerian", R.drawable.img_food_one),
-        Cuisine("Italian", R.drawable.img_food_two),
-        Cuisine("Japanese", R.drawable.img_food_three),
-        Cuisine("French", R.drawable.img_food_one)
-    )
-
-    val categories = listOf(
-        Cuisine("Vegan", R.drawable.img_food_three),
-        Cuisine("Dessert", R.drawable.img_food_two),
-        Cuisine("Seafood", R.drawable.img_food_one),
-        Cuisine("Snacks", R.drawable.img_food_three)
-    )
-
+    val cuisines = cuisinesList
+    val categories = categoriesList
     val restaurants = listOf(
-        Restaurant(
-            name = "Gourmet Spot",
-            location = "City Center",
-            rating = 4.8,
-            reviews = 220,
-            phone = "123-456-7891",
-            email = "contact@gourmetspot.com",
-            instagram = "@gourmetspot",
-            facebook = "GourmetSpot",
-            locationImage = R.drawable.img_map_location,
-            restaurantPictures = listOf(R.drawable.img_food_one, R.drawable.img_food_two, R.drawable.img_food_three),
-            topPicks = listOf("Pasta", "Seafood")
-        ),
-        Restaurant(
-            name = "Gourmet Spot",
-            location = "City Center",
-            rating = 4.8,
-            reviews = 220,
-            phone = "123-456-7891",
-            email = "contact@gourmetspot.com",
-            instagram = "@gourmetspot",
-            facebook = "GourmetSpot",
-            locationImage = R.drawable.img_map_location,
-            restaurantPictures = listOf(R.drawable.img_food_one, R.drawable.img_food_two, R.drawable.img_food_three),
-            topPicks = listOf("Pasta", "Seafood")
-        )
+        restaurant1, restaurant2 , restaurant3
     )
 
     HomeScreen(

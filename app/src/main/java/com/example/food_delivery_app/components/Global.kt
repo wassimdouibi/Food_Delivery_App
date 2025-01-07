@@ -1,5 +1,6 @@
 package com.example.food_delivery_app.components
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -94,3 +95,16 @@ enum class FavoritesControlState {
     RESTAURANTS,
     FOODS
 }
+
+data class Order(
+    val orderLoc: String,
+    val deliveryLoc: String,
+    val price: Float
+)
+
+data class Item(
+    val name: String,
+    val price: Float,
+    @DrawableRes val imageRes: Int, // Référence de l'image
+    val noteContent: String? = null // Contenu de la note (peut être null)
+)
