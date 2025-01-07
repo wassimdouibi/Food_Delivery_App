@@ -60,12 +60,17 @@ import com.example.food_delivery_app.ui.theme.defaultCustomTypographyScheme
 
 
 
+/* ce qui reste :  get the restaurant using API*/
+
+
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun RestaurantDetailsScreen(
     navController : NavController,
-    restaurant: Restaurant
+     restaurantID: Int
 ) {
+    val restaurant : Restaurant = restaurant1  // get the restaurant using API
+
     var isFavorite by remember { mutableStateOf(false) }
     val mealTypes = listOf("All", "Breakfast", "Lunch & Dinner", "Desserts", "Drinks")
     var selectedMealType by remember { mutableStateOf(mealTypes[0]) } // Initially, the first meal type is selected
@@ -262,6 +267,6 @@ fun previewRestDetailsScreen ()
 
     RestaurantDetailsScreen(
     navController = rememberNavController(),
-    restaurant = restaurant
+    restaurantID = 1
     )
 }

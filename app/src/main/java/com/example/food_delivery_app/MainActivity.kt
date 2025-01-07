@@ -67,12 +67,11 @@ class MainActivity : ComponentActivity() {
                     val context = LocalContext.current
                     val pref = context.getSharedPreferences("local", Context.MODE_PRIVATE)
 
-                    Navigation2(rememberNavController())
 
-                    /*Navigation(
+                    Navigation(
                         authViewModel = authViewModel,
                         pref = pref
-                    )*/
+                    )
 
 
                 }
@@ -334,9 +333,6 @@ class MainActivity : ComponentActivity() {
             NavHost(navController = navController, startDestination = "home") {
                 composable("home") {
                     HomeScreen(
-                        cuisines = cuisinesList,
-                        categories = categoriesList,
-                        restaurants = listOf(restaurant1, restaurant2, restaurant3),
                         navController = navController
                     )
                 }
@@ -345,11 +341,11 @@ class MainActivity : ComponentActivity() {
                     arguments = listOf(navArgument("restaurantId") { type = NavType.IntType })
                 ) { backStackEntry ->
                     val restaurantId = backStackEntry.arguments?.getInt("restaurantId")
-                    RestaurantDetailsScreen(navController, restaurant1)
+                    RestaurantDetailsScreen(navController, restaurantId ?: 1 )
                 }
                 composable("restdetail") {
                     RestaurantDetailsScreen(
-                        navController = navController, restaurant1
+                        navController = navController, 1
                     )
                 }
             }

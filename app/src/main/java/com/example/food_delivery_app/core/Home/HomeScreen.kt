@@ -47,11 +47,12 @@ import com.example.food_delivery_app.ui.theme.defaultCustomTypographyScheme
 
 @Composable
 fun HomeScreen(
-    cuisines: List<Cuisine>,
-    categories: List<Cuisine>,
-    restaurants: List<Restaurant>,
     navController: NavController
 ) {
+    val cuisines: List<Cuisine> = cuisinesList
+    val categories: List<Cuisine> = categoriesList
+    val restaurants: List<Restaurant> = listOf(restaurant1 , restaurant2, restaurant3)
+
     var search by remember { mutableStateOf("") }
     var showFilterState by rememberSaveable { mutableStateOf(false) }
     Scaffold(
@@ -202,9 +203,6 @@ fun PreviewHomeScreen() {
         )
 
     HomeScreen(
-        cuisines = cuisines,
-        categories = categories,
-        restaurants = restaurants,
         navController = rememberNavController()
     )
 }

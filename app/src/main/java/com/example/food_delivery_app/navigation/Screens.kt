@@ -11,4 +11,6 @@ sealed class Screen(val route:String) {
     object EditProfileView:Screen("/edit_profile_view")
     object ProfileView:Screen("/profile_view")
     object NotificationsSettingsView:Screen("/notification_settings_view")
+    object Home : Screen("/home")
+    object RestaurantDetails : Screen("restaurant_details/{restaurantId}")
 }

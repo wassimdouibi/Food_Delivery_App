@@ -101,7 +101,7 @@ fun RestaurantCard(
 
         }
             FilledTextButton(
-                onClick = { navController.navigate("restdetail")},
+                onClick = { navController.navigate("restaurant_details/${restaurant.id}") },
                 textContent = "Details",
                 textStyle = LocalCustomTypographyScheme.current.p_smallSemiBold,
                 icon = ButtonIcon.Right(
@@ -134,11 +134,12 @@ fun RestaurantCard(
         ) {
             items(restaurant.topPicks ?: emptyList()) { pick ->
                 Box(
-                    modifier = Modifier.background(
-                        color = Color.White,
-                        //shape = RoundedCornerShape(16.dp)
-                    )
-                        .border(width = 2.dp , color = defaultCustomColorScheme.ink300)
+                    modifier = Modifier
+                        .background(
+                            color = Color.White,
+                            //shape = RoundedCornerShape(16.dp)
+                        )
+                        .border(width = 2.dp, color = defaultCustomColorScheme.ink300)
                         .padding(horizontal = 16.dp, vertical = 8.dp)
 
                         )
@@ -160,7 +161,9 @@ fun RestaurantCard(
 fun CardImageSection(pictures : List<Int> , rating: Double){
     // Image Section
     Row(
-        modifier = Modifier.fillMaxWidth().height(260.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(260.dp)
 
     ) {
         // Left: Main Image

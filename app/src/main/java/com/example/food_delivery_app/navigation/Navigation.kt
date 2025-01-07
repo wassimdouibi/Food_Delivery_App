@@ -19,7 +19,12 @@ import com.example.parkir.views.core.profile.ProfileView
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 import com.example.food_delivery_app.auth.data.entity.AuthPreferences
+import com.example.food_delivery_app.components.restaurant1
+import com.example.food_delivery_app.core.Home.HomeScreen
+import com.example.food_delivery_app.core.RestaurantDetailsScreen
 import com.example.food_delivery_app.core.profile.domain.EditProfileViewModel
 
 @Composable
@@ -32,7 +37,7 @@ fun Navigation(
 
     NavHost(
         navController = navController,
-        startDestination = if (isLoggedIn) Screen.ProfileView.route else Screen.Onboarding.route
+        startDestination = if (isLoggedIn) Screen.Home.route else Screen.Home.route
     ) {
         composable(Screen.Splash.route) {
             Splash(navController = navController)
@@ -93,5 +98,22 @@ fun Navigation(
                 navController = navController
             )
         }
+/*************************************Farah Part********************************************/
+        composable(Screen.Home.route) {
+            HomeScreen(
+                navController = navController
+            )
+        }
+
+        composable(
+            Screen.RestaurantDetails.route,
+            arguments = listOf(navArgument("restaurantId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val restaurantId = backStackEntry.arguments?.getInt("restaurantId")
+            if ( restaurantId == null) { /*Cas Impossible */}
+            else
+                RestaurantDetailsScreen(navController, restaurantId)
+        }
+
     }
 }
