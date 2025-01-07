@@ -4,14 +4,7 @@ import android.graphics.Picture
 import android.provider.Telephony.Mms.Rate
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
@@ -32,16 +25,12 @@ import androidx.compose.ui.unit.sp
 import com.example.food_delivery_app.ui.theme.defaultCustomColorScheme
 import com.example.food_delivery_app.ui.theme.defaultCustomTypographyScheme
 
-//takes : profil picture - customer name - stars rate - review title - review paragraph
+//takes : customer name - stars rate - review title - review paragraph
 
 @Composable
 fun CustomerReview(
-     imageResource: Int,
-     username: String,
-     reviewTitle: String,
-     rating: Int,
-     reviewText: String,
-     modifier : Modifier = Modifier.padding(16.dp)
+     customerReview: CustomerReview,
+     modifier : Modifier = Modifier
           .fillMaxWidth()
           .border(1.dp, defaultCustomColorScheme.ink200)
           .padding(16.dp)
@@ -55,16 +44,16 @@ fun CustomerReview(
      Column(
           modifier = modifier
      ) {
-          Row(verticalAlignment = Alignment.Top) {
-               ProfilPicture(imageRes = imageResource)
-
-               Spacer(modifier = Modifier.width(8.dp))
-
+          Row(
+               modifier = Modifier.fillMaxWidth(),
+               horizontalArrangement = Arrangement.SpaceBetween,
+               verticalAlignment = Alignment.Top
+          ) {
                Column {
                     Spacer(modifier = Modifier.height(4.dp))
 
                     Text(
-                         text = username,
+                         text = customerReview.customerUsername,
                          style = usernameFont,
                          color = usernameFontColor
                     )
@@ -72,22 +61,21 @@ fun CustomerReview(
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
-                         text = reviewTitle,
+                         text = customerReview.title,
                          style = bodyFont,
                          color = bodyFontColor
                     )
                }
-               Spacer(modifier = Modifier.width(8.dp))
 
-               StarRating(rating = rating)
+               StarRating(rating = customerReview.rating)
           }
 
 
 
-          Spacer(modifier = Modifier.height(8.dp))
+          Spacer(modifier = Modifier.height(12.dp))
 
           Text(
-               text = reviewText,
+               text = customerReview.text,
                style = bodyFont,
                color = bodyFontColor ,
                lineHeight = 20.sp,
@@ -113,6 +101,13 @@ fun StarRating(rating: Int, maxRating: Int = 5) {
           }
      }
 }
+@Composable
+fun PreviewCustomerReview() {
+     CustomerReview(
+         customerReview = customerReviews[0]
+     )
+}
+
 
 @Composable
 fun ProfilPicture(imageRes: Int) {

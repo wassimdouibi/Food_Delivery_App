@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
@@ -131,20 +132,7 @@ fun InfoRow(iconPainter: Painter , text: String, textSemiBold: String = "") {
 @Preview(showBackground = true)
 @Composable
 fun PreviewRestaurantInfo() {
-    val restaurant = Restaurant(
-        name = "Hicham Cook",
-        location = "Jl. Soekarno Hatta 15A Malang",
-        rating = 4.5,
-        reviews = 1200,
-        phone = "+213 540804694",
-        email = "hichamcook@gmail.com",
-        instagram = "hicham_cook",
-        facebook = "hicham.cook",
-        locationImage = R.drawable.img_map_location,
-        restaurantPictures = listOf(R.drawable.img_food_one),
-        topPicks = null,
-
-    )
+    val restaurant = restaurant1
 
     RestaurantInfo(restaurant = restaurant, onClose = {})
 }

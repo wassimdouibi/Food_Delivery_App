@@ -10,8 +10,15 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+
 import com.example.food_delivery_app.components.*
-import com.example.food_delivery_app.core.PreviewHomeScreen
+import com.example.food_delivery_app.core.*
 import com.example.food_delivery_app.ui.theme.*
 
 class MainActivity : ComponentActivity() {
@@ -20,17 +27,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Food_Delivery_AppTheme {
-                Column(
-                    modifier = Modifier.verticalScroll(rememberScrollState()) )
-                    {
-                    PreviewRestaurantCard()
-                    PreviewRestaurantCard()
-                    PreviewRestaurantCard()
-
-                }
-
+                Navigation(rememberNavController())
                // PreviewRestaurantCard()
-                PreviewHomeScreen()
+                //PreviewHomeScreen()
+               // PreviewCustomerReview()
+                //previewRestDetailsScreen()
                 /*Column( ){
                     BorderlessTextButton(
                         onClick = { /* Handle click action */ },
@@ -160,5 +161,32 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 fun GreetingPreview() {
     Food_Delivery_AppTheme {
         Greeting("Android")
+    }
+}
+
+@Composable
+fun Navigation(navController : NavHostController){
+
+    NavHost(navController = navController, startDestination = "home") {
+        composable("home") {
+            HomeScreen(
+                cuisines = cuisinesList,
+                categories = categoriesList,
+                restaurants = listOf(restaurant1, restaurant2, restaurant3),
+                navController = navController
+            )
+        }
+        composable(
+            "restaurant_details/{restaurantId}",
+            arguments = listOf(navArgument("restaurantId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val restaurantId = backStackEntry.arguments?.getInt("restaurantId")
+            RestaurantDetailsScreen(navController , restaurant1)
+        }
+        composable("restdetail") {
+            RestaurantDetailsScreen(
+                navController = navController, restaurant1
+            )
+        }
     }
 }

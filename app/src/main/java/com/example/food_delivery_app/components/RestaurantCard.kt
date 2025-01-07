@@ -41,28 +41,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.food_delivery_app.ui.theme.CustomTypographyScheme
 import com.example.food_delivery_app.ui.theme.defaultCustomColorScheme
 import com.example.food_delivery_app.ui.theme.defaultCustomTypographyScheme
 
-data class Restaurant(
-    val name: String,
-    val location: String,
-    val rating: Double,
-    val reviews: Int,
-    val phone: String,
-    val email: String,
-    val instagram: String,
-    val facebook: String,
-    val locationImage : Int,
-    val restaurantPictures: List<Int>, // List of images
-    val topPicks: List<String>? // Top picks tags
-)
+
 
 @Composable
 fun RestaurantCard(
     restaurant: Restaurant,
-    onDetailsClick: () -> Unit // Callback for "Details" button
+    navController: NavController // Callback for "Details" button
 ) {
     Column(
         modifier = Modifier
@@ -110,9 +100,9 @@ fun RestaurantCard(
 
         }
             FilledTextButtonWithIcon(
-                onClick = onDetailsClick,
+                onClick = { navController.navigate("restdetail") },
                 textContent = "Details",
-                icon = Icons.Filled.Info,  // Use any icon you prefer
+                icon = Icons.Filled.Info,
                 iconDescription = "info",
                 shape = RoundedCornerShape(2.dp)
 
@@ -137,11 +127,12 @@ fun RestaurantCard(
         ) {
             items(restaurant.topPicks ?: emptyList()) { pick ->
                 Box(
-                    modifier = Modifier.background(
-                        color = Color.White,
-                        //shape = RoundedCornerShape(16.dp)
-                    )
-                        .border(width = 2.dp , color = defaultCustomColorScheme.ink300)
+                    modifier = Modifier
+                        .background(
+                            color = Color.White,
+                            //shape = RoundedCornerShape(16.dp)
+                        )
+                        .border(width = 2.dp, color = defaultCustomColorScheme.ink300)
                         .padding(horizontal = 16.dp, vertical = 8.dp)
 
                         )
@@ -163,7 +154,9 @@ fun RestaurantCard(
 fun CardImageSection(pictures : List<Int> , rating: Double){
     // Image Section
     Row(
-        modifier = Modifier.fillMaxWidth().height(260.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(260.dp)
 
     ) {
         // Left: Main Image
@@ -233,18 +226,6 @@ fun CardImageSection(pictures : List<Int> , rating: Double){
 @Composable
 fun PreviewRestaurantCard() {
     val restaurants =
-        Restaurant(
-            name = "Pizzaz",
-            location = "Downtown",
-            rating = 4.5,
-            reviews = 120,
-            phone = "123-456-7890",
-            email = "contact@pizzaz.com",
-            instagram = "@pizzaz",
-            facebook = "Pizzaz",
-            locationImage = R.drawable.img_map_location,
-            restaurantPictures = listOf(R.drawable.img_food_one, R.drawable.img_food_two, R.drawable.img_food_three),
-            topPicks = listOf("Pizza", "Burgers", "Tacos", "Sandwiches", "Desserts")
-        )
-    RestaurantCard(restaurant = restaurants, onDetailsClick = { /* Navigate to details */ })
+        restaurant1
+    RestaurantCard(restaurant = restaurants, navController = rememberNavController())
 }

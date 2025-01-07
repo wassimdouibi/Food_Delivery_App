@@ -38,7 +38,7 @@ val AccentPink = Color(0xFFFDC9D2)
 
 val UtilityActive = Color(0xFF1814E4)
 val UtilityInfo = Color(0xFF91D7E0)
-val UtilityWarning = Color(0xFFD600)
+val UtilityWarning = Color(0xFFFFD600)
 val UtilityError = Color(0xFFFF5A5A)
 val UtilitySuccess = Color(0xFF00B505)
 val UtilityDarkBackground = Color(0xFF393939)
