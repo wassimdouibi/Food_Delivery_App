@@ -27,6 +27,7 @@ import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun SignupCard(
@@ -37,10 +38,38 @@ fun SignupCard(
     // State variables for input values
     var emailValue by remember { mutableStateOf("") }
     var passwordValue by remember { mutableStateOf("") }
-    val authState by authViewModel.authState.collectAsState()
+
     val context = LocalContext.current
+    val authState by authViewModel.authState.collectAsState()
 
-
+    // Show loading state if necessary
+    if (authState is AuthState.Loading) {
+        CircularProgressIndicator(
+            modifier = Modifier.size(24.dp),
+            color = LocalCustomColorScheme.current.ink500
+        )
+    }
+    // Handle auth state changes
+    LaunchedEffect(authState) {
+        when (authState) {
+            is AuthState.Success -> {
+                Toast.makeText(
+                    context,
+                    "Successfully signed up",
+                    Toast.LENGTH_SHORT
+                ).show()
+                navController.navigate(Screen.EditProfileView.route)
+            }
+            is AuthState.Error -> {
+                Toast.makeText(
+                    context,
+                    (authState as AuthState.Error).message,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            else -> {} // Handle other states if needed
+        }
+    }
 
     Card(
         modifier = modifier,
@@ -75,12 +104,13 @@ fun SignupCard(
 
             FilledTextButton(
                 onClick = {
-                    if (emailValue != "" && passwordValue != "") {
-                        authViewModel.register(
-                            email = emailValue,
-                            password = passwordValue
-                        )
-                        navController.navigate(Screen.EditProfileView.route)
+                    if (emailValue.isNotEmpty() && passwordValue.isNotEmpty()) {
+                        CoroutineScope(Dispatchers.IO).launch {
+                            authViewModel.register(
+                                email = emailValue,
+                                password = passwordValue
+                            )
+                        }
                     } else {
                         Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show()
                     }

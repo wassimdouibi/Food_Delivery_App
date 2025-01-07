@@ -10,6 +10,7 @@ import com.example.food_delivery_app.auth.data.entity.AuthPreferences
 import com.example.food_delivery_app.auth.data.service.response.AuthResponse
 import com.example.food_delivery_app.auth.data.entity.UserRepository
 import com.example.food_delivery_app.auth.data.service.request.RegisterRequest
+import com.example.food_delivery_app.navigation.Screen
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
