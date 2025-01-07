@@ -80,12 +80,12 @@ class MainActivity : ComponentActivity() {
                         onClick = {}
                     )
 
-                //Navigation(rememberNavController())
-               // PreviewRestaurantCard()
-                //PreviewHomeScreen()
-               // PreviewCustomerReview()
-                //previewRestDetailsScreen()
-                /*Column( ){
+                    //Navigation(rememberNavController())
+                    // PreviewRestaurantCard()
+                    //PreviewHomeScreen()
+                    // PreviewCustomerReview()
+                    //previewRestDetailsScreen()
+                    /*Column( ){
                     BorderlessTextButton(
                         onClick = { /* Handle click action */ },
                         textContent = "Click Me"
@@ -126,15 +126,13 @@ class MainActivity : ComponentActivity() {
                     )
                 }*/
 
+                }
             }
         }
     }
-}
 
 
-
-
-//                    Column(
+    //                    Column(
 //                        modifier = Modifier
 //                            .fillMaxSize()
 //                            .systemBarsPadding()
@@ -202,8 +200,8 @@ class MainActivity : ComponentActivity() {
 //                            modifier = Modifier.padding(16.dp)
 //                        )
 //                    }
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
+    @Composable
+    fun Greeting(name: String, modifier: Modifier = Modifier) {
 //    Column {
 //        SquareIconButton(
 //            onClick = {},
@@ -267,39 +265,40 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 //            enabled = false
 //        )
 //    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Food_Delivery_AppTheme {
-        Greeting("Android")
     }
-}
 
-/*@Composable
-fun Navigation(navController : NavHostController){
-
-    NavHost(navController = navController, startDestination = "home") {
-        composable("home") {
-            HomeScreen(
-                cuisines = cuisinesList,
-                categories = categoriesList,
-                restaurants = listOf(restaurant1, restaurant2, restaurant3),
-                navController = navController
-            )
-        }
-        composable(
-            "restaurant_details/{restaurantId}",
-            arguments = listOf(navArgument("restaurantId") { type = NavType.IntType })
-        ) { backStackEntry ->
-            val restaurantId = backStackEntry.arguments?.getInt("restaurantId")
-            RestaurantDetailsScreen(navController , restaurant1)
-        }
-        composable("restdetail") {
-            RestaurantDetailsScreen(
-                navController = navController, restaurant1
-            )
+    @Preview(showBackground = true)
+    @Composable
+    fun GreetingPreview() {
+        Food_Delivery_AppTheme {
+            Greeting("Android")
         }
     }
-}*/
+
+    /*@Composable
+    fun Navigation(navController: NavHostController) {
+
+        NavHost(navController = navController, startDestination = "home") {
+            composable("home") {
+                HomeScreen(
+                    cuisines = cuisinesList,
+                    categories = categoriesList,
+                    restaurants = listOf(restaurant1, restaurant2, restaurant3),
+                    navController = navController
+                )
+            }
+            composable(
+                "restaurant_details/{restaurantId}",
+                arguments = listOf(navArgument("restaurantId") { type = NavType.IntType })
+            ) { backStackEntry ->
+                val restaurantId = backStackEntry.arguments?.getInt("restaurantId")
+                RestaurantDetailsScreen(navController, restaurant1)
+            }
+            composable("restdetail") {
+                RestaurantDetailsScreen(
+                    navController = navController, restaurant1
+                )
+            }
+        }
+    }*/
+}
