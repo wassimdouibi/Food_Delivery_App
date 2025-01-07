@@ -107,7 +107,7 @@ sealed class BottomNavItem(
 
 @Composable
 fun BottomBar(
-    navController: NavHostController,
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
     val screens = listOf(
