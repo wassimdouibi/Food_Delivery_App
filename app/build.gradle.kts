@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.googleid)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -75,10 +76,10 @@ dependencies {
     implementation("com.airbnb.android:lottie-compose:5.2.0")
 
     // Google Sign-In
-    implementation("com.google.android.gms:play-services-auth:20.0.0")
-    implementation("androidx.credentials:credentials:1.3.0-alpha04")
-    implementation("androidx.credentials:credentials-play-services-auth:1.3.0-alpha04")
-    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.0")
+    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+    implementation ("com.google.android.gms:play-services-auth:20.7.0")
+    implementation ("com.google.firebase:firebase-auth:22.1.1")
+
 
     //Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -97,4 +98,13 @@ dependencies {
 
     // Material 3 extended
     implementation("androidx.compose.material:material-icons-extended:1.5.0")
+
+    // Communicating with the backend project
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+    implementation("com.google.code.gson:gson:2.10.1")
+
+    // Storing Data in local
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+
 }

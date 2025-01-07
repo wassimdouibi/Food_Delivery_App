@@ -4,6 +4,8 @@
     <!--    Splash Screen   -->
     <string name="app_name">Food</string>
     <string name="slogan">Votre nourriture est à portée de main !</string>
+    <string name="default_web_client_id">998483298414-1tqdqeu9ucotg9p0gk10bgp05f3hov5v.apps.googleusercontent.com</string>
+
 
     <string name="Onboarding_cta_next">Suivant</string>
     <string name="Onboarding_cta_back">Retour</string>
@@ -39,6 +41,7 @@
     <string name="input_last_name">Nom</string>
     <string name="input_email">Email</string>
     <string name="input_phone_number">Numéro de téléphone</string>
+    <string name="input_email_or_phone_number">Numéro de téléphone ou e-mail</string>
     <string name="input_password">Mot de passe</string>
     <string name="privacy_and_policy_message">En sélectionnant "Accepter et continuer", j\'accepte les Conditions d\'utilisation, les Conditions de paiement et la Politique de notification de Dynamic Layers et je reconnais la Politique de confidentialité.</string>
     <string name="user_registered">Vous avez déjà un compte ?</string>

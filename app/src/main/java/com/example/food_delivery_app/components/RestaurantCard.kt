@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.food_delivery_app.ui.theme.CustomTypographyScheme
+import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
 import com.example.food_delivery_app.ui.theme.defaultCustomColorScheme
 import com.example.food_delivery_app.ui.theme.defaultCustomTypographyScheme
 
@@ -99,12 +100,19 @@ fun RestaurantCard(
                 }
 
         }
-            FilledTextButtonWithIcon(
-                onClick = {  },
+            FilledTextButton(
+                onClick = { navController.navigate("restdetail")},
                 textContent = "Details",
-                iconDescription = "info",
-                shape = RoundedCornerShape(2.dp)
-
+                textStyle = LocalCustomTypographyScheme.current.p_smallSemiBold,
+                icon = ButtonIcon.Right(
+                    IconType.VectorIcon(
+                        imageVector = Icons.Default.Info,
+                        iconDescription = "Info"
+                    )
+                ),
+                modifier = Modifier.clip(
+                    RoundedCornerShape(2.dp)
+                )
             )
 
         }
@@ -126,12 +134,11 @@ fun RestaurantCard(
         ) {
             items(restaurant.topPicks ?: emptyList()) { pick ->
                 Box(
-                    modifier = Modifier
-                        .background(
-                            color = Color.White,
-                            //shape = RoundedCornerShape(16.dp)
-                        )
-                        .border(width = 2.dp, color = defaultCustomColorScheme.ink300)
+                    modifier = Modifier.background(
+                        color = Color.White,
+                        //shape = RoundedCornerShape(16.dp)
+                    )
+                        .border(width = 2.dp , color = defaultCustomColorScheme.ink300)
                         .padding(horizontal = 16.dp, vertical = 8.dp)
 
                         )
@@ -153,9 +160,7 @@ fun RestaurantCard(
 fun CardImageSection(pictures : List<Int> , rating: Double){
     // Image Section
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(260.dp)
+        modifier = Modifier.fillMaxWidth().height(260.dp)
 
     ) {
         // Left: Main Image

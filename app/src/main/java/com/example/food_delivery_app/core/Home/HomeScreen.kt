@@ -1,4 +1,4 @@
-package com.example.food_delivery_app.core
+package com.example.food_delivery_app.core.Home
 
 import com.example.food_delivery_app.R
 import androidx.compose.foundation.Image

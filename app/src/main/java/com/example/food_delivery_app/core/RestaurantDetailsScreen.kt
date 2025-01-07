@@ -54,6 +54,7 @@ import com.example.food_delivery_app.components.PreviewCustomerReview
 import com.example.food_delivery_app.components.Restaurant
 import com.example.food_delivery_app.components.RestaurantCard
 import com.example.food_delivery_app.components.restaurant1
+import com.example.food_delivery_app.core.Home.SectionTitle
 import com.example.food_delivery_app.ui.theme.defaultCustomColorScheme
 import com.example.food_delivery_app.ui.theme.defaultCustomTypographyScheme
 

@@ -73,7 +73,16 @@ fun SignupCard(
             FilledTextButton(
                 onClick = {
                     CoroutineScope(Dispatchers.IO).launch {
-                        authViewModel.register()
+                        authViewModel.register(
+                            email = emailValue.value,
+                            password = passwordValue.value
+                        )
+
+                        navController.navigate(Screen.EditProfileView.route) {
+                            popUpTo(Screen.Signup.route) {
+                                inclusive = true
+                            }
+                        }
                     }
 
                 },

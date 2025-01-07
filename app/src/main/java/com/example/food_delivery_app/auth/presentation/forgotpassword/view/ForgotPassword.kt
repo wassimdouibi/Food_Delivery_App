@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
 import com.example.food_delivery_app.R
 import com.example.food_delivery_app.auth.presentation.components.BackUpBar
 import com.example.food_delivery_app.components.ButtonIcon
@@ -31,7 +31,7 @@ import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
 
 @Composable
 fun ForgotPassword(
-    navController: NavHostController
+    navController: NavController
 ) {
     Column(
         modifier = Modifier
@@ -60,7 +60,7 @@ fun ForgotPassword(
         )
 
         var selectedWay by remember {
-            mutableStateOf("SMS")
+            mutableStateOf("Email")
         }
 
         Row(

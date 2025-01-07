@@ -26,6 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
@@ -34,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.food_delivery_app.R
+import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
 import com.example.food_delivery_app.ui.theme.defaultCustomColorScheme
 import com.example.food_delivery_app.ui.theme.defaultCustomTypographyScheme
 
@@ -117,13 +119,19 @@ fun FoodMenuCard(
 
 
             }
-            FilledTextButtonWithIcon(
+            FilledTextButton(
                 onClick = {},
                 textContent = "Order",
-                icon = Icons.Filled.Info,  // Use any icon you prefer
-                iconDescription = "info",
-                shape = RoundedCornerShape(2.dp)
-
+                textStyle = LocalCustomTypographyScheme.current.p_smallSemiBold,
+                icon = ButtonIcon.Right(
+                    IconType.VectorIcon(
+                        imageVector = Icons.Default.Info,
+                        iconDescription = "Info"
+                    )
+                ),
+                modifier = Modifier.clip(
+                    RoundedCornerShape(2.dp)
+                )
             )
 
         }
