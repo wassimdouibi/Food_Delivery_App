@@ -6,7 +6,11 @@ sealed class Screen(val route:String) {
     object Login:Screen("/login")
     object Signup:Screen("/signup")
     object ForgotPassword:Screen("/forgot_password")
-    object OTPScreen:Screen("/otp_screen")
+    object OTPScreen:Screen("/otp_screen/{email}") {
+        fun getScreen(email: String):String {
+            return this.route.replace("{email}", email)
+        }
+    }
     object ResetPassword:Screen("/reset_password")
     object EditProfileView:Screen("/edit_profile_view")
     object ProfileView:Screen("/profile_view")

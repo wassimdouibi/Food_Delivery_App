@@ -1,5 +1,7 @@
 package com.example.food_delivery_app.auth.presentation.forgotpassword.view
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -15,24 +17,50 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.food_delivery_app.R
 import com.example.food_delivery_app.auth.presentation.components.BackUpBar
-import com.example.food_delivery_app.components.ButtonIcon
-import com.example.food_delivery_app.components.FilledTextButton
-import com.example.food_delivery_app.components.IconType
-import com.example.food_delivery_app.navigation.Screen
 import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
 import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
-
+import kotlinx.coroutines.launch
+import androidx.compose.runtime.rememberCoroutineScope
+import com.example.food_delivery_app.auth.domain.AuthViewModel
+import com.example.food_delivery_app.components.*
+import com.example.food_delivery_app.navigation.Screen
+import com.example.food_delivery_app.utils.Resource
 
 @Composable
 fun ForgotPassword(
-    navController: NavController
+    navController: NavController,
+    authViewModel: AuthViewModel, // Use the correct ViewModel type here
 ) {
+    var email by remember { mutableStateOf("") }
+
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope() // Get the coroutine scope
+
+    val verificationState = authViewModel.sendVerificationState.collectAsState()
+
+    // Handle verification state
+    LaunchedEffect(verificationState.value) {
+        when (val state = verificationState.value) {
+            is Resource.Success -> {
+                Toast.makeText(context, state.data!!.message, Toast.LENGTH_SHORT).show()
+                // Navigate to OTP screen with the email
+                navController.navigate(Screen.OTPScreen.getScreen(email))
+            }
+            is Resource.Error -> {
+                Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
+            }
+            else -> {} // Handle other states if needed
+        }
+    }
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -59,94 +87,25 @@ fun ForgotPassword(
             style = LocalCustomTypographyScheme.current.p_large,
         )
 
-        var selectedWay by remember {
-            mutableStateOf("Email")
-        }
+        var selectedWay by remember { mutableStateOf("Email") }
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .border(
-                    width = if (selectedWay == "SMS") 2.dp else 1.dp,
-                    color = if (selectedWay == "SMS") LocalCustomColorScheme.current.primary400 else LocalCustomColorScheme.current.ink100,
-                    shape = RoundedCornerShape(size = 8.dp)
-                )
-                .clip(RoundedCornerShape(size = 8.dp))
-                .clickable {
-                    selectedWay = "SMS"
-                }
-                .padding(15.dp)
-
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(75.dp)
-                    .clip(CircleShape)
-                    .background(LocalCustomColorScheme.current.primary100)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.chat_bold),
-                    contentDescription = "SMS",
-                    colorFilter = ColorFilter.tint(
-                        LocalCustomColorScheme.current.primary500
-                    ),
-                    modifier = Modifier
-                        .size(32.dp)
-                        .align(Alignment.Center)
-                )
-            }
-            Spacer(modifier = Modifier.width(15.dp))
-
-            Column {
-                Text(text = stringResource(R.string.via_sms), style = LocalCustomTypographyScheme.current.p_medium)
-                Text(text = "+213 5 -------3", style = LocalCustomTypographyScheme.current.p_mediumBold)
-            }
-
-        }
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .border(
-                    width = if (selectedWay == "Email") 2.dp else 1.dp,
-                    color = if (selectedWay == "Email") LocalCustomColorScheme.current.primary400 else LocalCustomColorScheme.current.ink100,
-                    shape = RoundedCornerShape(size = 15.dp)
-                )
-                .clip(RoundedCornerShape(size = 15.dp))
-                .clickable {
-                    selectedWay = "Email"
-                }
-                .padding(15.dp)
-
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(75.dp)
-                    .clip(CircleShape)
-                    .background(LocalCustomColorScheme.current.primary100),
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.message_bold),
-                    contentDescription = "Email",
-                    colorFilter = ColorFilter.tint(
-                        LocalCustomColorScheme.current.primary500
-                    ),
-                    modifier = Modifier
-                        .size(32.dp)
-                        .align(Alignment.Center)
-
-                )
-            }
-
-            Spacer(modifier = Modifier.width(15.dp))
-
-            Column {
-                Text(text = stringResource(R.string.via_email), style = LocalCustomTypographyScheme.current.p_medium)
-                Text(text = "lw---------@---.dz", style = LocalCustomTypographyScheme.current.p_mediumBold)
-            }
-
+        Column {
+            // Email Option
+            ContactOption(
+                title = stringResource(R.string.via_email),
+                subtitle = "Enter your email to send the verification code",
+                iconRes = R.drawable.message_bold,
+                isSelected = selectedWay == "Email",
+                onClick = { selectedWay = "Email" }
+            )
+            Spacer(modifier =  Modifier.height(8.dp))
+            // Email or phone number Input
+            EmailInput(
+                value = email,
+                onValueChange = { email = it },
+                modifier = Modifier.fillMaxWidth(),
+                placeholder = stringResource(R.string.input_email)
+            )
         }
 
         FilledTextButton(
@@ -160,9 +119,71 @@ fun ForgotPassword(
                 )
             ),
             onClick = {
-                navController.navigate(Screen.OTPScreen.route)
-            }
-        )
+                if (email.isEmpty()) {
+                    Toast.makeText(
+                        context,
+                        "Email is required",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@FilledTextButton
+                }
 
+                coroutineScope.launch {
+                    authViewModel.sendVerification(
+                        email = email
+                    )
+                }
+            },
+        )
+    }
+}
+
+
+@Composable
+fun ContactOption(
+    title: String,
+    subtitle: String? = null,
+    iconRes: Int,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .border(
+                width = if (isSelected) 2.dp else 1.dp,
+                color = if (isSelected) LocalCustomColorScheme.current.primary400 else LocalCustomColorScheme.current.ink100,
+                shape = RoundedCornerShape(size = 8.dp)
+            )
+            .clip(RoundedCornerShape(size = 8.dp))
+            .clickable { onClick() }
+            .padding(15.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .size(75.dp)
+                .clip(CircleShape)
+                .background(LocalCustomColorScheme.current.primary100)
+        ) {
+            Image(
+                painter = painterResource(id = iconRes),
+                contentDescription = title,
+                colorFilter = ColorFilter.tint(
+                    LocalCustomColorScheme.current.primary500
+                ),
+                modifier = Modifier
+                    .size(32.dp)
+                    .align(Alignment.Center)
+            )
+        }
+
+        Spacer(modifier = Modifier.width(15.dp))
+
+        Column {
+            Text(text = title, style = LocalCustomTypographyScheme.current.p_medium)
+            if(subtitle != null)
+                Text(text = subtitle, style = LocalCustomTypographyScheme.current.p_mediumBold)
+        }
     }
 }

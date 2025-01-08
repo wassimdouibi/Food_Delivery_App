@@ -1,12 +1,11 @@
 package com.example.food_delivery_app.auth.data.service
 
 import com.example.food_delivery_app.auth.data.entity.*
-import com.example.food_delivery_app.auth.data.service.request.GoogleLoginRequest
-import com.example.food_delivery_app.auth.data.service.request.LoginRequest
-import com.example.food_delivery_app.auth.data.service.request.RegisterRequest
-import com.example.food_delivery_app.auth.data.service.request.UserFieldsRequest
+import com.example.food_delivery_app.auth.data.service.request.*
 import com.example.food_delivery_app.auth.data.service.response.AuthResponse
+import com.example.food_delivery_app.auth.data.service.response.SendVerificationResponse
 import com.example.food_delivery_app.auth.data.service.response.UserFieldResponse
+import com.example.food_delivery_app.auth.data.service.response.VerificationCodeResponse
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -36,4 +35,10 @@ interface UserApi {
 
     @PUT("users/update-phone-number")
     suspend fun updatePhoneNumber(@Body request: UpdatePhoneNumberRequest): Response<UserFieldResponse>
+
+    @POST("users/send-verification")
+    suspend fun sendVerification(@Body request: SendVerificationRequest): Response<SendVerificationResponse>
+
+    @POST("users/verify-code")
+    suspend fun verifyCodeOTP(@Body request: VerificationCodeRequest): Response<SendVerificationResponse>
 }

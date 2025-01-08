@@ -19,6 +19,8 @@ import com.example.parkir.views.core.profile.ProfileView
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 import com.example.food_delivery_app.auth.data.entity.AuthPreferences
 import com.example.food_delivery_app.core.profile.domain.EditProfileViewModel
 
@@ -59,14 +61,31 @@ fun Navigation(
 
         composable(Screen.ForgotPassword.route) {
             ForgotPassword(
-                navController = navController
+                navController = navController,
+                authViewModel = authViewModel,
             )
         }
 
+//        composable(
+//            route = Screen.OTPScreen.route,
+//            arguments = listOf(navArgument("email") { type = NavType.StringType })
+//        ) { backStackEntry ->
+//            val email = backStackEntry.arguments?.getString("email") ?: ""
+//            OTPScreen(
+//                navController = navController,
+//                authViewModel = authViewModel,
+//                email = email
+//            )
+//        }
+
         composable(Screen.OTPScreen.route) {
-            OTPScreen(
-                navController = navController
-            )
+            navBackStackEntry ->
+                val email = navBackStackEntry.arguments?.getString("email")
+                OTPScreen(
+                    navController = navController,
+                    authViewModel = authViewModel,
+                    email = email!!
+                )
         }
 
         composable(Screen.ResetPassword.route) {
