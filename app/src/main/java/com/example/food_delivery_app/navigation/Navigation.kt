@@ -89,9 +89,14 @@ fun Navigation(
         }
 
         composable(Screen.ResetPassword.route) {
-            ResetPassword(
-                navController = navController
-            )
+            navBackStackEntry ->
+                val email = navBackStackEntry.arguments?.getString("email")
+
+                ResetPassword(
+                    navController = navController,
+                    authViewModel = authViewModel,
+                    email = email!!
+                )
         }
 
         composable(Screen.EditProfileView.route) {

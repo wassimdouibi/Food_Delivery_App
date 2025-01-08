@@ -14,26 +14,50 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import com.example.food_delivery_app.R
+import com.example.food_delivery_app.auth.domain.AuthViewModel
 import com.example.food_delivery_app.auth.presentation.components.BackUpBar
-import com.example.food_delivery_app.auth.presentation.components.CheckBoxBtn
 import com.example.food_delivery_app.auth.presentation.components.ResetPasswordSuccessBox
 import com.example.food_delivery_app.components.*
 import com.example.food_delivery_app.navigation.Screen
-import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
 import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
+import com.example.food_delivery_app.utils.Resource
+import kotlinx.coroutines.launch
 
 
 @Composable
 fun ResetPassword(
-    navController: NavController
+    navController: NavController,
+    authViewModel: AuthViewModel,
+    email: String
 ) {
-    val context = LocalContext.current
 
     var password by remember { mutableStateOf("") }
     var confirmationPassword by remember { mutableStateOf("") }
     var success by remember { mutableStateOf(false) }
+
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+    val verificationState = authViewModel.passwordResetState.collectAsState()
+    var isLoading by remember { mutableStateOf(false) }
+
+    LaunchedEffect(verificationState.value) {
+        when (val state = verificationState.value) {
+            is Resource.Loading -> {
+                isLoading = true
+            }
+            is Resource.Success -> {
+                success = true
+            }
+            is Resource.Error -> {
+                isLoading = false
+                Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+                isLoading = false
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -95,7 +119,12 @@ fun ResetPassword(
             ),
             onClick = {
                 if (password == confirmationPassword) {
-                    success = true
+                    coroutineScope.launch {
+                        authViewModel.updatePassword(
+                            email= email,
+                            password = password
+                        )
+                    }
 
                 } else {
                     Toast.makeText(context, "Passwords do not match", Toast.LENGTH_SHORT).show()

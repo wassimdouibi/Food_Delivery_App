@@ -58,7 +58,7 @@ fun OTPScreen(
             is Resource.Success -> {
                 isLoading = false
                 // Navigate to reset password screen
-                navController.navigate(Screen.ResetPassword.route)
+                navController.navigate(Screen.ResetPassword.getScreen(email))
             }
             is Resource.Error -> {
                 isLoading = false

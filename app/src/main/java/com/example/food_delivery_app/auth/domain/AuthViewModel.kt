@@ -6,8 +6,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.food_delivery_app.auth.data.entity.AuthPreferences
 import com.example.food_delivery_app.auth.data.service.response.AuthResponse
 import com.example.food_delivery_app.auth.data.entity.UserRepository
+import com.example.food_delivery_app.auth.data.service.request.ResetPasswordRequest
 import com.example.food_delivery_app.auth.data.service.request.SendVerificationRequest
 import com.example.food_delivery_app.auth.data.service.request.VerificationCodeRequest
+import com.example.food_delivery_app.auth.data.service.response.ResetPasswordResponse
 import com.example.food_delivery_app.auth.data.service.response.SendVerificationResponse
 import com.example.food_delivery_app.utils.Resource
 import kotlinx.coroutines.flow.*
@@ -181,7 +183,41 @@ class AuthViewModel (
                 )
             }
         }
+    }
 
+    private val _passwordResetState = MutableStateFlow<Resource<ResetPasswordResponse>>(Resource.Idle())
+    val passwordResetState = _passwordResetState.asStateFlow()
+    fun updatePassword(
+        email: String,
+        password: String
+    ) {
+        viewModelScope.launch {
+            _passwordResetState.value = Resource.Loading()
+            try {
+                val request = ResetPasswordRequest(
+                    email = email,
+                    phonenumber = null,  // Adjust if phone number is used
+                    newPassword = password
+                )
+                when (val result = repository.resetPassword(request)) {
+                    is UserRepository.VerificationResult.Success -> {
+                        _passwordResetState.value = Resource.Success(
+                            ResetPasswordResponse(
+                                result.message,
+                                "success"
+                            )
+                        )
+                    }
+                    is UserRepository.VerificationResult.Error -> {
+                        _passwordResetState.value = Resource.Error(
+                            result.message
+                        )
+                    }
+                }
+            } catch (e: Exception) {
+                _passwordResetState.value = Resource.Error(e.message ?: "An unexpected error occurred")
+            }
+        }
     }
 }
 

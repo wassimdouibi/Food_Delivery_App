@@ -2,10 +2,7 @@ package com.example.food_delivery_app.auth.data.service
 
 import com.example.food_delivery_app.auth.data.entity.*
 import com.example.food_delivery_app.auth.data.service.request.*
-import com.example.food_delivery_app.auth.data.service.response.AuthResponse
-import com.example.food_delivery_app.auth.data.service.response.SendVerificationResponse
-import com.example.food_delivery_app.auth.data.service.response.UserFieldResponse
-import com.example.food_delivery_app.auth.data.service.response.VerificationCodeResponse
+import com.example.food_delivery_app.auth.data.service.response.*
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -42,4 +39,7 @@ interface UserApi {
 
     @POST("users/verify-code")
     suspend fun verifyCodeOTP(@Body request: VerificationCodeRequest): Response<SendVerificationResponse>
+
+    @POST("users/reset-password")
+    suspend fun resetPassword(@Body request: ResetPasswordRequest): Response<ResetPasswordResponse>
 }

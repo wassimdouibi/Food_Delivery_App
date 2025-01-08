@@ -11,7 +11,11 @@ sealed class Screen(val route:String) {
             return this.route.replace("{email}", email)
         }
     }
-    object ResetPassword:Screen("/reset_password")
+    object ResetPassword:Screen("/reset_password{email}") {
+        fun getScreen(email: String):String {
+            return this.route.replace("{email}", email)
+        }
+    }
     object EditProfileView:Screen("/edit_profile_view")
     object ProfileView:Screen("/profile_view")
     object NotificationsSettingsView:Screen("/notification_settings_view")

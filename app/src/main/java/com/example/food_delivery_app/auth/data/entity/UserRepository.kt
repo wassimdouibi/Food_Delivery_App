@@ -4,7 +4,9 @@ import android.util.Log
 import com.example.food_delivery_app.auth.data.service.NetworkModule
 import com.example.food_delivery_app.auth.data.service.request.*
 import com.example.food_delivery_app.auth.data.service.response.AuthResponse
+import com.example.food_delivery_app.auth.data.service.response.ResetPasswordResponse
 import com.example.food_delivery_app.auth.data.service.response.UserFieldResponse
+import com.example.food_delivery_app.auth.domain.AuthViewModel
 import com.google.android.gms.common.api.Response
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -92,7 +94,6 @@ class UserRepository {
         return handleApiResponse { api.updateProfilePicture(request) }
     }
 
-    // Helper function to handle repetitive API response logic
     private inline fun <T> handleApiResponse(apiCall: () -> retrofit2.Response<T>): Result<T> {
         return try {
             val response = apiCall()
@@ -108,10 +109,6 @@ class UserRepository {
             Result.failure(e)
         }
     }
-
-
-
-
 
 
     sealed class VerificationResult {
@@ -167,6 +164,20 @@ class UserRepository {
         } catch (e: Exception) {
             Log.e("VerifyCodeError", "Error during code verification", e)
             VerificationResult.Error(e.message ?: "Network error occurred")
+        }
+    }
+
+
+    suspend fun resetPassword(request: ResetPasswordRequest): VerificationResult {
+        return try {
+            val response = api.resetPassword(request)
+            if (response.isSuccessful && response.body() != null) {
+                VerificationResult.Success(response.body()!!.message)
+            } else {
+                VerificationResult.Error(response.errorBody()?.string() ?: "Unknown error")
+            }
+        } catch (e: Exception) {
+            VerificationResult.Error("Failed: ${e.message}")
         }
     }
 
