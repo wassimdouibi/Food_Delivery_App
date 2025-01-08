@@ -9,11 +9,10 @@ import com.example.food_delivery_app.auth.data.entity.UserRepository
 import com.example.food_delivery_app.auth.data.service.request.SendVerificationRequest
 import com.example.food_delivery_app.auth.data.service.request.VerificationCodeRequest
 import com.example.food_delivery_app.auth.data.service.response.SendVerificationResponse
-import com.example.food_delivery_app.auth.data.service.response.VerificationCodeResponse
 import com.example.food_delivery_app.utils.Resource
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import javax.inject.Inject
+
 
 
 class AuthViewModel (
@@ -126,6 +125,7 @@ class AuthViewModel (
                             SendVerificationResponse(message = result.message, status = "success")
                         )
                     }
+
                     is UserRepository.VerificationResult.Error -> {
                         _sendVerificationState.value = Resource.Error(
                             message = result.message,
@@ -144,22 +144,29 @@ class AuthViewModel (
     }
 
 
-    // Add a MutableStateFlow for the verification state
-    private val _verificationState = MutableStateFlow<Resource<VerificationCodeResponse>>(Resource.Idle())
+    private val _verificationState = MutableStateFlow<Resource<SendVerificationResponse>>(Resource.Idle())
     val verificationState = _verificationState.asStateFlow()
 
     fun verifyCode(emailOrPhoneNumber: String, code: String) {
         viewModelScope.launch {
+            Log.d("VerifyCode", "Attempting verification with email: $emailOrPhoneNumber and code: $code")
             _verificationState.value = Resource.Loading()
             try {
-                val request = VerificationCodeRequest(emailOrPhoneNumber = emailOrPhoneNumber, code = code)
+                val request = VerificationCodeRequest(
+                    email = emailOrPhoneNumber,
+                    code = code
+                )
 
-                when (val result: UserRepository.VerificationResult = repository.verifyCodeOTP(request)) {
+                when (val result = repository.verifyCodeOTP(request)) {
                     is UserRepository.VerificationResult.Success -> {
                         _verificationState.value = Resource.Success(
-                            VerificationCodeResponse(message = result.message, status = "success")
+                            SendVerificationResponse(
+                                message = result.message,
+                                status = "success"
+                            )
                         )
                     }
+
                     is UserRepository.VerificationResult.Error -> {
                         _verificationState.value = Resource.Error(
                             message = result.message,
@@ -174,8 +181,8 @@ class AuthViewModel (
                 )
             }
         }
-    }
 
+    }
 }
 
 

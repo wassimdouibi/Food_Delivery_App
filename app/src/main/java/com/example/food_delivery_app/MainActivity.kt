@@ -18,6 +18,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import auth.presentation.forgotpassword.view.ResetPassword
 import com.example.food_delivery_app.auth.data.entity.AuthPreferences
 import com.example.food_delivery_app.auth.data.entity.UserRepository
 import com.example.food_delivery_app.auth.domain.AuthViewModel
@@ -57,7 +58,6 @@ class MainActivity : ComponentActivity() {
                         authViewModel = authViewModel,
                         pref = pref
                     )
-
                 }
             }
         }

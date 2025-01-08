@@ -24,8 +24,10 @@ import com.example.food_delivery_app.R
 import com.example.food_delivery_app.auth.domain.AuthViewModel
 import com.example.food_delivery_app.auth.presentation.components.BackUpBar
 import com.example.food_delivery_app.components.*
+import com.example.food_delivery_app.navigation.Screen
 import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
 import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
+import com.example.food_delivery_app.utils.Resource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -37,19 +39,39 @@ fun OTPScreen(
     authViewModel: AuthViewModel,
     email: String,
 ) {
-    val context: Context = LocalContext.current
-
-    LaunchedEffect(email) {
-        Log.d("OTPScreen", "Email received: $email")
-    }
-
     val focusRequesters = List(6) { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
     var otpChars = remember { mutableStateOf(List(6) { "" }) }
-
     var seconds by remember { mutableStateOf(59) }
 
+
+    val context: Context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
+    val verificationState = authViewModel.verificationState.collectAsState()
+    var isLoading by remember { mutableStateOf(false) }
+
+    LaunchedEffect(verificationState.value) {
+        when (val state = verificationState.value) {
+            is Resource.Loading -> {
+                isLoading = true
+            }
+            is Resource.Success -> {
+                isLoading = false
+                // Navigate to reset password screen
+                navController.navigate(Screen.ResetPassword.route)
+            }
+            is Resource.Error -> {
+                isLoading = false
+                Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
+                // Optionally clear the OTP input
+                otpChars.value = List(6) { "" }
+            }
+            else -> {
+                isLoading = false
+            }
+        }
+    }
+
 
     LaunchedEffect(Unit) {
         while (seconds > 0) {
@@ -57,6 +79,7 @@ fun OTPScreen(
             seconds -= 1
         }
     }
+
 
     Column(
         modifier = Modifier
@@ -150,7 +173,16 @@ fun OTPScreen(
         FilledTextButton(
             onClick = {
                 val otpString = otpChars.value.joinToString(separator = "")
-                Toast.makeText(context, otpString, Toast.LENGTH_SHORT).show()
+                if (otpString.length == 6) {
+                    coroutineScope.launch {
+                        authViewModel.verifyCode(
+                            emailOrPhoneNumber = email,
+                            code = otpString
+                        )
+                    }
+                } else {
+                    Toast.makeText(context, "Please enter a complete verification code", Toast.LENGTH_SHORT).show()
+                }
             },
 
             textContent = stringResource(R.string.cta_verify_code),

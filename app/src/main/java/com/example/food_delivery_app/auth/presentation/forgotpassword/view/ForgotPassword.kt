@@ -49,7 +49,6 @@ fun ForgotPassword(
     LaunchedEffect(verificationState.value) {
         when (val state = verificationState.value) {
             is Resource.Success -> {
-                Toast.makeText(context, state.data!!.message, Toast.LENGTH_SHORT).show()
                 // Navigate to OTP screen with the email
                 navController.navigate(Screen.OTPScreen.getScreen(email))
             }

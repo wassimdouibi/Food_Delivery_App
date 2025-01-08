@@ -6,6 +6,7 @@ import com.example.food_delivery_app.auth.data.service.request.*
 import com.example.food_delivery_app.auth.data.service.response.AuthResponse
 import com.example.food_delivery_app.auth.data.service.response.UserFieldResponse
 import com.google.android.gms.common.api.Response
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -150,16 +151,18 @@ class UserRepository {
 
     suspend fun verifyCodeOTP(request: VerificationCodeRequest): VerificationResult {
         return try {
-            val response = api.verifyCodeOTP(request) // Ensure this matches your ApiService definition
-            if (response.isSuccessful && response.body() != null) {
-                val body = response.body()!!
-                when (body.status) {
-                    "success" -> VerificationResult.Success(body.message)
-                    else -> VerificationResult.Error(body.message)
-                }
-            } else {
-                val errorBody = response.errorBody()?.string() ?: "Verification failed."
-                VerificationResult.Error(errorBody)
+            Log.d("VerifyCode", "Request body: ${Gson().toJson(request)}")  // Add this line
+            val response = api.verifyCodeOTP(request)
+            Log.d("VerifyCode", "Response code: ${response.code()}")  // Add this line
+            Log.d("VerifyCode", "Response body: ${response.errorBody()?.string()}") // Add this line
+
+            // Handle different status codes
+            when (response.code()) {
+                200 -> VerificationResult.Success(response.body()?.message ?: "Code verified successfully!")
+                401 -> VerificationResult.Error("Invalid verification code.")
+                404 -> VerificationResult.Error("No verification code found for the provided email.")
+                400 -> VerificationResult.Error("Email and verification code must be provided.")
+                else -> VerificationResult.Error("An error occurred during verification.")
             }
         } catch (e: Exception) {
             Log.e("VerifyCodeError", "Error during code verification", e)
