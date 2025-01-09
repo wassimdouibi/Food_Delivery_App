@@ -23,7 +23,10 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.example.food_delivery_app.auth.data.entity.AuthPreferences
 import com.example.food_delivery_app.components.restaurant1
+import com.example.food_delivery_app.components.restaurant2
+import com.example.food_delivery_app.components.restaurant3
 import com.example.food_delivery_app.core.Home.HomeScreen
+import com.example.food_delivery_app.core.HomeSearchResultScreen
 import com.example.food_delivery_app.core.RestaurantDetailsScreen
 import com.example.food_delivery_app.core.profile.domain.EditProfileViewModel
 
@@ -37,7 +40,7 @@ fun Navigation(
 
     NavHost(
         navController = navController,
-        startDestination = if (isLoggedIn) Screen.Home.route else Screen.Home.route
+        startDestination = if (isLoggedIn) Screen.ProfileView.route else Screen.Onboarding.route
     ) {
         composable(Screen.Splash.route) {
             Splash(navController = navController)
@@ -115,5 +118,17 @@ fun Navigation(
                 RestaurantDetailsScreen(navController, restaurantId)
         }
 
+        composable(
+            Screen.HomeSearchResult.route,
+            arguments = listOf(navArgument("initialSearchInput") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val initialSearchInput = backStackEntry.arguments?.getString("initialSearchInput") ?: ""
+            HomeSearchResultScreen(
+                navController = navController,
+                initialSearchInput = initialSearchInput,
+                restaurantList = listOf(restaurant1, restaurant2, restaurant3) // Pass full dataset
+            )
+
     }
+}
 }

@@ -8,6 +8,8 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -24,6 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -74,7 +77,17 @@ fun HomeScreen(
                 leadingIconVector = Icons.Default.Search,
                 trailingIconId = R.drawable.ri_equalizer_fill,
                 modifier = Modifier.fillMaxWidth(.9f).align(Alignment.CenterHorizontally),
-                changeShowFilterState = { showFilterState = !showFilterState}
+                changeShowFilterState = { showFilterState = !showFilterState},
+                keyboardActions = KeyboardActions(
+                    onSearch = {
+                        navController.navigate("search_results/${search}") {
+                            // Navigate to search results screen
+                        }
+                    }
+                ),
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Search
+                )
             )
             Spacer(modifier = Modifier.height(32.dp))
 

@@ -37,6 +37,7 @@ import com.example.food_delivery_app.auth.domain.AuthViewModel
 import com.example.food_delivery_app.auth.presentation.components.ResetPasswordSuccessBox
 import com.example.food_delivery_app.auth.presentation.login.view.Login
 import com.example.food_delivery_app.core.Home.HomeScreen
+import com.example.food_delivery_app.core.Home.PreviewHomeScreen
 import com.example.food_delivery_app.core.profile.EditProfileView
 import com.example.food_delivery_app.navigation.Navigation
 import com.example.food_delivery_app.onboarding.presentation.Onboarding
@@ -66,8 +67,8 @@ class MainActivity : ComponentActivity() {
                 ) { paddingValues ->  // Add paddingValues parameter
                     val context = LocalContext.current
                     val pref = context.getSharedPreferences("local", Context.MODE_PRIVATE)
-
-
+                    //PreviewHomeScreen()
+                    //PreviewHomeSearchResultScreen()
                     Navigation(
                         authViewModel = authViewModel,
                         pref = pref
