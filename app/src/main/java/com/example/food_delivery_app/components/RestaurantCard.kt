@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.food_delivery_app.ui.theme.CustomTypographyScheme
+import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
 import com.example.food_delivery_app.ui.theme.defaultCustomColorScheme
 import com.example.food_delivery_app.ui.theme.defaultCustomTypographyScheme
 
@@ -99,12 +100,19 @@ fun RestaurantCard(
                 }
 
         }
-            FilledTextButtonWithIcon(
-                onClick = {  },
+            FilledTextButton(
+                onClick = { navController.navigate("restaurant_details/${restaurant.id}") },
                 textContent = "Details",
-                iconDescription = "info",
-                shape = RoundedCornerShape(2.dp)
-
+                textStyle = LocalCustomTypographyScheme.current.p_smallSemiBold,
+                icon = ButtonIcon.Right(
+                    IconType.VectorIcon(
+                        imageVector = Icons.Default.Info,
+                        iconDescription = "Info"
+                    )
+                ),
+                modifier = Modifier.clip(
+                    RoundedCornerShape(2.dp)
+                )
             )
 
         }

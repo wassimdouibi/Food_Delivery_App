@@ -29,37 +29,34 @@ import androidx.compose.material3.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.food_delivery_app.auth.data.entity.AuthPreferences
+import com.example.food_delivery_app.auth.data.entity.UserRepository
 import com.example.food_delivery_app.auth.domain.AuthViewModel
 import com.example.food_delivery_app.auth.presentation.components.ResetPasswordSuccessBox
 import com.example.food_delivery_app.auth.presentation.login.view.Login
+import com.example.food_delivery_app.core.Home.HomeScreen
+import com.example.food_delivery_app.core.Home.PreviewHomeScreen
+import com.example.food_delivery_app.core.profile.EditProfileView
 import com.example.food_delivery_app.navigation.Navigation
+import com.example.food_delivery_app.onboarding.presentation.Onboarding
 
-var userId = 1;
 
 class MainActivity : ComponentActivity() {
+    private lateinit var authPreferences: AuthPreferences
 
-    private val authViewModel: AuthViewModel by viewModels {
-        AuthViewModel.Factory((application as FoodDeliveryApplication).authRepository)
-    }
-
-    private fun requestNotificationPermission() {
-        if (Build.VERSION.SDK_INT > -Build.VERSION_CODES.TIRAMISU) {
-            val hasPermission = ContextCompat.checkSelfPermission(
-                this, android.Manifest.permission.POST_NOTIFICATIONS
-            ) == PackageManager.PERMISSION_GRANTED
-            if (!hasPermission) {
-                ActivityCompat.requestPermissions(
-                    this, arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 0
-                )
-            }
-        }
-    }
-
-    @RequiresApi(34)
     override fun onCreate(savedInstanceState: Bundle?) {
-        requestNotificationPermission()
         super.onCreate(savedInstanceState)
+        authPreferences = AuthPreferences(applicationContext)
+
+        val authViewModel = AuthViewModel(
+            repository = UserRepository(),
+            authPreferences = authPreferences
+        )
+
+        // Request permissions after super.onCreate()
+        requestNotificationPermission()
         enableEdgeToEdge()
 
         setContent {
@@ -67,25 +64,80 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     modifier = Modifier
                         .fillMaxSize()
-                ) {
+                ) { paddingValues ->  // Add paddingValues parameter
                     val context = LocalContext.current
                     val pref = context.getSharedPreferences("local", Context.MODE_PRIVATE)
+                    //PreviewHomeScreen()
+                    //PreviewHomeSearchResultScreen()
+                    Navigation(
+                        authViewModel = authViewModel,
+                        pref = pref
+                    )
 
+
+                }
+            }
+        }
+    }
+
+    private fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val hasPermission = ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+
+            if (!hasPermission) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
+                    0
+                )
+            }
+        }
+    }
+
+
+//class MainActivity : ComponentActivity() {
+//    private fun requestNotificationPermission() {
+//        if (Build.VERSION.SDK_INT > -Build.VERSION_CODES.TIRAMISU) {
+//            val hasPermission = ContextCompat.checkSelfPermission(
+//                this, android.Manifest.permission.POST_NOTIFICATIONS
+//            ) == PackageManager.PERMISSION_GRANTED
+//            if (!hasPermission) {
+//                ActivityCompat.requestPermissions(
+//                    this, arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 0
+//                )
+//            }
+//        }
+//    }
+//
+//    @RequiresApi(34)
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        requestNotificationPermission()
+//        super.onCreate(savedInstanceState)
+//        enableEdgeToEdge()
+//
+//        setContent {
+//            Food_Delivery_AppTheme {
+//                Scaffold(
+//                    modifier = Modifier
+//                        .fillMaxSize()
+//                ) {
+//                    val context = LocalContext.current
+//                    val pref = context.getSharedPreferences("local", Context.MODE_PRIVATE)
+//
 //                    Navigation(
-//                        authViewModel = authViewModel,
+//                        authViewModel = viewModel(),
 //                        pref = pref
 //                    )
 
-                    ResetPasswordSuccessBox(
-                        onClick = {}
-                    )
 
-                    //Navigation(rememberNavController())
-                    // PreviewRestaurantCard()
-                    //PreviewHomeScreen()
-                    // PreviewCustomerReview()
-                    //previewRestDetailsScreen()
-                    /*Column( ){
+    // PreviewRestaurantCard()
+    //PreviewHomeScreen()
+    // PreviewCustomerReview()
+    //previewRestDetailsScreen()
+    /*Column( ){
                     BorderlessTextButton(
                         onClick = { /* Handle click action */ },
                         textContent = "Click Me"
@@ -126,10 +178,12 @@ class MainActivity : ComponentActivity() {
                     )
                 }*/
 
-                }
-            }
-        }
-    }
+
+//                }
+//            }
+//        }
+//    }
+//}
 
 
     //                    Column(
@@ -267,38 +321,34 @@ class MainActivity : ComponentActivity() {
 //    }
     }
 
-    @Preview(showBackground = true)
-    @Composable
-    fun GreetingPreview() {
-        Food_Delivery_AppTheme {
-            Greeting("Android")
+        @Composable
+        fun GreetingPreview() {
+            Food_Delivery_AppTheme {
+                Greeting("Android")
+            }
+        }
+
+        @Composable
+        fun Navigation2(navController: NavHostController) {
+
+            NavHost(navController = navController, startDestination = "home") {
+                composable("home") {
+                    HomeScreen(
+                        navController = navController
+                    )
+                }
+                composable(
+                    "restaurant_details/{restaurantId}",
+                    arguments = listOf(navArgument("restaurantId") { type = NavType.IntType })
+                ) { backStackEntry ->
+                    val restaurantId = backStackEntry.arguments?.getInt("restaurantId")
+                    RestaurantDetailsScreen(navController, restaurantId ?: 1 )
+                }
+                composable("restdetail") {
+                    RestaurantDetailsScreen(
+                        navController = navController, 1
+                    )
+                }
+            }
         }
     }
-
-    /*@Composable
-    fun Navigation(navController: NavHostController) {
-
-        NavHost(navController = navController, startDestination = "home") {
-            composable("home") {
-                HomeScreen(
-                    cuisines = cuisinesList,
-                    categories = categoriesList,
-                    restaurants = listOf(restaurant1, restaurant2, restaurant3),
-                    navController = navController
-                )
-            }
-            composable(
-                "restaurant_details/{restaurantId}",
-                arguments = listOf(navArgument("restaurantId") { type = NavType.IntType })
-            ) { backStackEntry ->
-                val restaurantId = backStackEntry.arguments?.getInt("restaurantId")
-                RestaurantDetailsScreen(navController, restaurant1)
-            }
-            composable("restdetail") {
-                RestaurantDetailsScreen(
-                    navController = navController, restaurant1
-                )
-            }
-        }
-    }*/
-}

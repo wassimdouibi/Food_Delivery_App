@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.food_delivery_app.R
 import com.example.food_delivery_app.components.BottomBar
@@ -27,7 +28,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavoritesScreen(
-    navController: NavHostController,
+    navController: NavController,
 ){
     var selectedIndex by remember { mutableStateOf(0) }
     var search by remember { mutableStateOf("") }

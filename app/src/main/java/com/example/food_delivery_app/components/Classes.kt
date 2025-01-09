@@ -2,7 +2,7 @@ package com.example.food_delivery_app.components
 
 import com.example.food_delivery_app.R
 
-
+/*rating food tetne7a */
 data class Food(
     val id : Int,
     val name : String,
@@ -28,7 +28,8 @@ data class Restaurant(
     val restaurantPictures: List<Int>, // List of images
     val topPicks: List<String>? , // Top picks tags
     val foodList : List<Food>,
-    val reviewsList: List<CustomerReview>?
+    val reviewsList: List<CustomerReview>?,
+    //val cuisine: Cuisine
 
 )
 
@@ -44,6 +45,7 @@ data class Cuisine(
     val name: String,
     val imageRes: Int
 )
+
 
 /************************ DATA ****************************/
 

@@ -104,6 +104,7 @@ data class Order(
 )
 
 data class Item(
+    //val id,
     val name: String,
     val price: Float,
     @DrawableRes val imageRes: Int, // Référence de l'image

@@ -1,143 +1,119 @@
 package com.example.food_delivery_app.auth.domain
 
+
 import android.content.Context
-import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.food_delivery_app.auth.data.entity.User
-import com.example.food_delivery_app.auth.data.repository.AuthRepository
-import com.example.food_delivery_app.auth.data.service.request.AuthRequest
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import com.example.food_delivery_app.auth.data.entity.AuthPreferences
+import com.example.food_delivery_app.auth.data.service.response.AuthResponse
+import com.example.food_delivery_app.auth.data.entity.UserRepository
+import com.example.food_delivery_app.auth.data.service.request.RegisterRequest
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import com.google.firebase.Firebase
-import com.google.firebase.messaging.messaging
-import kotlinx.coroutines.tasks.await
-import androidx.credentials.Credential
-import androidx.credentials.CredentialManager
-import androidx.credentials.GetCredentialRequest
-import androidx.credentials.exceptions.GetCredentialException
-import com.example.food_delivery_app.utils.PasswordGenerator
-import com.google.android.libraries.identity.googleid.GetGoogleIdOption
-import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
-import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 
 
-class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
+class AuthViewModel(
+    private val repository: UserRepository = UserRepository(),
+     val authPreferences: AuthPreferences
+) : ViewModel() {
+    private val _authState = MutableStateFlow<AuthState>(AuthState.Initial)
+    val authState: StateFlow<AuthState> = _authState.asStateFlow()
 
-    var email: String by mutableStateOf("lw_douibi@esi.dz")
-    var password: String by mutableStateOf("12345678")
-    var rememberMe: Boolean by mutableStateOf(false)
+    // Expose userId as StateFlow
+    private val _userId = MutableStateFlow<String?>(null)
+    val userId = _userId.asStateFlow()
 
-    var authStatus by mutableStateOf(false)
-    var userId by mutableStateOf(-1)
-    var user: User? by mutableStateOf<User?>(null)
-
-    fun login() {
+    init {
+        // Collect userId from preferences when ViewModel is created
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val body = AuthRequest(email = email, password = password)
-                val data = authRepository.login(body)
-                if (data.isSuccessful) {
-                    if (data.body() != null) {
-                        var  token = Firebase.messaging.token.await();
-                        Log.i("TOKENNE", token)
-                        userId = data.body()?.id?.toInt() ?: -1
-                        authRepository.saveUserId(userId)
-//                        authRepository.saveUser(data.body()!!)
-                        authStatus = true
-                    }
-                }
+            authPreferences.userId.collect { id ->
+                _userId.value = id
             }
         }
     }
 
-    fun register() {
+    // Check if user is logged in
+    val isLoggedIn: Flow<Boolean> = authPreferences.token.map { token ->
+        !token.isNullOrEmpty()
+    }
+
+    fun googleLogin(
+        googleId: String,
+        context: Context
+    ) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val body = AuthRequest(email = email, password = password)
-                val data = authRepository.register(body)
-                if (data.isSuccessful) {
-                    if (data.body() != null) {
-                        authStatus = true
-                    }
+            _authState.value = AuthState.Loading
+            repository.googleLogin(googleId)
+                .onSuccess { response ->
+                    authPreferences.saveAuthData(response.userId, response.token)
+                    _authState.value = AuthState.Success(response)
                 }
-            }
+                .onFailure { error ->
+                    _authState.value = AuthState.Error(error.message ?: "Unknown error")
+                    Toast.makeText(
+                        context,
+                        "Authentication failed",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
         }
     }
 
-    fun signInWthGoogle(context: Context) {
 
-        val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
-            .setFilterByAuthorizedAccounts(false) // Query all google accounts on the device
-            .setServerClientId("98997096205-7fn1pkd5mbomsuephopc7o092vgffuf2.apps.googleusercontent.com")
-            .build()
-
-        val request =
-            GetCredentialRequest.Builder().addCredentialOption(googleIdOption)
-                .build()
-
-        val credentialManager = CredentialManager.create(context)
-
-        CoroutineScope(Dispatchers.IO).launch {
+    fun login(email: String, password: String) {
+        viewModelScope.launch {
+            _authState.value = AuthState.Loading
             try {
-                val result =
-                    credentialManager.getCredential(context, request)
-
-                when (val credential = result.credential) {
-                    is Credential -> {
-                        if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
-                            try {
-                                val googleIdTokenCredential =
-                                    GoogleIdTokenCredential.createFrom(credential.data)
-
-                                val body = AuthRequest(
-                                    email = googleIdTokenCredential.id,
-                                    password = PasswordGenerator.generatePassword(50)
-                                )
-                                val data = authRepository.signInWithGoogle(body)
-                                if (data.isSuccessful) {
-                                    if (data.body() != null) {
-                                        authStatus = true
-                                    }
-                                }
-
-
-                                authStatus = true
-
-                            } catch (e: GoogleIdTokenParsingException) {
-                                Log.e("MainActivity", "GetCredentialException", e)
-                            }
-                        }
+                val result = repository.login(email, password)
+                result.fold(
+                    onSuccess = { response ->
+                        authPreferences.saveAuthData(response.userId, response.token)
+                        _authState.value = AuthState.Success(response)
+                    },
+                    onFailure = { exception ->
+                        _authState.value = AuthState.Error(exception.message ?: "Unknown error")
                     }
-
-                }
-            } catch (e: GetCredentialException) {
-                Log.e("MainActivity", "GetCredentialException", e)
+                )
+            } catch (e: Exception) {
+                _authState.value = AuthState.Error(e.message ?: "Unknown error")
             }
         }
-
     }
 
 
-//    suspend fun getSavedUser(id: Int){
-//        viewModelScope.launch {
-//            withContext(Dispatchers.IO) {
-//                user = authRepository.getUser(id)
-//            }
-//        }
-//    }
-
-    class Factory(private val authRepository: AuthRepository) :
-        ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return AuthViewModel(authRepository) as T
+    fun register(email: String, password: String) {
+        viewModelScope.launch {
+            _authState.value = AuthState.Loading
+            try {
+                val result = repository.register(email, password)
+                result.fold(
+                    onSuccess = { response ->
+                        authPreferences.saveAuthData(response.userId, response.token)
+                        _authState.value = AuthState.Success(response)
+                    },
+                    onFailure = { exception ->
+                        _authState.value = AuthState.Error(exception.message ?: "Unknown error")
+                    }
+                )
+            } catch (e: Exception) {
+                _authState.value = AuthState.Error(e.message ?: "Unknown error")
+            }
         }
     }
 
+    fun logout() {
+        viewModelScope.launch {
+            authPreferences.clearAuthData()
+            _authState.value = AuthState.Initial
+        }
+    }
+
+}
+
+sealed class AuthState {
+    object Initial : AuthState()
+    object Loading : AuthState()
+    data class Success(val data: AuthResponse) : AuthState()
+    data class Error(val message: String) : AuthState()
 }

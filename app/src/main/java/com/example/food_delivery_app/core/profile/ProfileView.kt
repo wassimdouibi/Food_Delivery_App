@@ -17,15 +17,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.food_delivery_app.R
 import com.example.food_delivery_app.components.*
+import com.example.food_delivery_app.navigation.Screen
 import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
 import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
 
 
 @Composable
 fun ProfileView(
-//    navController: NavHostController
+    navController: NavController
 ) {
     val scope = rememberCoroutineScope()
 
@@ -85,7 +87,7 @@ fun ProfileView(
                 title = stringResource(R.string.edit_profile_title),
                 icon = R.drawable.profile_outline
             ) {
-//                navController.navigate(Router.EditProfileScreen.route)
+                navController.navigate(Screen.EditProfileView.route)
             }
 
             ProfileItem(
@@ -99,7 +101,7 @@ fun ProfileView(
                 title = stringResource(R.string.notifications),
                 icon = R.drawable.notification_outlined
             ) {
-//                navController.navigate(Router.NotificationsSettingsScreen.route)
+                navController.navigate(Screen.NotificationsSettingsView.route)
             }
 
 
