@@ -35,4 +35,17 @@ interface AuthService {
 
     @POST("users/reset-password")
     suspend fun resetPassword(@Body request: ResetPasswordRequest): Response<ResetPasswordResponse>
+
+    companion object {
+        private var authInterface: AuthService? = null
+        fun getInstance(): AuthService {
+            if (authInterface == null) {
+                authInterface =
+                    Retrofit.Builder().baseUrl(NetworkModule.BASE_URL).addConverterFactory(
+                        GsonConverterFactory.create()
+                    ).build().create(AuthService::class.java)
+            }
+            return authInterface!!
+        }
+    }
 }

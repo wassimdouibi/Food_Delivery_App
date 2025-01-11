@@ -1,5 +1,7 @@
 package com.example.food_delivery_app.core.home.model.services.request
 
+import com.google.gson.annotations.SerializedName
+
 data class RestaurantRequest(
-    val restaurantId: Int
+    @SerializedName("restaurant_id") val restaurantId: Int
 )

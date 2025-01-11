@@ -16,7 +16,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.food_delivery_app.R
-import com.example.food_delivery_app.core.components.Cuisine
 import com.example.food_delivery_app.core.home.model.entity.Category
 import com.example.food_delivery_app.core.home.model.entity.CuisineType
 import com.example.food_delivery_app.ui.theme.Colors.defaultCustomColorScheme

@@ -1,6 +1,8 @@
 package com.example.food_delivery_app.core.favorites.model.service.request
 
+import com.google.gson.annotations.SerializedName
+
 data class AddFavoriteRestaurantRequest(
-    val userId : Int,
-    val restaurantId : Int
+    @SerializedName("user_id") val userId: Int,
+    @SerializedName("restaurant_id") val restaurantId: Int
 )

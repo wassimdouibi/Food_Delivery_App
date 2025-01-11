@@ -1,6 +1,7 @@
 package com.example.food_delivery_app.core.profile.model.service
 
 import com.example.food_delivery_app.NetworkModule
+import com.example.food_delivery_app.auth.Model.service.AuthService
 import com.example.food_delivery_app.auth.Model.service.request.*
 import com.example.food_delivery_app.auth.Model.service.response.UserFieldResponse
 import retrofit2.Response
@@ -25,4 +26,17 @@ interface ProfileService {
 
     @PUT("users/update-phone-number")
     suspend fun updatePhoneNumber(@Body request: UpdatePhoneNumberRequest): Response<UserFieldResponse>
+
+    companion object {
+        private var profileInterface: ProfileService? = null
+        fun getInstance(): ProfileService {
+            if (profileInterface == null) {
+                profileInterface =
+                    Retrofit.Builder().baseUrl(NetworkModule.BASE_URL).addConverterFactory(
+                        GsonConverterFactory.create()
+                    ).build().create(ProfileService::class.java)
+            }
+            return profileInterface!!
+        }
+    }
 }

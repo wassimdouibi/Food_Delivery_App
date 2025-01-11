@@ -22,29 +22,16 @@ class FoodDeliveryApplication : Application() {
 
 
     // Auth
-    val authService: AuthService by lazy {
-        retrofit.create(AuthService::class.java)
-    }
-    val authRepository: AuthRepository by lazy {
-        AuthRepository(authService)
-    }
+    private val authService by lazy { AuthService.getInstance() }
+    val authRepository: AuthRepository by lazy { AuthRepository(authService) }
 
     // Profile
-    val profileService: ProfileService by lazy {
-        retrofit.create(ProfileService::class.java)
-    }
-
-    val profileRepository: ProfileRepository by lazy {
-        ProfileRepository(profileService)
-    }
+    private val profileService: ProfileService by lazy { ProfileService.getInstance() }
+    val profileRepository: ProfileRepository by lazy { ProfileRepository(profileService) }
 
     // Home
-    val homeService: HomeService by lazy {
-        retrofit.create(HomeService::class.java)
-    }
-    val homeRepository: HomeRepository by lazy {
-        HomeRepository(homeService)
-    }
+    private val homeService: HomeService by lazy { HomeService.getInstance() }
+    val homeRepository: HomeRepository by lazy { HomeRepository(homeService) }
 
 //    // Orders
 //    val ordersService: OrdersService by lazy {
