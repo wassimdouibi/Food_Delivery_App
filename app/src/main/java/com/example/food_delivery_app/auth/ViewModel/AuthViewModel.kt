@@ -24,7 +24,7 @@ class AuthViewModel (val authRepository: AuthRepository, val authPreferences: Au
     private val _authState = MutableStateFlow<AuthState>(AuthState.Initial)
     val authState: StateFlow<AuthState> = _authState.asStateFlow()
     // Expose userId as StateFlow, initialized from preferences
-    private val _userId = MutableStateFlow<String?>(null)
+    private val _userId = MutableStateFlow<String?>("-1")
     val userId: StateFlow<String?> = _userId.asStateFlow()
     // Expose userMail as StateFlow, initialized from preferences
     private val _userMail = MutableStateFlow<String?>(null)
@@ -40,7 +40,7 @@ class AuthViewModel (val authRepository: AuthRepository, val authPreferences: Au
     init {
         viewModelScope.launch {
             authPreferences.userIdFlow.collect { savedUserId ->
-                _userId.value = savedUserId
+                _userId.value = savedUserId ?: "-1"
             }
         }
     }

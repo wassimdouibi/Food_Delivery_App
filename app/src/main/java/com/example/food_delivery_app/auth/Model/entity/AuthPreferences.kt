@@ -19,7 +19,7 @@ class AuthPreferences(private val context: Context) {
 
     // Retrieve the saved userId as a Flow
     val userIdFlow: Flow<String?> = context.dataStore.data
-        .map { preferences -> preferences[USER_ID_KEY] }
+        .map { preferences -> preferences[USER_ID_KEY] ?: "-1" }
 
     // Retrieve the saved token as a Flow
     val tokenFlow: Flow<String?> = context.dataStore.data

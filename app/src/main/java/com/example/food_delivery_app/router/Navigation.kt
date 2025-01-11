@@ -2,6 +2,8 @@ package com.example.food_delivery_app.router
 
 import android.content.SharedPreferences
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.navigation.compose.composable
 import com.example.food_delivery_app.auth.ViewModel.AuthViewModel
 import com.example.food_delivery_app.core.profile.view.EditProfileView
@@ -33,8 +35,8 @@ fun NavigationHost(
 //    ordersViewModel: OrdersViewModel,
 //    favoritesViewModel: FavoritesViewModel
 ) {
-    val newAccount = true
-    val startRouter = if (newAccount) Router.OnboardingScreen.route else Router.HomeScreen.route
+    val userId by authViewModel.userId.collectAsState()
+    val startRouter = if (userId == "-1") Router.Splash.route else Router.HomeScreen.route
 
     NavHost(navController = navController, startDestination = startRouter) {
         composable(Router.Splash.route) {

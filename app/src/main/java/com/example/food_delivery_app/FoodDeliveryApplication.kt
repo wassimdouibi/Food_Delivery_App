@@ -6,12 +6,8 @@ import com.example.food_delivery_app.auth.Model.repository.AuthRepository
 import com.example.food_delivery_app.auth.Model.service.AuthService
 import com.example.food_delivery_app.core.home.model.repository.HomeRepository
 import com.example.food_delivery_app.core.home.model.services.HomeService
-import com.example.food_delivery_app.core.orders.model.repository.OrdersRepository
-import com.example.food_delivery_app.core.orders.model.service.OrdersService
 import com.example.food_delivery_app.core.profile.model.repository.ProfileRepository
 import com.example.food_delivery_app.core.profile.model.service.ProfileService
-import com.example.food_delivery_app.core.favorites.model.repository.FavoritesRepository
-import com.example.food_delivery_app.core.favorites.model.service.FavoritesService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -49,7 +45,7 @@ class FoodDeliveryApplication : Application() {
     val homeRepository: HomeRepository by lazy {
         HomeRepository(homeService)
     }
-//
+
 //    // Orders
 //    val ordersService: OrdersService by lazy {
 //        retrofit.create(OrdersService::class.java)
