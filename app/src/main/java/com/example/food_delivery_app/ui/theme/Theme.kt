@@ -1,7 +1,5 @@
 package com.example.food_delivery_app.ui.theme
 
-import android.app.Activity
-import android.content.Context
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
@@ -9,8 +7,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.staticCompositionLocalOf
-import androidx.compose.ui.graphics.Color
+import com.example.food_delivery_app.ui.theme.Colors.ReferenceOrange400
+import com.example.food_delivery_app.ui.theme.Colors.ReferenceOrange500
+import com.example.food_delivery_app.ui.theme.Colors.defaultCustomColorScheme
+import com.example.food_delivery_app.ui.theme.Typography.defaultCustomTypographyScheme
 
 
 private val DarkColorScheme = darkColorScheme(

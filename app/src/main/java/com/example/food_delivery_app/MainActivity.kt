@@ -6,7 +6,6 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
@@ -16,180 +15,83 @@ import androidx.compose.material3.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
-import auth.presentation.forgotpassword.view.ResetPassword
-import com.example.food_delivery_app.auth.data.entity.AuthPreferences
-import com.example.food_delivery_app.auth.data.entity.UserRepository
-import com.example.food_delivery_app.auth.domain.AuthViewModel
-import com.example.food_delivery_app.auth.presentation.components.ResetPasswordSuccessBox
-import com.example.food_delivery_app.auth.presentation.login.view.Login
-import com.example.food_delivery_app.core.profile.EditProfileView
-import com.example.food_delivery_app.navigation.Navigation
-import com.example.food_delivery_app.onboarding.presentation.Onboarding
+import com.example.food_delivery_app.auth.ViewModel.AuthViewModel
+import com.example.food_delivery_app.core.home.viewModel.HomeViewModel
+import com.example.food_delivery_app.core.orders.viewModel.OrdersViewModel
+import com.example.food_delivery_app.router.NavigationHost
+import com.example.food_delivery_app.core.profile.viewmodel.ProfileViewModel
+import com.example.food_delivery_app.core.favorites.viewModel.FavoritesViewModel
 
 
 class MainActivity : ComponentActivity() {
-    private lateinit var authPreferences: AuthPreferences
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        authPreferences = AuthPreferences(applicationContext)
-
-        val authViewModel = AuthViewModel(
-            repository = UserRepository(),
-            authPreferences = authPreferences
+    private val authViewModel: AuthViewModel by viewModels {
+        AuthViewModel.Factory(
+            (application as FoodDeliveryApplication).authRepository,
+            (application as FoodDeliveryApplication).authPreferences
         )
-
-        // Request permissions after super.onCreate()
-        requestNotificationPermission()
-        enableEdgeToEdge()
-
-        setContent {
-            Food_Delivery_AppTheme {
-                Scaffold(
-                    modifier = Modifier
-                        .fillMaxSize()
-                ) { paddingValues ->  // Add paddingValues parameter
-                    val context = LocalContext.current
-                    val pref = context.getSharedPreferences("local", Context.MODE_PRIVATE)
-
-                    Navigation(
-                        authViewModel = authViewModel,
-                        pref = pref
-                    )
-                }
-            }
-        }
     }
+    private val profileViewModel: ProfileViewModel by viewModels {
+        ProfileViewModel.Factory(
+            (application as FoodDeliveryApplication).profileRepository
+        )
+    }
+//    private val homeViewModel: HomeViewModel by viewModels {
+//        HomeViewModel.Factory(
+//            (application as FoodDeliveryApplication).homeRepository
+//        )
+//    }
+//    private val ordersViewModel: OrdersViewModel by viewModels {
+//        OrdersViewModel.Factory(
+//            (application as FoodDeliveryApplication).ordersRepository
+//        )
+//    }
+//    private val favoritesViewModel: FavoritesViewModel by viewModels {
+//        FavoritesViewModel.Factory(
+//            (application as FoodDeliveryApplication).favoritesRepository
+//        )
+//    }
 
     private fun requestNotificationPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        if (Build.VERSION.SDK_INT > -Build.VERSION_CODES.TIRAMISU) {
             val hasPermission = ContextCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.POST_NOTIFICATIONS
+                this, android.Manifest.permission.POST_NOTIFICATIONS
             ) == PackageManager.PERMISSION_GRANTED
-
             if (!hasPermission) {
                 ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
-                    0
+                    this, arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 0
                 )
             }
         }
     }
+
+    @RequiresApi(34)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        requestNotificationPermission();
+        super.onCreate(savedInstanceState)
+
+        setContent {
+            Food_Delivery_AppTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    val navController = rememberNavController()
+                    val context = LocalContext.current
+                    val pref = context.getSharedPreferences("local_food_delivery_data", Context.MODE_PRIVATE)
+
+                    NavigationHost(
+                        navController = navController,
+                        authViewModel = authViewModel,
+                        profileViewModel = profileViewModel,
+//                        homeViewModel = homeViewModel,
+//                        ordersViewModel = ordersViewModel,
+//                        favoritesViewModel = favoritesViewModel,
+                        pref = pref
+                    )
+
+                }
+            }
+        }
+    }
 }
-
-
-
-//class MainActivity : ComponentActivity() {
-//    private fun requestNotificationPermission() {
-//        if (Build.VERSION.SDK_INT > -Build.VERSION_CODES.TIRAMISU) {
-//            val hasPermission = ContextCompat.checkSelfPermission(
-//                this, android.Manifest.permission.POST_NOTIFICATIONS
-//            ) == PackageManager.PERMISSION_GRANTED
-//            if (!hasPermission) {
-//                ActivityCompat.requestPermissions(
-//                    this, arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 0
-//                )
-//            }
-//        }
-//    }
-//
-//    @RequiresApi(34)
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        requestNotificationPermission()
-//        super.onCreate(savedInstanceState)
-//        enableEdgeToEdge()
-//
-//        setContent {
-//            Food_Delivery_AppTheme {
-//                Scaffold(
-//                    modifier = Modifier
-//                        .fillMaxSize()
-//                ) {
-//                    val context = LocalContext.current
-//                    val pref = context.getSharedPreferences("local", Context.MODE_PRIVATE)
-//
-//                    Navigation(
-//                        authViewModel = viewModel(),
-//                        pref = pref
-//                    )
-//                }
-//            }
-//        }
-//    }
-//}
-
-
-
-
-//                    Column(
-//                        modifier = Modifier
-//                            .fillMaxSize()
-//                            .systemBarsPadding()
-//                            .padding(horizontal = 16.dp),
-//                        verticalArrangement = Arrangement.Center,
-//                        horizontalAlignment = Alignment.CenterHorizontally
-//                    ){
-//                        OrderConfirmed(
-//                            orderLoc = "Warehouse A",
-//                            deliveryLoc = "Customer Address",
-//                            price = 1234.56f,
-//
-//                            onButton1Click = {},
-//                            onButton2Click = {},
-//
-//                            cardColor = LocalCustomColorScheme.current.utilityWhiteBackground
-//                        )
-//
-//                        OrderDelivered(
-//                            orderLoc = "Warehouse A",
-//                            deliveryLoc = "Customer Address",
-//                            price = 1234.56f,
-//
-//                            cardColor = LocalCustomColorScheme.current.utilityWhiteBackground
-//                        )
-//
-//                        OrderNotConfirmed(
-//                            price = 1234.56f,
-//                            onButton1Click = {},
-//                            onButton2Click = {}
-//                        )
-//                        EditItem(
-//                            text= "Add an item",
-//                            onClick={},
-//                            cardColor = LocalCustomColorScheme.current.primary100
-//                        )
-//                        ShopItem(
-//                           price=98.2f,
-//                           onClick = {},
-//                            cardColor = LocalCustomColorScheme.current.primary400
-//                        )
-//                        AddToCardOrder(
-//                            price=48f,
-//                            initialValue = 0 ,
-//                            onBtnTextLessClick={}
-//                        )
-//                        ItemCard(
-//                            itemName = "Burger",
-//                            price = 500f,
-//                            imageRes = R.drawable.pizza, // Image dans le répertoire drawable
-//                            noteTitle = "Note ",
-//                            noteContent = "le note xxxxxx", // Ou une chaîne de caractères non vide pour tester
-//                            onDeleteClick = { /* Handle item deletion */ },
-//                            onBtnTextLessClick = { /* Handle TextLess button click */ },
-//                            initialValue = 1, // Valeur initiale pour l'IncrementDecrementRow
-//                            modifier = Modifier.padding(16.dp)
-//                        )
-//                        ItemCardEmptyNote(
-//                            itemName = "Burger",
-//                            price = 500f,
-//                            imageRes = R.drawable.pizza, // Image dans le répertoire drawable
-//                            onDeleteClick = { /* Handle item deletion */ },
-//                            onBtnTextLessClick = { /* Handle TextLess button click */ },
-//                            initialValue = 1, // Valeur initiale pour l'IncrementDecrementRow
-//                            modifier = Modifier.padding(16.dp)
-//                        )
-//                    }

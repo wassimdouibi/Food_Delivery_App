@@ -1,9 +1,83 @@
-//package com.example.food_delivery_app
+package com.example.food_delivery_app
+
+import android.app.Application
+import com.example.food_delivery_app.auth.Model.entity.AuthPreferences
+import com.example.food_delivery_app.auth.Model.repository.AuthRepository
+import com.example.food_delivery_app.auth.Model.service.AuthService
+import com.example.food_delivery_app.core.home.model.repository.HomeRepository
+import com.example.food_delivery_app.core.home.model.services.HomeService
+import com.example.food_delivery_app.core.orders.model.repository.OrdersRepository
+import com.example.food_delivery_app.core.orders.model.service.OrdersService
+import com.example.food_delivery_app.core.profile.model.repository.ProfileRepository
+import com.example.food_delivery_app.core.profile.model.service.ProfileService
+import com.example.food_delivery_app.core.restaurants.model.repository.RestaurantRepository
+import com.example.food_delivery_app.core.restaurants.model.service.RestaurantService
+import com.example.food_delivery_app.core.favorites.model.repository.FavoritesRepository
+import com.example.food_delivery_app.core.favorites.model.service.FavoritesService
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
+class FoodDeliveryApplication : Application() {
+    private val retrofit = Retrofit.Builder()
+        .baseUrl(NetworkModule.BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+
+    lateinit var authPreferences: AuthPreferences
+
+
+    // Auth
+    val authService: AuthService by lazy {
+        retrofit.create(AuthService::class.java)
+    }
+    val authRepository: AuthRepository by lazy {
+        AuthRepository(authService)
+    }
+
+    // Profile
+    val profileService: ProfileService by lazy {
+        retrofit.create(ProfileService::class.java)
+    }
+
+    val profileRepository: ProfileRepository by lazy {
+        ProfileRepository(profileService)
+    }
+
+    // Restaurant
+//    val restaurantService: RestaurantService by lazy {
+//        retrofit.create(RestaurantService::class.java)
+//    }
+//    val restaurantRepository: RestaurantRepository by lazy {
+//        RestaurantRepository(restaurantService)
+//    }
 //
-//import android.app.Application
-//import com.example.food_delivery_app.auth.data.repository.AuthRepository
+//    // Home
+//    val homeService: HomeService by lazy {
+//        retrofit.create(HomeService::class.java)
+//    }
+//    val homeRepository: HomeRepository by lazy {
+//        HomeRepository(homeService)
+//    }
 //
-//class FoodDeliveryApplication : Application() {
-//    private val authService by lazy { AuthService.getInstance() }
-//    val authRepository by lazy { AuthRepository(authService, this) }
-//}
+//    // Orders
+//    val ordersService: OrdersService by lazy {
+//        retrofit.create(OrdersService::class.java)
+//    }
+//    val ordersRepository: OrdersRepository by lazy {
+//        OrdersRepository(ordersService)
+//    }
+//
+//    // Favorites
+//    val favoritesService: FavoritesService by lazy {
+//        retrofit.create(FavoritesService::class.java)
+//    }
+//    val favoritesRepository: FavoritesRepository by lazy {
+//        FavoritesRepository(favoritesService)
+//    }
+
+    override fun onCreate() {
+        super.onCreate()
+        authPreferences = AuthPreferences(this)
+    }
+}

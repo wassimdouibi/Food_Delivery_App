@@ -66,7 +66,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     // Navigation
-    implementation ("androidx.navigation:navigation-compose:2.8.3")
+    implementation ("androidx.navigation:navigation-compose:2.7.7")
 
     // Splash Screen Animation
     implementation("com.airbnb.android:lottie-compose:5.2.0")
