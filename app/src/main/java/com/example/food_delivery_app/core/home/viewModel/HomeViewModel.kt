@@ -1,43 +1,58 @@
 package com.example.food_delivery_app.core.home.viewModel
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.food_delivery_app.core.home.model.entity.Category
 import com.example.food_delivery_app.core.home.model.entity.CuisineType
 import com.example.food_delivery_app.core.home.model.repository.HomeRepository
-import com.example.food_delivery_app.core.restaurants.model.service.response.FoodResponse
-import com.example.food_delivery_app.core.restaurants.model.service.response.RestaurantResponse
+import com.example.food_delivery_app.core.home.model.services.response.FoodResponse
+import com.example.food_delivery_app.core.home.model.services.response.RestaurantResponse
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class HomeViewModel(val homeRepository: HomeRepository): ViewModel() {
     // Get All Food Categories
-    private val _foodCategories = mutableStateOf<List<Category>>(emptyList())
-    val foodCategories: State<List<Category>> = _foodCategories
+    private val _foodCategories = MutableStateFlow<List<Category>>(emptyList())
+    val foodCategories: StateFlow<List<Category>> = _foodCategories.asStateFlow()
     // -----------------------------------------------------------------------------------------------------------------------------
     // Get All Cuisine Types
-    private val _cuisineTypes = mutableStateOf<List<CuisineType>>(emptyList())
-    val cuisineTypes: State<List<CuisineType>> = _cuisineTypes
+    private val _cuisineTypes = MutableStateFlow<List<CuisineType>>(emptyList())
+    val cuisineTypes: StateFlow<List<CuisineType>> = _cuisineTypes
     // -----------------------------------------------------------------------------------------------------------------------------
     // Get All Restaurants of that Cuisine Type
-    private val _restaurantsFromSpecificCuisineType = mutableStateOf<List<RestaurantResponse>>(emptyList())
-    val restaurantsFromSpecificCuisineType: State<List<RestaurantResponse>> = _restaurantsFromSpecificCuisineType
+    private val _restaurantsFromSpecificCuisineType = MutableStateFlow<List<RestaurantResponse>>(emptyList())
+    val restaurantsFromSpecificCuisineType: StateFlow<List<RestaurantResponse>> = _restaurantsFromSpecificCuisineType
     // -----------------------------------------------------------------------------------------------------------------------------
     // Get All Foods of a specific category
-    private val _foodsFromSpecificCategory = mutableStateOf<List<FoodResponse?>>(emptyList())
-    val foodsFromSpecificCategory: State<List<FoodResponse?>> = _foodsFromSpecificCategory
+    private val _foodsFromSpecificCategory = MutableStateFlow<List<FoodResponse?>>(emptyList())
+    val foodsFromSpecificCategory: StateFlow<List<FoodResponse?>> = _foodsFromSpecificCategory
+    // -----------------------------------------------------------------------------------------------------------------------------
+    private val _restaurants = MutableStateFlow<List<RestaurantResponse>>(emptyList())
+    val restaurants: StateFlow<List<RestaurantResponse>> = _restaurants
+    // -----------------------------------------------------------------------------------------------------------------------------
+    private val _selectedRestaurant = MutableStateFlow<RestaurantResponse?>(null)
+    val selectedRestaurant: StateFlow<RestaurantResponse?> = _selectedRestaurant // get selected restaurant
+    // -----------------------------------------------------------------------------------------------------------------------------
+    private val _foodsFromRestaurant = MutableStateFlow<List<FoodResponse>>(emptyList())
+    val foodsFromRestaurant: StateFlow<List<FoodResponse>> = _foodsFromRestaurant // get all the foods from a specific restaurant
+    // -----------------------------------------------------------------------------------------------------------------------------
+    private val _selectedFood = MutableStateFlow<FoodResponse?>(null)
+    val selectedFood: StateFlow<FoodResponse?> = _selectedFood // get selected food
+    // -----------------------------------------------------------------------------------------------------------------------------
 
 
-
-    private val _isLoading = mutableStateOf(true)
-    val isLoading: State<Boolean> = _isLoading
-    private val _error = mutableStateOf<String?>(null)
-    val error: State<String?> = _error
-
+    // -----------------------------------------------------------------------------------------------------------------------------
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading = _isLoading.asStateFlow()
+    // -----------------------------------------------------------------------------------------------------------------------------
+    private val _error = MutableStateFlow<String?>(null)
+    val error = _error.asStateFlow()
+    // -----------------------------------------------------------------------------------------------------------------------------
 
 
     fun getCategories(){
@@ -48,7 +63,7 @@ class HomeViewModel(val homeRepository: HomeRepository): ViewModel() {
                 val response = withContext(Dispatchers.IO) {
                     homeRepository.getCategories()
                 }
-                _foodCategories.value = response
+                _foodCategories.emit(response)
             } catch (e: Exception) {
                 _error.value = e.message ?: "An unknown error occurred"
             } finally {
@@ -65,7 +80,7 @@ class HomeViewModel(val homeRepository: HomeRepository): ViewModel() {
                 val response = withContext(Dispatchers.IO) {
                     homeRepository.getCuisineTypes()
                 }
-                _cuisineTypes.value = response
+                _cuisineTypes.emit(response)
             } catch (e: Exception) {
                 _error.value = e.message ?: "An unknown error occurred"
             } finally {
@@ -82,7 +97,7 @@ class HomeViewModel(val homeRepository: HomeRepository): ViewModel() {
                 val response = withContext(Dispatchers.IO) {
                     homeRepository.getRestaurantsCuisineType(cuisineType)
                 }
-                _restaurantsFromSpecificCuisineType.value = response
+                _restaurantsFromSpecificCuisineType.emit(response)
             } catch (e: Exception) {
                 _error.value = e.message ?: "An unknown error occurred"
             } finally {
@@ -99,12 +114,81 @@ class HomeViewModel(val homeRepository: HomeRepository): ViewModel() {
                 val response = withContext(Dispatchers.IO) {
                     homeRepository.getFoodsFromSpecificCategory(foodCategory)
                 }
-                _foodsFromSpecificCategory.value = response
+                _foodsFromSpecificCategory.emit(response)
             } catch (e: Exception) {
                 _error.value = e.message ?: "An unknown error occurred"
             }
         }
     }
+
+    fun getAllRestaurants(){
+        viewModelScope.launch {
+            try {
+                _isLoading.value = true
+                _error.value = null
+                val response = withContext(Dispatchers.IO) {
+                    homeRepository.getAllRestaurants()
+                }
+                _restaurants.emit(response)
+            } catch (e: Exception) {
+                _error.value = e.message ?: "An unknown error occurred"
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun getRestaurantById(restaurantId: Int) {
+        viewModelScope.launch {
+            try {
+                _isLoading.value = true
+                _error.value = null
+                val response = withContext(Dispatchers.IO) {
+                    homeRepository.getRestaurantById(restaurantId)
+                }
+                _selectedRestaurant.emit(response)
+            } catch (e: Exception) {
+                _error.value = e.message ?: "An unknown error occurred"
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun getFoodsByRestaurantId(restaurantId: Int) {
+        viewModelScope.launch {
+            try {
+                _isLoading.value = true
+                _error.value = null
+                val response = withContext(Dispatchers.IO) {
+                    homeRepository.getFoodsByRestaurantId(restaurantId)
+                }
+                _foodsFromRestaurant.emit(response)
+            } catch (e: Exception) {
+                _error.value = e.message ?: "An unknown error occurred"
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun getFoodById(foodId: Int) {
+        viewModelScope.launch {
+            try {
+                _isLoading.value = true
+                _error.value = null
+                val response = withContext(Dispatchers.IO) {
+                    homeRepository.getFoodById(foodId)
+                }
+                _selectedFood.emit(response)
+            } catch (e: Exception) {
+                _error.value = e.message ?: "An unknown error occurred"
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
 
 
     class Factory(private val homeRepository: HomeRepository) :

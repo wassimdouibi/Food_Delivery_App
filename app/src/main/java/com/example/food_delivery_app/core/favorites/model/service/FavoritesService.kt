@@ -1,15 +1,12 @@
 package com.example.food_delivery_app.core.favorites.model.service
 
-import com.example.food_delivery_app.NetworkModule
-import com.example.food_delivery_app.core.restaurants.model.service.response.FoodResponse
-import com.example.food_delivery_app.core.restaurants.model.service.response.RestaurantResponse
+import com.example.food_delivery_app.core.home.model.services.response.FoodResponse
+import com.example.food_delivery_app.core.home.model.services.response.RestaurantResponse
 import com.example.food_delivery_app.core.favorites.model.service.request.AddFavoriteFoodRequest
 import com.example.food_delivery_app.core.favorites.model.service.request.AddFavoriteRestaurantRequest
 import com.example.food_delivery_app.core.favorites.model.service.response.AddFavoriteFoodResponse
 import com.example.food_delivery_app.core.favorites.model.service.response.AddFavoriteRestaurantResponse
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST

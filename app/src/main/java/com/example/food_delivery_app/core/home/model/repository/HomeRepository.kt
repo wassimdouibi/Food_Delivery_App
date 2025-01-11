@@ -3,8 +3,8 @@ package com.example.food_delivery_app.core.home.model.repository
 import com.example.food_delivery_app.core.home.model.entity.Category
 import com.example.food_delivery_app.core.home.model.entity.CuisineType
 import com.example.food_delivery_app.core.home.model.services.HomeService
-import com.example.food_delivery_app.core.restaurants.model.service.response.FoodResponse
-import com.example.food_delivery_app.core.restaurants.model.service.response.RestaurantResponse
+import com.example.food_delivery_app.core.home.model.services.response.FoodResponse
+import com.example.food_delivery_app.core.home.model.services.response.RestaurantResponse
 
 class HomeRepository(private val homeService: HomeService) {
     suspend fun getCategories(): List<Category> {
@@ -48,6 +48,42 @@ class HomeRepository(private val homeService: HomeService) {
             }
         } catch (e: Exception) {
             throw Exception("Error fetching foods of a specific category: ${e.message}")
+        }
+    }
+
+    suspend fun getAllRestaurants(): List<RestaurantResponse> {
+        val response = homeService.getAllRestaurants()
+        if (response.isSuccessful) {
+            return response.body() ?: emptyList()
+        } else {
+            throw Exception("Error fetching restaurants: ${response.errorBody()?.string()}")
+        }
+    }
+
+    suspend fun getRestaurantById(restaurantId: Int): RestaurantResponse {
+        val response = homeService.getRestaurantById(restaurantId)
+        if (response.isSuccessful) {
+            return response.body() ?: throw Exception("Restaurant not found")
+        } else {
+            throw Exception("Error fetching restaurant: ${response.errorBody()?.string()}")
+        }
+    }
+
+    suspend fun getFoodsByRestaurantId(restaurantId: Int): List<FoodResponse> {
+        val response = homeService.getFoodsByRestaurantId(restaurantId)
+        if (response.isSuccessful) {
+            return response.body() ?: emptyList()
+        } else {
+            throw Exception("Error fetching foods: ${response.errorBody()?.string()}")
+        }
+    }
+
+    suspend fun getFoodById(foodId: Int): FoodResponse {
+        val response = homeService.getFoodById(foodId)
+        if (response.isSuccessful) {
+            return response.body() ?: throw Exception("Food not found")
+        } else {
+            throw Exception("Error fetching food: ${response.errorBody()?.string()}")
         }
     }
 

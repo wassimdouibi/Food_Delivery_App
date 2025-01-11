@@ -15,12 +15,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.example.food_delivery_app.R
 import com.example.food_delivery_app.core.components.Cuisine
+import com.example.food_delivery_app.core.home.model.entity.Category
+import com.example.food_delivery_app.core.home.model.entity.CuisineType
 import com.example.food_delivery_app.ui.theme.Colors.defaultCustomColorScheme
 import com.example.food_delivery_app.ui.theme.Typography.defaultCustomTypographyScheme
 
 @Composable
-fun CuisineIcon(cuisine: Cuisine, onClick: () -> Unit) {
+fun CuisineIcon(cuisineType: CuisineType, onClick: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -29,8 +32,8 @@ fun CuisineIcon(cuisine: Cuisine, onClick: () -> Unit) {
             .clickable { onClick() }
     ) {
         Image(
-            painter = painterResource(id = cuisine.imageRes),
-            contentDescription = cuisine.name,
+            painter = painterResource(id = R.drawable.img_wavy_buddies_preparing_your_food),
+            contentDescription = cuisineType.name,
             modifier = Modifier
                 .width(90.dp)
                 .height(80.dp)
@@ -39,7 +42,34 @@ fun CuisineIcon(cuisine: Cuisine, onClick: () -> Unit) {
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = cuisine.name,
+            text = cuisineType.name,
+            style = defaultCustomTypographyScheme.p_smallSemiBold,
+            color = defaultCustomColorScheme.ink500
+        )
+    }
+}
+
+@Composable
+fun CuisineIcon(cuisineType: Category, onClick: () -> Unit) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .width(90.dp)
+            //.padding( vertical = 8.dp)
+            .clickable { onClick() }
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.img_wavy_buddies_preparing_your_food),
+            contentDescription = cuisineType.name,
+            modifier = Modifier
+                .width(90.dp)
+                .height(80.dp)
+                .clip(RoundedCornerShape(8.dp)) ,
+            contentScale = ContentScale.Crop,
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = cuisineType.name,
             style = defaultCustomTypographyScheme.p_smallSemiBold,
             color = defaultCustomColorScheme.ink500
         )

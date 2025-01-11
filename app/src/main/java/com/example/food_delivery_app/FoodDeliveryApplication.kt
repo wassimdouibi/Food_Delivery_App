@@ -10,8 +10,6 @@ import com.example.food_delivery_app.core.orders.model.repository.OrdersReposito
 import com.example.food_delivery_app.core.orders.model.service.OrdersService
 import com.example.food_delivery_app.core.profile.model.repository.ProfileRepository
 import com.example.food_delivery_app.core.profile.model.service.ProfileService
-import com.example.food_delivery_app.core.restaurants.model.repository.RestaurantRepository
-import com.example.food_delivery_app.core.restaurants.model.service.RestaurantService
 import com.example.food_delivery_app.core.favorites.model.repository.FavoritesRepository
 import com.example.food_delivery_app.core.favorites.model.service.FavoritesService
 import retrofit2.Retrofit
@@ -44,21 +42,13 @@ class FoodDeliveryApplication : Application() {
         ProfileRepository(profileService)
     }
 
-    // Restaurant
-//    val restaurantService: RestaurantService by lazy {
-//        retrofit.create(RestaurantService::class.java)
-//    }
-//    val restaurantRepository: RestaurantRepository by lazy {
-//        RestaurantRepository(restaurantService)
-//    }
-//
-//    // Home
-//    val homeService: HomeService by lazy {
-//        retrofit.create(HomeService::class.java)
-//    }
-//    val homeRepository: HomeRepository by lazy {
-//        HomeRepository(homeService)
-//    }
+    // Home
+    val homeService: HomeService by lazy {
+        retrofit.create(HomeService::class.java)
+    }
+    val homeRepository: HomeRepository by lazy {
+        HomeRepository(homeService)
+    }
 //
 //    // Orders
 //    val ordersService: OrdersService by lazy {

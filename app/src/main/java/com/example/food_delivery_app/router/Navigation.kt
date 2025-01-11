@@ -15,6 +15,7 @@ import com.example.food_delivery_app.auth.View.forgotpassword.view.ForgotPasswor
 import com.example.food_delivery_app.auth.View.forgotpassword.view.OTPView
 import com.example.food_delivery_app.auth.View.login.view.LoginView
 import com.example.food_delivery_app.auth.View.signup.view.SignupView
+import com.example.food_delivery_app.core.Home.HomeView
 import com.example.food_delivery_app.core.home.viewModel.HomeViewModel
 import com.example.food_delivery_app.core.orders.viewModel.OrdersViewModel
 import com.example.food_delivery_app.core.profile.viewmodel.ProfileViewModel
@@ -28,7 +29,7 @@ fun NavigationHost(
 
     authViewModel: AuthViewModel,
     profileViewModel: ProfileViewModel,
-//    homeViewModel: HomeViewModel,
+    homeViewModel: HomeViewModel,
 //    ordersViewModel: OrdersViewModel,
 //    favoritesViewModel: FavoritesViewModel
 ) {
@@ -77,9 +78,9 @@ fun NavigationHost(
 
 
 //        //  -------------------  Home  -------------------
-//        composable(Router.HomeScreen.route) {
-//            HomeView(navController = navController)
-//        }
+        composable(Router.HomeScreen.route) {
+            HomeView(navController = navController, homeViewModel = homeViewModel)
+        }
 //        composable(Router.HomeSearchResultScreen.route) {
 //            backStackEntry ->
 //            val initialSearchInput: String = backStackEntry.arguments?.getString("initialSearchInput")!!

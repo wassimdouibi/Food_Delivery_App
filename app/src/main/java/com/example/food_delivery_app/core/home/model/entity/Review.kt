@@ -1,4 +1,4 @@
-package com.example.food_delivery_app.core.restaurants.model.entity
+package com.example.food_delivery_app.core.home.model.entity
 
 data class Review(
     val reviewId: Int,

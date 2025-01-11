@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.food_delivery_app.core.restaurants.model.service.response.FoodResponse
-import com.example.food_delivery_app.core.restaurants.model.service.response.RestaurantResponse
+import com.example.food_delivery_app.core.home.model.services.response.FoodResponse
+import com.example.food_delivery_app.core.home.model.services.response.RestaurantResponse
 import com.example.food_delivery_app.core.favorites.model.repository.FavoritesRepository
 import com.example.food_delivery_app.core.favorites.model.service.request.AddFavoriteFoodRequest
 import com.example.food_delivery_app.core.favorites.model.service.request.AddFavoriteRestaurantRequest

@@ -1,7 +1,7 @@
 package com.example.food_delivery_app.core.favorites.model.repository
 
-import com.example.food_delivery_app.core.restaurants.model.service.response.FoodResponse
-import com.example.food_delivery_app.core.restaurants.model.service.response.RestaurantResponse
+import com.example.food_delivery_app.core.home.model.services.response.FoodResponse
+import com.example.food_delivery_app.core.home.model.services.response.RestaurantResponse
 import com.example.food_delivery_app.core.favorites.model.service.FavoritesService
 import com.example.food_delivery_app.core.favorites.model.service.request.AddFavoriteFoodRequest
 import com.example.food_delivery_app.core.favorites.model.service.request.AddFavoriteRestaurantRequest

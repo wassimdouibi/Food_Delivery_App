@@ -36,11 +36,11 @@ class MainActivity : ComponentActivity() {
             (application as FoodDeliveryApplication).profileRepository
         )
     }
-//    private val homeViewModel: HomeViewModel by viewModels {
-//        HomeViewModel.Factory(
-//            (application as FoodDeliveryApplication).homeRepository
-//        )
-//    }
+    private val homeViewModel: HomeViewModel by viewModels {
+        HomeViewModel.Factory(
+            (application as FoodDeliveryApplication).homeRepository
+        )
+    }
 //    private val ordersViewModel: OrdersViewModel by viewModels {
 //        OrdersViewModel.Factory(
 //            (application as FoodDeliveryApplication).ordersRepository
@@ -84,7 +84,7 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         authViewModel = authViewModel,
                         profileViewModel = profileViewModel,
-//                        homeViewModel = homeViewModel,
+                        homeViewModel = homeViewModel,
 //                        ordersViewModel = ordersViewModel,
 //                        favoritesViewModel = favoritesViewModel,
                         pref = pref
