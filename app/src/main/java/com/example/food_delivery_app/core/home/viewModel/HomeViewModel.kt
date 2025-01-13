@@ -97,7 +97,7 @@ class HomeViewModel(val homeRepository: HomeRepository): ViewModel() {
         }
     }
 
-    fun getRestaurantsOfCuisineType(restaurantFilterRequest: RestaurantFilterRequest){
+    fun getRestaurantsOfCuisineType(restaurantFilterRequest: RestaurantFilterRequest) {
         viewModelScope.launch {
             try {
                 _isLoading.value = true
@@ -125,6 +125,8 @@ class HomeViewModel(val homeRepository: HomeRepository): ViewModel() {
                 _foodsFromSpecificCategory.emit(response)
             } catch (e: Exception) {
                 _error.value = e.message ?: "An unknown error occurred"
+            } finally {
+                _isLoading.value = false
             }
         }
     }

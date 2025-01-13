@@ -126,7 +126,6 @@ fun FoodMenuCard(
                 ),
                 modifier = Modifier.width(120.dp),
             )
-
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -138,6 +137,7 @@ fun FoodMenuCard(
         )
 
         Spacer(modifier = Modifier.height(4.dp))
+
         Text(
             text= foodResponse.food.description!!,
             style = defaultCustomTypographyScheme.p_small,

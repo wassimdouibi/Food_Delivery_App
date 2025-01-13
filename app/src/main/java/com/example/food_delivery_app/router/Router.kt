@@ -41,8 +41,12 @@ sealed class Router(val route:String) {
         }
     }
 
-    object CuisineRestaurantsScreen : Router("cuisine_restaurants/{cuisineTypeId}") {
-        fun createRoute(cuisineTypeId: Int) = "cuisine_restaurants/$cuisineTypeId"
+    object CuisineRestaurantsScreen : Router("/cuisine_restaurants/{cuisineName}") {
+        fun createRoute(cuisineName: String) = "/cuisine_restaurants/$cuisineName"
+    }
+
+    object FoodCategoryScreen : Router("/food_category/{foodCategoryName}") {
+        fun createRoute(foodCategoryName: String) = "/food_category/$foodCategoryName"
     }
 
     object FavoritesScreen: Router("/favorites")

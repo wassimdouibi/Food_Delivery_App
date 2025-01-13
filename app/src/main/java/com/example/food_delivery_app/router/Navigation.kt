@@ -24,6 +24,7 @@ import com.example.food_delivery_app.core.RestaurantDetailsView
 import com.example.food_delivery_app.core.favorites.view.FavoritesView
 import com.example.food_delivery_app.core.favorites.viewModel.FavoritesViewModel
 import com.example.food_delivery_app.core.home.view.CuisineRestaurantsView
+import com.example.food_delivery_app.core.home.view.FoodCategoryView
 import com.example.food_delivery_app.core.home.viewModel.HomeViewModel
 import com.example.food_delivery_app.core.navigation.view.FoodDeliveryNavView
 import com.example.food_delivery_app.core.profile.viewmodel.ProfileViewModel
@@ -188,13 +189,24 @@ fun NavigationHost(
         }
         composable(
             route = Router.CuisineRestaurantsScreen.route,
-            arguments = listOf(navArgument("cuisineTypeId") { type = NavType.IntType })
+            arguments = listOf(navArgument("cuisineName") { type = NavType.StringType })
         ) { backStackEntry ->
-            val cuisineTypeId: Int = backStackEntry.arguments?.getInt("cuisineTypeId") ?: -1
+            val cuisineName: String = backStackEntry.arguments?.getString("cuisineName") ?: ""
             CuisineRestaurantsView(
                 navController = navController,
                 homeViewModel = homeViewModel,
-                cuisineTypeId = cuisineTypeId
+                cuisineName = cuisineName
+            )
+        }
+        composable(
+            route = Router.FoodCategoryScreen.route,
+            arguments = listOf(navArgument("foodCategoryName") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val foodCategoryName: String = backStackEntry.arguments?.getString("foodCategoryName") ?: ""
+            FoodCategoryView(
+                navController = navController,
+                homeViewModel = homeViewModel,
+                foodCategoryName = foodCategoryName
             )
         }
 

@@ -1,5 +1,6 @@
 package com.example.food_delivery_app.core.home.view.components
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -23,6 +24,7 @@ import com.example.food_delivery_app.ui.theme.Typography.defaultCustomTypography
 @Composable
 fun CuisineIcon(
     cuisineType: CuisineType,
+    navController: NavController
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -36,7 +38,7 @@ fun CuisineIcon(
                 .height(80.dp)
                 .clip(RoundedCornerShape(6.dp))
                 .clickable {
-
+                    navController.navigate(Router.CuisineRestaurantsScreen.createRoute(cuisineType.name))
                 },
             contentScale = ContentScale.Crop,
         )
@@ -52,7 +54,8 @@ fun CuisineIcon(
 
 @Composable
 fun CuisineIcon(
-    cuisineType: Category
+    cuisineType: Category,
+    navController: NavController
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -66,7 +69,7 @@ fun CuisineIcon(
                 .height(80.dp)
                 .clip(RoundedCornerShape(6.dp))
                 .clickable {
-
+                    navController.navigate(Router.FoodCategoryScreen.createRoute(cuisineType.name))
                 },
             contentScale = ContentScale.Crop,
         )

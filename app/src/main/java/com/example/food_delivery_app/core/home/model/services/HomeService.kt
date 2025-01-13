@@ -13,10 +13,7 @@ import com.example.food_delivery_app.core.profile.model.service.ProfileService
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface HomeService {
     @GET("menus/categories")

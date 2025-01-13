@@ -48,6 +48,7 @@ class HomeRepository(private val homeService: HomeService) {
     suspend fun getFoodsFromSpecificCategory(foodFilterRequest: FoodFilterRequest): List<FoodResponse> {
         return try {
             val response = homeService.filterMenus(foodFilterRequest)
+            Log.d("food_category", "response of food is : $response")
             response.ifEmpty {
                 emptyList()
             }
