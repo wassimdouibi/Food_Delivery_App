@@ -24,6 +24,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -149,6 +150,22 @@ fun RestaurantDetailsView(
                                 imageVector = Icons.Filled.Favorite,
                                 contentDescription = "Favorite",
                                 tint = if (isFavorite) defaultCustomColorScheme.primary500 else defaultCustomColorScheme.ink300
+                            )
+                        }
+
+                        IconButton(
+                            onClick = {
+                                navController.popBackStack()
+                            },
+                            modifier = Modifier
+                                .align(Alignment.TopStart)
+                                .padding(8.dp)
+                                .background(LocalCustomColorScheme.current.primary100, shape = RoundedCornerShape(8.dp))
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.ArrowBackIosNew,
+                                contentDescription = "Back",
+                                tint = LocalCustomColorScheme.current.ink300
                             )
                         }
 

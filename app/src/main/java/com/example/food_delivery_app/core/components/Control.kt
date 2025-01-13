@@ -53,7 +53,7 @@ fun SingleChoiceSegmentedButton(
 ) {
     SingleChoiceSegmentedButtonRow(
         modifier = modifier
-            .fillMaxWidth(.75f)
+            .fillMaxWidth()
             .border
                 (
                 width = 0.dp,

@@ -115,7 +115,7 @@ fun FavoritesView(
                         focusedTrailingIconColor = LocalCustomColorScheme.current.primary500,
                         unfocusedTrailingIconColor = LocalCustomColorScheme.current.primary500,
                     ),
-                    modifier = Modifier.fillMaxWidth(.9f),
+                    modifier = Modifier.fillMaxWidth(),
                     changeShowFilterState = {showFilterState = !showFilterState}
                 )
                 FavoritesResult(
