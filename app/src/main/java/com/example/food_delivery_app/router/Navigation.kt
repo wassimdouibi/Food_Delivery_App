@@ -17,6 +17,7 @@ import com.example.food_delivery_app.auth.view.forgotpassword.view.ForgotPasswor
 import com.example.food_delivery_app.auth.view.forgotpassword.view.OTPView
 import com.example.food_delivery_app.auth.view.login.view.LoginView
 import com.example.food_delivery_app.auth.view.signup.view.SignupView
+import com.example.food_delivery_app.core.FoodDetailsView
 import com.example.food_delivery_app.core.Home.HomeView
 import com.example.food_delivery_app.core.HomeSearchResultView
 import com.example.food_delivery_app.core.RestaurantDetailsView
@@ -118,6 +119,7 @@ fun NavigationHost(
                 authViewModel = authViewModel,
                 homeViewModel = homeViewModel,
                 profileViewModel = profileViewModel,
+                favoritesViewModel = favoritesViewModel,
                 pref = pref
             )
         }
@@ -144,6 +146,27 @@ fun NavigationHost(
                 restaurantId = restaurantId
             )
         }
+
+        composable(
+            route = Router.FoodDetailsScreen.route,
+            arguments = listOf(
+                navArgument("foodId") {
+                    type = NavType.IntType
+                    nullable = false
+                    defaultValue = -1
+                }
+            )
+        ) { backStackEntry ->
+            val foodId = backStackEntry.arguments?.getInt("foodId") ?: -1
+            FoodDetailsView(
+                navController = navController,
+                homeViewModel = homeViewModel,
+                profileViewModel = profileViewModel,
+                favoritesViewModel = favoritesViewModel,
+                foodID = foodId
+            )
+        }
+
         composable(
             route = Router.HomeSearchResultScreen.route,
             arguments = listOf(

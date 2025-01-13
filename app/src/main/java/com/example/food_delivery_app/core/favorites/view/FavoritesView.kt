@@ -119,6 +119,7 @@ fun FavoritesView(
                     changeShowFilterState = {showFilterState = !showFilterState}
                 )
                 FavoritesResult(
+                    selectedIndex = selectedIndex,
                     favoriteFoods = favoriteFoods,
                     favoriteRestaurants = favoriteRestaurants,
                     navController = navController

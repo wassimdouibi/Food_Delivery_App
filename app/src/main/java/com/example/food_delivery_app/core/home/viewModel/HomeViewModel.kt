@@ -51,11 +51,6 @@ class HomeViewModel(val homeRepository: HomeRepository): ViewModel() {
     // -----------------------------------------------------------------------------------------------------------------------------
 
 
-
-
-
-
-
     // -----------------------------------------------------------------------------------------------------------------------------
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
@@ -63,6 +58,7 @@ class HomeViewModel(val homeRepository: HomeRepository): ViewModel() {
     private val _error = MutableStateFlow<String?>(null)
     val error = _error.asStateFlow()
     // -----------------------------------------------------------------------------------------------------------------------------
+
 
 
     fun getCategories(){

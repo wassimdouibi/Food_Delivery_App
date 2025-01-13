@@ -102,7 +102,12 @@ fun RestaurantDetailsView(
     }
 
     if (isLoading) {
-        CircularProgressIndicator()
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            CircularProgressIndicator()
+        }
     } else {
         selectedRestaurant?.let {
             restaurantRes ->
@@ -128,10 +133,9 @@ fun RestaurantDetailsView(
                                 isFavorite = !isFavorite
                                 coroutineScope.launch {
                                     if (userId != "-1") {
-                                        Log.d("Favorites", "user id is : $userId")
                                         favoritesViewModel.addRestaurantToFavorites(userId!!.toInt(), restaurantId)
                                     } else {
-                                        Log.d("Favorites", "No userId found")
+                                        Log.d("Add to favorite", "Error adding the food to favorites")
                                     }
                                 }
                             },
@@ -153,7 +157,6 @@ fun RestaurantDetailsView(
                     Column(
                         modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp),
                         verticalArrangement = Arrangement.spacedBy(16.dp)
-
                     ) {
                         Column(
                             verticalArrangement = Arrangement.spacedBy(8.dp)

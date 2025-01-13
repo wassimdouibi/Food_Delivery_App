@@ -37,7 +37,7 @@ interface HomeService {
     suspend fun getFoodsByRestaurantId(@Path("id") restaurantId: Int) : List<FoodResponse>
 
     @GET("menus/{id}")
-    suspend fun getFoodById(@Path("restaurantId") foodID: Int) : Response<FoodResponse>
+    suspend fun getFoodById(@Path("id") foodID: Int) : Response<FoodResponse>
 
     @GET("restaurants/reviews/{restaurantId}")
     suspend fun getRestaurantReviews(@Path("restaurantId") restaurantId: Int) : Response<List<Review>>

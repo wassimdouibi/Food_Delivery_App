@@ -112,9 +112,9 @@ fun FoodMenuCard(
             }
             FilledTextButton(
                 onClick = {
-//                    navController.navigate(
-//                        Router.MenuDetailsScreen.createRoute(foodResponse.food.menuId)
-//                    )
+                    navController.navigate(
+                        Router.FoodDetailsScreen.createRoute(foodId = foodResponse.food.menuId)
+                    )
                 },
                 textContent = "Order",
                 textStyle = LocalCustomTypographyScheme.current.p_mediumBold,

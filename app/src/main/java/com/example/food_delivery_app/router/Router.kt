@@ -27,6 +27,11 @@ sealed class Router(val route:String) {
             return "/restaurant/$restaurantId"
         }
     }
+    object FoodDetailsScreen : Router("/food/{foodId}") {
+        fun createRoute(foodId: Int): String {
+            return "/food/$foodId"
+        }
+    }
     object HomeSearchResultScreen: Router("/search_result/{initialSearchInput}"){
         fun createRoute(initialSearchInput: String): String {
             return "/search_result/$initialSearchInput"

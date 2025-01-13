@@ -14,6 +14,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.food_delivery_app.auth.viewModel.AuthViewModel
 import com.example.food_delivery_app.core.Home.HomeView
+import com.example.food_delivery_app.core.favorites.view.FavoritesView
+import com.example.food_delivery_app.core.favorites.viewModel.FavoritesViewModel
 import com.example.food_delivery_app.core.home.viewModel.HomeViewModel
 import com.example.food_delivery_app.core.navigation.model.NavItem
 import com.example.food_delivery_app.core.navigation.view.components.NavItemBox
@@ -29,7 +31,7 @@ fun FoodDeliveryNavView(
     authViewModel: AuthViewModel,
     homeViewModel: HomeViewModel,
     profileViewModel: ProfileViewModel,
-//    favoritesViewModel: FavoritesViewModel,
+    favoritesViewModel: FavoritesViewModel,
 //    ordersViewModel: OrdersViewModel,
     pref: SharedPreferences
 ) {
@@ -74,12 +76,12 @@ fun FoodDeliveryNavView(
 //                            ordersViewModel = OrdersViewModel
 //                        )
 //                    }
-//                    composable(route = Router.FavoritesScreen.route) {
-//                        FavoritesView(
-//                            navController = navController,
-//                            favoritesViewModel = FavoritesViewModel
-//                        )
-//                    }
+                    composable(route = Router.FavoritesScreen.route) {
+                        FavoritesView(
+                            navController = navController,
+                            favoritesViewModel = favoritesViewModel
+                        )
+                    }
                     composable(Router.ProfileScreen.route) {
                         ProfileView(
                             navController = navController,

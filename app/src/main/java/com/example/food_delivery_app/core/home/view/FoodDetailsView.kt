@@ -1,49 +1,15 @@
 package com.example.food_delivery_app.core
 
-import android.annotation.SuppressLint
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.focusable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
+import android.util.Log
+import android.widget.Toast
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -51,111 +17,30 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.food_delivery_app.R
-import com.example.food_delivery_app.components.CardImageSection
-import com.example.food_delivery_app.components.CustomerReview
-import com.example.food_delivery_app.components.FoodDeliveryTextField
-import com.example.food_delivery_app.components.FoodMenuCard
-import com.example.food_delivery_app.components.InfoRow
-import com.example.food_delivery_app.components.PreviewCustomerReview
-import com.example.food_delivery_app.components.Restaurant
-import com.example.food_delivery_app.components.RestaurantCard
-import com.example.food_delivery_app.components.restaurant1
-import com.example.food_delivery_app.core.Home.SectionTitle
-import com.example.food_delivery_app.ui.theme.defaultCustomColorScheme
-import com.example.food_delivery_app.ui.theme.defaultCustomTypographyScheme
+import com.example.food_delivery_app.auth.model.entity.AuthPreferences
+import com.example.food_delivery_app.core.components.AddToCardOrder
+import com.example.food_delivery_app.core.components.CustomerReview
+import com.example.food_delivery_app.core.favorites.viewModel.FavoritesViewModel
+import com.example.food_delivery_app.core.home.view.components.FoodCardImageSection
+import com.example.food_delivery_app.core.home.view.components.SectionTitle
+import com.example.food_delivery_app.core.home.viewModel.HomeViewModel
+import com.example.food_delivery_app.core.profile.viewmodel.ProfileViewModel
+import com.example.food_delivery_app.ui.theme.Colors.defaultCustomColorScheme
+import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
+import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
+import com.example.food_delivery_app.ui.theme.Typography.defaultCustomTypographyScheme
+import kotlinx.coroutines.launch
 
-
-
-/* ce qui reste :  get the Food using API*/
-
-/*Classes Just like in the Backend*/
-
-data class Menu(
-    val menuId: Int,
-    val restaurantId: Int,
-    val name: String,
-    val description: String?,
-    val price: Double,
-    val category: Int,
-    val photo: String?,
-)
-val menu1 = Menu(
-    menuId = 1,
-    restaurantId = 101,
-    name = "Margherita Pizza",
-    description = "Classic pizza topped with fresh tomatoes, mozzarella, and basil.",
-    price = 9.99,
-    category = 1,
-    photo = "https://example.com/photos/margherita_pizza.jpg"
-)
-
-data class Restau(
-    val restaurantId: Int,
-    val name: String,
-    val logo: String,
-    val address: String,
-    val cuisineType: Int,
-    val averageRating: Float,
-    val reviewCount: Int,
-    val contactPhone: String,
-    val contactEmail: String,
-    val fbLink: String?,
-    val instaLink: String?
-)
-val restau = Restau(
-    restaurantId = 101,
-    name = "Gourmet Bites",
-    logo = "https://example.com/logos/gourmet_bites.jpg",
-    address = "123 Culinary Lane, Food City, FC 45678",
-    cuisineType = 2,
-    averageRating = 4.5f,
-    reviewCount = 234,
-    contactPhone = "+1234567890",
-    contactEmail = "contact@gourmetbites.com",
-    fbLink = "https://facebook.com/gourmetbites",
-    instaLink = "https://instagram.com/gourmetbites"
-)
-
-val listReviews = listOf(
-    CustomerReview(
-        id = 1,
-        title = "Amazing Pizza!",
-        customerUsername = "foodie123",
-        text = "The Margherita Pizza was absolutely delicious. The crust was perfectly baked, and the fresh basil added so much flavor. Highly recommend!",
-        rating = 5
-    ),
-    CustomerReview(
-        id = 2,
-        title = "Good Burger",
-        customerUsername = "burgerlover",
-        text = "The cheeseburger was juicy and flavorful, but the bun could have been fresher. Overall, a good experience.",
-        rating = 4
-    ),
-    CustomerReview(
-        id = 3,
-        title = "Refreshing Salad",
-        customerUsername = "healthyeats",
-        text = "Loved the Caesar Salad! The dressing was spot on, and the croutons were crispy. A bit pricey for the portion size though.",
-        rating = 4
-    ),
-    CustomerReview(
-        id = 4,
-        title = "Delicious Spaghetti",
-        customerUsername = "pastaenthusiast",
-        text = "The Spaghetti Bolognese was packed with flavor and the portion was generous. Definitely worth it!",
-        rating = 5
-    )
-)
 
 val imageUrls = listOf(
     "https://images.unsplash.com/photo-1550547660-d9450f859349",
@@ -165,242 +50,282 @@ val imageUrls = listOf(
     "https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg",
     "https://images.pexels.com/photos/357756/pexels-photo-357756.jpeg"
 )
+
+
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun FoodDetailsScreen(
+fun FoodDetailsView(
     navController : NavController,
-    restaurantID: Int,
+    homeViewModel: HomeViewModel,
+    profileViewModel: ProfileViewModel,
+    favoritesViewModel: FavoritesViewModel,
     foodID : Int
 ) {
-    val restaurant: Restau = restau  // get the restaurant using API
-    val food: Menu = menu1
-    val restaurantReviews: List<CustomerReview> = listReviews
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+    val isLoading by homeViewModel.isLoading.collectAsState()
+    val error by homeViewModel.error.collectAsState()
+    val authPreferences = AuthPreferences(context)
+
+
+    val selectedFood by homeViewModel.selectedFood.collectAsState()
+    val selectedRestaurant by homeViewModel.selectedRestaurant.collectAsState()
+    val restaurantReviews by homeViewModel.restaurantReviews.collectAsState()
 
     var isFavorite by remember { mutableStateOf(false) }
     var quantity by remember { mutableStateOf(0) }
-    // State for showing/hiding the input field
-    var isNoteVisible by remember { mutableStateOf(false) }
+    var isNoteVisible by remember { mutableStateOf(false) } // State for showing/hiding the input field
+    var note by remember { mutableStateOf("") } // State for storing the note
 
-    // State for storing the note text
-    var note by remember { mutableStateOf("") }
 
-    Scaffold(
-        bottomBar = {
-            BottomBar(quantity, food.price ) { newQuantity ->
-                quantity = newQuantity
-            }
+    LaunchedEffect(1) {
+        homeViewModel.getFoodById(foodID)
+    }
+
+    LaunchedEffect(selectedFood) {
+        selectedFood?.let { foodRes ->
+            homeViewModel.getRestaurantById(foodRes.food.restaurantId)
+            homeViewModel.getRestaurantReviews(foodRes.food.restaurantId)
         }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier.verticalScroll(rememberScrollState())
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(16.dp)
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-                // .padding(end = 2.dp)
+    }
 
-            ) {
-                FoodCardImageSection(pictures= imageUrls)
+    LaunchedEffect(error) {
+        error?.let {
+            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+        }
+    }
 
-                IconButton(
-                    onClick = {
-                        isFavorite = !isFavorite
-                        addFoodToFavorite(foodID = food.menuId)
-                    },
-                    modifier = Modifier
-                        .align(Alignment.TopEnd) // Position icon in the top right
-                        .padding(8.dp) // Space from the edge
-                ) {
-                    // Use Favorite or FavoriteBorder icon based on the state
-                    Icon(
-                        imageVector = Icons.Filled.Favorite,
-                        contentDescription = "Favorite",
-                        tint = if (isFavorite) defaultCustomColorScheme.primary500 else defaultCustomColorScheme.ink300 // Change color based on state
-                    )
-                }
 
-            }
+    var userId by remember { mutableStateOf<String?>(null) }
 
-            Spacer(modifier = Modifier.height(16.dp))
+    LaunchedEffect(authPreferences) {
+        authPreferences.userIdFlow.collect {
+            userId = it
+        }
+    }
 
-            // name section
-            Text(
-                text = food.name,
-                style = defaultCustomTypographyScheme.heading3,
-                color = defaultCustomColorScheme.ink500
-            )
 
-            //location Section
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.ic_location),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(34.dp)
+    if (isLoading) {
+        CircularProgressIndicator()
+    } else {
+        selectedFood?.let { foodRes ->
+            Scaffold(
+                bottomBar = {
+                    AddToCardOrder(
+                        price = foodRes.food.price.toFloat(),
+                        initialValue = 1,
+                        addOrder = {
 
-                )
-
-                Spacer(Modifier.width(16.dp))
-
-                Text(
-                    text = restau.address,
-                    style = defaultCustomTypographyScheme.p_smallBold,
-                    color = defaultCustomColorScheme.ink500
-                )
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            //Description section
-            SectionTitle(title = "Description")
-            Text(
-                text = food.description ?: " No Description Found",
-                style = defaultCustomTypographyScheme.p_small,
-                color = defaultCustomColorScheme.ink400,
-                lineHeight = 20.sp,
-                textAlign = TextAlign.Justify
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-
-            SectionTitle(title = "Customize Your Food")
-
-            Row(
-                modifier = Modifier.fillMaxWidth().height(48.dp)
-                    .clip(RoundedCornerShape(4.dp))
-                    .background(defaultCustomColorScheme.primary100)
-                    .padding(horizontal = 14.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Add Note",
-                    style = defaultCustomTypographyScheme.p_smallBold,
-                    color = defaultCustomColorScheme.ink500
-                )
-                IconButton(
-                    onClick = {
-                        // Toggle the visibility of the note input field
-                        isNoteVisible = !isNoteVisible
-                    },
-                    modifier = Modifier.border(0.dp, Color.Transparent, RectangleShape)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_plus),
-                        contentDescription = "plus icon",
-                        modifier = Modifier.size(30.dp)
-                    )
-                }
-            }
-
-            // If isNoteVisible is true, show the input field
-            if (isNoteVisible) {
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = "Want to customize your order, please add a note to notify us !",
-                    style = defaultCustomTypographyScheme.p_small,
-                    color = defaultCustomColorScheme.ink400
-                )
-                // Input field for the note with rounded corners
-                var isFocused by remember { mutableStateOf(false) }
-
-                OutlinedTextField(
-                    value = note,
-                    onValueChange = { note = it },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                        .clip(RoundedCornerShape(4.dp))
-                        .background(Color.White)
-                        .focusable() // Track focus state
-                        .onFocusChanged {
-                            isFocused = it.isFocused // Update focus state
                         },
-                    placeholder = { Text("Type your note here...") },
-                    maxLines = 5, // Allow multiple lines of text
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = defaultCustomColorScheme.primary200, // Set primary color when focused
-                        unfocusedBorderColor = defaultCustomColorScheme.primary100 // Set border color when not focused
+                        modifier = Modifier
+                            .background(Color.White)
+                            .padding(horizontal = 8.dp, vertical = 8.dp)
                     )
-                )
-            }
-
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            SectionTitle(title = "Reviews")
-
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                }
             ) {
+                Column(
+                    modifier = Modifier
+                        .verticalScroll(rememberScrollState())
+                        .fillMaxSize()
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(140.dp)
+                    ) {
+                        FoodCardImageSection(pictures= imageUrls)
 
-                restaurantReviews.forEach { review ->
-                    CustomerReview(
-                        customerReview = review
-                    )
+                        IconButton(
+                            onClick = {
+                                isFavorite = !isFavorite
+                                coroutineScope.launch {
+                                    if (userId != "-1") {
+                                        favoritesViewModel.addFoodToFavorites(userId!!.toInt(), foodID)
+                                    } else {
+                                        Log.d("Add to favorite", "Error adding the food to favorites")
+                                    }
+                                }
+                            },
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .padding(8.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(LocalCustomColorScheme.current.primary100, shape = RoundedCornerShape(8.dp))
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Favorite,
+                                contentDescription = "Favorite",
+                                tint = if (isFavorite) LocalCustomColorScheme.current.primary500 else LocalCustomColorScheme.current.ink300 // Change color based on state
+                            )
+                        }
+
+                        IconButton(
+                            onClick = {
+                                navController.popBackStack()
+                            },
+                            modifier = Modifier
+                                .align(Alignment.TopStart)
+                                .padding(8.dp)
+                                .background(Color.Transparent, shape = RoundedCornerShape(8.dp))
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.ArrowBackIosNew,
+                                contentDescription = "Back",
+                                tint = LocalCustomColorScheme.current.ink300
+                            )
+                        }
+                    }
+
+                    Column(
+                        modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ){
+                            // name section
+                            Text(
+                                text = foodRes.food.name,
+                                style = defaultCustomTypographyScheme.heading3,
+                                color = defaultCustomColorScheme.ink500
+                            )
+
+                            //location Section
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 8.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Image(
+                                    painter = painterResource(R.drawable.ic_location),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .size(34.dp)
+
+                                )
+
+                                Spacer(Modifier.width(8.dp))
+
+                                Text(
+                                    text = selectedRestaurant!!.restaurant.address,
+                                    style = defaultCustomTypographyScheme.p_smallBold.copy(fontFamily = FontFamily.Default),
+                                    color = defaultCustomColorScheme.ink500
+                                )
+                            }
+                        }
+
+                        //  Description section
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            SectionTitle(title = "Description")
+                            Text(
+                                text = foodRes.food.description ?: " No Description Found",
+                                style = LocalCustomTypographyScheme.current.p_small,
+                                color = LocalCustomColorScheme.current.ink400,
+                                lineHeight = 20.sp,
+                                textAlign = TextAlign.Justify
+                            )
+                        }
+
+
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            SectionTitle(title = "Customize Your Food")
+                            Row(
+                                modifier = Modifier.fillMaxWidth().height(48.dp)
+                                    .clip(RoundedCornerShape(4.dp))
+                                    .background(LocalCustomColorScheme.current.primary100)
+                                    .padding(horizontal = 14.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = "Add Note",
+                                    style = LocalCustomTypographyScheme.current.p_smallBold,
+                                    color = LocalCustomColorScheme.current.ink500
+                                )
+                                IconButton(
+                                    onClick = {
+                                        // Toggle the visibility of the note input field
+                                        isNoteVisible = !isNoteVisible
+                                    },
+                                    modifier = Modifier.border(0.dp, Color.Transparent, RectangleShape)
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.ic_plus),
+                                        contentDescription = "plus icon",
+                                        modifier = Modifier.size(30.dp)
+                                    )
+                                }
+                            }
+
+                            // If isNoteVisible is true, show the input field
+                            if (isNoteVisible) {
+                                Spacer(modifier = Modifier.height(16.dp))
+
+                                Text(
+                                    text = "Want to customize your order, please add a note to notify us !",
+                                    style = LocalCustomTypographyScheme.current.p_small,
+                                    color = LocalCustomColorScheme.current.ink400
+                                )
+                                // Input field for the note with rounded corners
+                                var isFocused by remember { mutableStateOf(false) }
+
+                                OutlinedTextField(
+                                    value = note,
+                                    onValueChange = { note = it },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(top = 8.dp)
+                                        .clip(RoundedCornerShape(4.dp))
+                                        .background(Color.White)
+                                        .focusable() // Track focus state
+                                        .onFocusChanged {
+                                            isFocused = it.isFocused // Update focus state
+                                        },
+                                    placeholder = { Text("Type your note here...") },
+                                    maxLines = 5, // Allow multiple lines of text
+                                    colors = OutlinedTextFieldDefaults.colors(
+                                        focusedBorderColor = LocalCustomColorScheme.current.primary200, // Set primary color when focused
+                                        unfocusedBorderColor = LocalCustomColorScheme.current.primary100 // Set border color when not focused
+                                    )
+                                )
+                            }
+                        }
+
+
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            SectionTitle(title = "Reviews")
+                            Column(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalArrangement = Arrangement.spacedBy(16.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+
+                                restaurantReviews.forEach { review ->
+                                    CustomerReview(
+                                        profileViewModel = profileViewModel,
+                                        customerReview = review
+                                    )
+                                }
+
+                            }
+                        }
+
+                    }
+
                 }
 
             }
-
         }
     }
 }
 
-@Composable
-fun FoodCardImageSection(pictures: List<String>) {
-    // Image Section
-    Row(
-        modifier = Modifier.fillMaxWidth().height(400.dp)
-    ) {
-        // Left: Main Image
-        Box(modifier = Modifier.weight(1f)) {
-            AsyncImage(
-                model = pictures[0], // Load image from URL
-                contentDescription = null,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
-            )
-        }
-
-        Spacer(modifier = Modifier.width(2.dp))
-
-        // Right: Two Small Images
-        Column(modifier = Modifier.weight(1f)) {
-            AsyncImage(
-                model = pictures[1], // Load image from URL
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                contentScale = ContentScale.Crop
-            )
-            Spacer(modifier = Modifier.height(2.dp))
-            AsyncImage(
-                model = pictures[2], // Load image from URL
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                contentScale = ContentScale.Crop
-            )
-        }
-    }
-}
-
-fun addFoodToFavorite( foodID: Int){
-    /*handle add menue to fav logic using API*/
-}
 
 @Composable
 fun BottomBar(quantity: Int, foodPrice: Double, onQuantityChange: (Int) -> Unit) {
@@ -492,15 +417,3 @@ fun BottomBar(quantity: Int, foodPrice: Double, onQuantityChange: (Int) -> Unit)
         }
     }
 }
-
-        @Composable
-        fun previewFoodDetailsScreen() {
-
-
-            FoodDetailsScreen(
-                navController = rememberNavController(),
-                restaurantID = 1,
-                foodID = 1
-            )
-        }
-

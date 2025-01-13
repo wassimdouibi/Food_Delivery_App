@@ -19,6 +19,7 @@ import com.example.food_delivery_app.core.home.model.services.response.Restauran
 
 @Composable
 fun FavoritesResult(
+    selectedIndex: Int,
     favoriteFoods: List<FoodResponse> = emptyList(),
     favoriteRestaurants: List<RestaurantResponse> = emptyList(),
     navController: NavController
@@ -31,7 +32,7 @@ fun FavoritesResult(
         verticalArrangement = Arrangement.spacedBy(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (favoriteRestaurants.isNotEmpty()) {
+        if (selectedIndex == 0) {
             items(favoriteRestaurants) { restaurant ->
                 RestaurantCard(
                     navController = navController,
@@ -39,15 +40,15 @@ fun FavoritesResult(
                 )
             }
         } else {
-//            items(favoriteFoods) { food ->
-//                favoriteRestaurants.firstOrNull()?.let {
-//                    FoodMenuCard(
-//                        navController = navController,
-//                        foodResponse = food,
-//                        restaurantResponse = it // Ensure this is not null
-//                    )
-//                }
-//            }
+            items(favoriteFoods) { food ->
+                favoriteRestaurants.firstOrNull()?.let {
+                    FoodMenuCard(
+                        navController = navController,
+                        foodResponse = food,
+                        restaurantResponse = it // Ensure this is not null
+                    )
+                }
+            }
         }
     }
 }

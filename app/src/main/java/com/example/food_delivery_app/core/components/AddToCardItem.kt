@@ -10,7 +10,7 @@ import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
 fun AddToCardOrder(
     price: Float, // Prix pour ShopItemRow
     initialValue: Int = 0,// Valeur initiale pour IncrementDecrementRow
-    onBtnTextLessClick: () -> Unit,
+    addOrder: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -22,14 +22,16 @@ fun AddToCardOrder(
         // Composant IncrementDecrementRow avec poids
         IncrementDecrementRow(
             initialValue = initialValue,
-            modifier = Modifier.weight(.3f)
+            modifier = Modifier.weight(.25f)
         )
         Spacer(modifier = Modifier.weight(.1f))
         // Composant ShopItem avec poids
         ShopItem(
-            modifier = modifier.weight(.6f),
+            modifier = modifier.weight(.65f),
             price=price,
-            onClick = {},
+            onClick = {
+                addOrder()
+            },
             cardColor = LocalCustomColorScheme.current.primary400
         )
     }
