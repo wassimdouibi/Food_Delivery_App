@@ -14,6 +14,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,6 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,64 +33,67 @@ import androidx.navigation.NavController
 import com.example.food_delivery_app.R
 import com.example.food_delivery_app.core.home.model.services.response.FoodResponse
 import com.example.food_delivery_app.core.home.model.services.response.RestaurantResponse
+import com.example.food_delivery_app.router.Router
 import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
 import com.example.food_delivery_app.ui.theme.Colors.defaultCustomColorScheme
 import com.example.food_delivery_app.ui.theme.Typography.defaultCustomTypographyScheme
 
 
 
-
 @Composable
 fun FoodMenuCard(
-    restaurantResponse : RestaurantResponse,
-    foodResponse: FoodResponse,
     navController: NavController,
-    modifier : Modifier = Modifier
-        .width(320.dp)
-        .clickable {
-
-        }
+    foodResponse: FoodResponse,
+    restaurantResponse: RestaurantResponse
 ){
-    Column(
-        modifier = modifier ,
+    Card(
+        modifier = Modifier.width(300.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.Transparent,
+        ),
+        shape = RoundedCornerShape(0.dp)
     ) {
-        CardImageSection( pictures = restaurantResponse.pics, rating = restaurantResponse.restaurant.averageRating)
+        CardImageSection( pictures = foodResponse.pics, rating = restaurantResponse.restaurant.averageRating)
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         // Text and Details Section
         Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth()
-
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
         ){
-            Column {
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
                 Text(
                     text = foodResponse.food.name,
                     style = defaultCustomTypographyScheme.heading5,
                     color = Color.Black
                 )
 
-                Spacer(modifier = Modifier.height(6.dp))
-
-                Row(verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Image(
                         painter = painterResource(id = R.drawable.dollar),
                         contentDescription = "Location Icon",
                         modifier = Modifier.size(20.dp),
                         colorFilter = ColorFilter.tint(defaultCustomColorScheme.primary400)
                     )
-                    Spacer(modifier = Modifier.width(2.dp))
+                    Spacer(modifier = Modifier.width(4.dp))
 
                     Text(
                         text = " ${foodResponse.food.price} DZD",
                         style = defaultCustomTypographyScheme.p_small,
-                        color = defaultCustomColorScheme.primary400
+                        color = defaultCustomColorScheme.primary400,
                     )
                 }
-                Spacer(modifier = Modifier.height(3.dp))
 
-                Row(verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    verticalAlignment = Alignment.Top,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
                     Icon(
                         imageVector = Icons.Default.LocationOn,
                         contentDescription = "Location Icon",
@@ -98,18 +104,18 @@ fun FoodMenuCard(
 
                     Text(
                         text = " ${restaurantResponse.restaurant.name}, ${restaurantResponse.restaurant.address}",
-                        style = defaultCustomTypographyScheme.p_small,
-                        color = defaultCustomColorScheme.primary400
+                        style = defaultCustomTypographyScheme.p_small.copy(fontFamily = FontFamily.Default),
+                        color = defaultCustomColorScheme.primary400,
+                        minLines = 2
                     )
                 }
-                Spacer(modifier = Modifier.height(6.dp))
-
-
-
-
             }
             FilledTextButton(
-                onClick = {},
+                onClick = {
+//                    navController.navigate(
+//                        Router.MenuDetailsScreen.createRoute(foodResponse.food.menuId)
+//                    )
+                },
                 textContent = "Order",
                 textStyle = LocalCustomTypographyScheme.current.p_mediumBold,
                 icon = ButtonIcon.Right(
@@ -118,20 +124,17 @@ fun FoodMenuCard(
                         iconDescription = "Info"
                     )
                 ),
-                modifier = Modifier.clip(
-                    RoundedCornerShape(2.dp)
-                )
-
+                modifier = Modifier.width(120.dp),
             )
 
         }
 
-        //Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         // info Section
         Text(
             text= "Info",
-            style = defaultCustomTypographyScheme.p_smallSemiBold
+            style = defaultCustomTypographyScheme.p_mediumBold
         )
 
         Spacer(modifier = Modifier.height(4.dp))

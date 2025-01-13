@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -16,12 +18,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.compose.rememberNavController
-import com.example.food_delivery_app.auth.ViewModel.AuthViewModel
+import com.example.food_delivery_app.auth.viewModel.AuthViewModel
 import com.example.food_delivery_app.core.home.viewModel.HomeViewModel
-import com.example.food_delivery_app.core.orders.viewModel.OrdersViewModel
 import com.example.food_delivery_app.router.NavigationHost
 import com.example.food_delivery_app.core.profile.viewmodel.ProfileViewModel
-import com.example.food_delivery_app.core.favorites.viewModel.FavoritesViewModel
 
 
 class MainActivity : ComponentActivity() {
@@ -52,22 +52,22 @@ class MainActivity : ComponentActivity() {
 //        )
 //    }
 
-    private fun requestNotificationPermission() {
-        if (Build.VERSION.SDK_INT > -Build.VERSION_CODES.TIRAMISU) {
-            val hasPermission = ContextCompat.checkSelfPermission(
-                this, android.Manifest.permission.POST_NOTIFICATIONS
-            ) == PackageManager.PERMISSION_GRANTED
-            if (!hasPermission) {
-                ActivityCompat.requestPermissions(
-                    this, arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 0
-                )
-            }
-        }
-    }
+//    private fun requestNotificationPermission() {
+//        if (Build.VERSION.SDK_INT > -Build.VERSION_CODES.TIRAMISU) {
+//            val hasPermission = ContextCompat.checkSelfPermission(
+//                this, android.Manifest.permission.POST_NOTIFICATIONS
+//            ) == PackageManager.PERMISSION_GRANTED
+//            if (!hasPermission) {
+//                ActivityCompat.requestPermissions(
+//                    this, arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 0
+//                )
+//            }
+//        }
+//    }
 
     @RequiresApi(34)
     override fun onCreate(savedInstanceState: Bundle?) {
-        requestNotificationPermission();
+//        requestNotificationPermission()
         super.onCreate(savedInstanceState)
 
         setContent {

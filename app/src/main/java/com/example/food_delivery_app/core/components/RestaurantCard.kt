@@ -1,5 +1,7 @@
 package com.example.food_delivery_app.core.components
 
+import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -19,6 +21,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,109 +36,113 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.food_delivery_app.R
 import com.example.food_delivery_app.core.home.model.services.response.RestaurantResponse
+import com.example.food_delivery_app.router.Router
 import com.example.food_delivery_app.ui.theme.*
 import com.example.food_delivery_app.ui.theme.Colors.defaultCustomColorScheme
 import com.example.food_delivery_app.ui.theme.Typography.defaultCustomTypographyScheme
+import com.google.gson.Gson
 
 
 @Composable
-fun RestaurantCard(
-    restaurant: RestaurantResponse,
-    navController: NavController
-) {
-    Column(
-        modifier = Modifier
-            .width(320.dp)
-        //.padding(16.dp)
-        /*.background(
-            color = Color.White,
-            //shape = RoundedCornerShape(8.dp)
-        )*/
+fun RestaurantCard(restaurant: RestaurantResponse, navController: NavController) {
+    Card(
+        modifier = Modifier.width(300.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.Transparent,
+        ),
+        shape = RoundedCornerShape(0.dp)
     ) {
         CardImageSection( pictures = restaurant.pics, rating = restaurant.restaurant.averageRating)
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         // Text and Details Section
         Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth()
-
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
         ){
-            Column {
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                // Restaurant Name
                 Text(
                     text = restaurant.restaurant.name,
-                    style = defaultCustomTypographyScheme.heading5,
-                    color = Color.Black
+                    style = LocalCustomTypographyScheme.current.heading5,
                 )
 
-                Spacer(modifier = Modifier.height(6.dp))
+                Spacer(modifier = Modifier.width(8.dp))
 
-                Row(verticalAlignment = Alignment.CenterVertically) {
+                // Restaurant Location
+                Row(
+                    verticalAlignment = Alignment.Top,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
                     Icon(
                         imageVector = Icons.Default.LocationOn,
                         contentDescription = "Location Icon",
                         tint = defaultCustomColorScheme.primary400,
                         modifier = Modifier.size(20.dp)
                     )
-                    Spacer(modifier = Modifier.width(6.dp))
-
                     Text(
                         text = restaurant.restaurant.address,
                         style = defaultCustomTypographyScheme.p_small,
-                        color = defaultCustomColorScheme.primary400
+                        color = defaultCustomColorScheme.primary400,
+                        minLines = 2
                     )
                 }
 
             }
+
+            // Details Button
             FilledTextButton(
-                onClick = {  },
+                onClick = {
+                    navController.navigate(
+                        Router.RestaurantDetailsScreen.createRoute(restaurant.restaurant.restaurantId)
+                    )
+                },
                 textContent = "Details",
                 textStyle = LocalCustomTypographyScheme.current.p_mediumBold,
+
                 icon = ButtonIcon.Right(
                     IconType.VectorIcon(
                         imageVector = Icons.Default.Info,
                         iconDescription = "Info"
                     )
                 ),
-                modifier = Modifier.clip(RoundedCornerShape(2.dp))
+                modifier = Modifier.width(120.dp),
+                containerColor = LocalCustomColorScheme.current.primary500
             )
-
         }
 
-        //Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         // Top Picks Section
-        Text(
-            text= "Top Picks",
-            style = defaultCustomTypographyScheme.p_medium
-        )
-
-        Spacer(modifier = Modifier.height(4.dp))
-
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            //contentPadding = PaddingValues(horizontal = 8.dp)
+        Column(
+            verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
-            items(restaurant.tags) { pick ->
-                Box(
-                    modifier = Modifier
-                        .background(
-                            color = Color.White,
-                            //shape = RoundedCornerShape(16.dp)
-                        )
-                        .border(width = 2.dp, color = defaultCustomColorScheme.ink300)
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
+            Text(
+                text= "Top Picks",
+                style = defaultCustomTypographyScheme.p_medium
+            )
 
-                )
-                {
-                    Text(
-                        text = pick,
-                        style = defaultCustomTypographyScheme.p_small,
-                        color = defaultCustomColorScheme.ink400
-
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                items(restaurant.tags) { pick ->
+                    Box(
+                        modifier = Modifier
+                            .border(width = 1.dp, color = defaultCustomColorScheme.ink300)
+                            .padding(horizontal = 8.dp, vertical = 4.dp)
                     )
+                    {
+                        Text(
+                            text = pick,
+                            style = defaultCustomTypographyScheme.p_small,
+                            color = defaultCustomColorScheme.ink400
+                        )
+                    }
                 }
             }
         }
@@ -149,35 +157,23 @@ fun CardImageSection(
 ){
     // Image Section
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(260.dp)
-
+        modifier = Modifier.fillMaxWidth().height(200.dp)
     ) {
         // Left: Main Image
-        Box(
-            modifier = Modifier
-                .weight(1f)
-                .padding(end = 2.dp)
-
-        ) {
+        Box(modifier = Modifier.weight(1f)) {
             Image(
-                painter = painterResource(id = R.drawable.img_wavy_buddies_delivery_on_the_way), // First image
+                painter = painterResource(id = R.drawable.img_restaurant_1), // First image
                 contentDescription = null,
-                modifier = Modifier
-                    .fillMaxWidth(),
-                //.height(200.dp)
-                //.clip(RoundedCornerShape(8.dp)),
+                modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
             // Star Rating
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
-                    //.padding(8.dp)
                     .background(
-                        color = Color(0xFFFFA500),
-                        shape = RoundedCornerShape(4.dp)
+                        color = LocalCustomColorScheme.current.primary400,
+                        shape = RoundedCornerShape(topEnd = 6.dp)
                     )
                     .padding(horizontal = 8.dp, vertical = 4.dp)
             ) {
@@ -192,27 +188,33 @@ fun CardImageSection(
                     Text(
                         text = rating.toString(),
                         color = Color.White,
-                        style = defaultCustomTypographyScheme.p_mediumBold
+                        style = defaultCustomTypographyScheme.p_medium
                     )
                 }
             }
         }
-        // Right: Two Small Images
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-            pictures.drop(1).forEachIndexed { index, imageRes ->
-                Image(
-                    painter = painterResource(id = R.drawable.img_wavy_buddies_delivery_on_the_way), // First image
-                    contentDescription = null,
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth()
-                        .padding(vertical = if (index == 0) 0.dp else 2.dp),
 
-                    contentScale = ContentScale.Crop
-                )
-            }
+        Spacer(modifier = Modifier.width(2.dp))
+
+        // Right: Two Small Images
+        Column(modifier = Modifier.weight(1f)) {
+            Image(
+                painter = painterResource(id = R.drawable.img_restaurant_2), // First image
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                contentScale = ContentScale.Crop
+            )
+            Spacer(modifier = Modifier.height(2.dp))
+            Image(
+                painter = painterResource(id = R.drawable.img_restaurant_2), // First image
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                contentScale = ContentScale.Crop
+            )
         }
     }
 }

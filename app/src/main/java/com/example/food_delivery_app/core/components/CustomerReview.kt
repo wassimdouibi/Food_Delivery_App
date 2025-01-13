@@ -5,22 +5,29 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarBorder
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.food_delivery_app.auth.model.entity.AuthState
+import com.example.food_delivery_app.core.home.model.entity.Review
+import com.example.food_delivery_app.core.profile.viewmodel.ProfileViewModel
 import com.example.food_delivery_app.ui.theme.Colors.defaultCustomColorScheme
 import com.example.food_delivery_app.ui.theme.Typography.defaultCustomTypographyScheme
 
-//takes : customer name - stars rate - review title - review paragraph
 
 @Composable
 fun CustomerReview(
-     customerReview: CustomerReview,
+     customerReview: Review,
+     profileViewModel: ProfileViewModel,
      modifier : Modifier = Modifier
           .fillMaxWidth()
           .border(1.dp, defaultCustomColorScheme.ink200)
@@ -32,46 +39,58 @@ fun CustomerReview(
      val usernameFontColor = defaultCustomColorScheme.ink500
      val bodyFontColor = defaultCustomColorScheme.ink400
 
-     Column(
-          modifier = modifier
-     ) {
-          Row(
-               modifier = Modifier.fillMaxWidth(),
-               horizontalArrangement = Arrangement.SpaceBetween,
-               verticalAlignment = Alignment.Top
+     val userFields by profileViewModel.userFields.collectAsState()
+     val isLoading by profileViewModel.isLoading.collectAsState()
+
+     LaunchedEffect(1){
+          profileViewModel.getUserFields(customerReview.userId.toString())
+     }
+
+     if (isLoading){
+          CircularProgressIndicator()
+     } else
+     {
+          Column(
+               modifier = modifier
           ) {
-               Column {
-                    Spacer(modifier = Modifier.height(4.dp))
+               Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Top
+               ) {
+                    Column {
+                         Spacer(modifier = Modifier.height(4.dp))
 
-                    Text(
-                         text = customerReview.customerUsername,
-                         style = usernameFont,
-                         color = usernameFontColor
-                    )
+                         Text(
+                              text = userFields?.name ?: "full name",
+                              style = usernameFont,
+                              color = usernameFontColor
+                         )
 
-                    Spacer(modifier = Modifier.height(8.dp))
+                         Spacer(modifier = Modifier.height(8.dp))
 
-                    Text(
-                         text = customerReview.title,
-                         style = bodyFont,
-                         color = bodyFontColor
-                    )
+                         Text(
+                              text = customerReview.title ?: "Title",
+                              style = bodyFont,
+                              color = bodyFontColor
+                         )
+                    }
+
+                    StarRating(rating = customerReview.rating)
                }
 
-               StarRating(rating = customerReview.rating)
+
+
+               Spacer(modifier = Modifier.height(12.dp))
+
+               Text(
+                    text = customerReview.reviewText ?: "description",
+                    style = bodyFont,
+                    color = bodyFontColor ,
+                    lineHeight = 20.sp,
+                    textAlign = TextAlign.Justify
+               )
           }
-
-
-
-          Spacer(modifier = Modifier.height(12.dp))
-
-          Text(
-               text = customerReview.text,
-               style = bodyFont,
-               color = bodyFontColor ,
-               lineHeight = 20.sp,
-               textAlign = TextAlign.Justify
-          )
      }
 }
 

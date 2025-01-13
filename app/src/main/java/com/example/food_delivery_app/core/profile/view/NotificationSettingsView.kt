@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.food_delivery_app.auth.View.components.BackUpBar
+import com.example.food_delivery_app.auth.view.components.BackUpBar
 import com.example.food_delivery_app.core.components.CustomSwitch
 import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
 

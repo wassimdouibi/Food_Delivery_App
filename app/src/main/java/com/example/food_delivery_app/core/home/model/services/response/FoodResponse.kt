@@ -5,7 +5,7 @@ import com.example.food_delivery_app.core.home.model.entity.Food
 import com.google.gson.annotations.SerializedName
 
 data class FoodResponse(
-    @SerializedName("food")
+    @SerializedName("menu")
     val food: Food,
     @SerializedName("category")
     val category: Category,

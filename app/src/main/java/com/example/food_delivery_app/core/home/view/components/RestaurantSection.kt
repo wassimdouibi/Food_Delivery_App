@@ -27,10 +27,7 @@ fun RestaurantSection(
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(restaurants.size) { index ->
-            RestaurantCard(
-                navController = navController,
-                restaurant = restaurants[index]
-            )
+            RestaurantCard( navController = navController, restaurant = restaurants[index] )
         }
     }
     Spacer(modifier = Modifier.height(24.dp))

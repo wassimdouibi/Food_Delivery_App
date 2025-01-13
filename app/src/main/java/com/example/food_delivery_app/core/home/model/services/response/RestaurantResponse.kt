@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
 data class RestaurantResponse(
     @SerializedName("restaurant")
     val restaurant: Restaurant,
-    @SerializedName("cuisine_type")
+    @SerializedName("cuisineType")
     val cuisineType: CuisineType,
     @SerializedName("tags")
     val tags: List<String>,

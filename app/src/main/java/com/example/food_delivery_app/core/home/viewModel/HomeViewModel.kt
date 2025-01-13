@@ -1,10 +1,12 @@
 package com.example.food_delivery_app.core.home.viewModel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.food_delivery_app.core.home.model.entity.Category
 import com.example.food_delivery_app.core.home.model.entity.CuisineType
+import com.example.food_delivery_app.core.home.model.entity.Review
 import com.example.food_delivery_app.core.home.model.repository.HomeRepository
 import com.example.food_delivery_app.core.home.model.services.response.FoodResponse
 import com.example.food_delivery_app.core.home.model.services.response.RestaurantResponse
@@ -44,6 +46,14 @@ class HomeViewModel(val homeRepository: HomeRepository): ViewModel() {
     private val _selectedFood = MutableStateFlow<FoodResponse?>(null)
     val selectedFood: StateFlow<FoodResponse?> = _selectedFood // get selected food
     // -----------------------------------------------------------------------------------------------------------------------------
+    private val _restaurantReviews = MutableStateFlow<List<Review>>(emptyList())
+    val restaurantReviews: StateFlow<List<Review>> = _restaurantReviews // get restaurant reviews
+    // -----------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
 
 
     // -----------------------------------------------------------------------------------------------------------------------------
@@ -129,6 +139,7 @@ class HomeViewModel(val homeRepository: HomeRepository): ViewModel() {
                 val response = withContext(Dispatchers.IO) {
                     homeRepository.getAllRestaurants()
                 }
+                Log.d("Heeere", "Reponse restaurants selected : $response")
                 _restaurants.emit(response)
             } catch (e: Exception) {
                 _error.value = e.message ?: "An unknown error occurred"
@@ -181,6 +192,23 @@ class HomeViewModel(val homeRepository: HomeRepository): ViewModel() {
                     homeRepository.getFoodById(foodId)
                 }
                 _selectedFood.emit(response)
+            } catch (e: Exception) {
+                _error.value = e.message ?: "An unknown error occurred"
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun getRestaurantReviews(restaurantId: Int) {
+        viewModelScope.launch {
+            try {
+                _isLoading.value = true
+                _error.value = null
+                val response = withContext(Dispatchers.IO) {
+                    homeRepository.getRestaurantReviews(restaurantId)
+                }
+                _restaurantReviews.emit(response)
             } catch (e: Exception) {
                 _error.value = e.message ?: "An unknown error occurred"
             } finally {

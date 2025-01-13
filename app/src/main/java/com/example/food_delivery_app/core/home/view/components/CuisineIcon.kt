@@ -2,10 +2,7 @@ package com.example.food_delivery_app.core.home.view.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,24 +19,26 @@ import com.example.food_delivery_app.ui.theme.Colors.defaultCustomColorScheme
 import com.example.food_delivery_app.ui.theme.Typography.defaultCustomTypographyScheme
 
 @Composable
-fun CuisineIcon(cuisineType: CuisineType, onClick: () -> Unit) {
+fun CuisineIcon(
+    cuisineType: CuisineType
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .width(90.dp)
-            //.padding( vertical = 8.dp)
-            .clickable { onClick() }
+        modifier = Modifier.wrapContentWidth()
     ) {
         Image(
-            painter = painterResource(id = R.drawable.img_wavy_buddies_preparing_your_food),
+            painter = painterResource(id = R.drawable.pizza),
             contentDescription = cuisineType.name,
             modifier = Modifier
                 .width(90.dp)
                 .height(80.dp)
-                .clip(RoundedCornerShape(8.dp)) ,
+                .clip(RoundedCornerShape(6.dp))
+                .clickable {
+
+                },
             contentScale = ContentScale.Crop,
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(6.dp))
         Text(
             text = cuisineType.name,
             style = defaultCustomTypographyScheme.p_smallSemiBold,
@@ -48,25 +47,28 @@ fun CuisineIcon(cuisineType: CuisineType, onClick: () -> Unit) {
     }
 }
 
+
 @Composable
-fun CuisineIcon(cuisineType: Category, onClick: () -> Unit) {
+fun CuisineIcon(
+    cuisineType: Category
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .width(90.dp)
-            //.padding( vertical = 8.dp)
-            .clickable { onClick() }
+        modifier = Modifier.wrapContentWidth()
     ) {
         Image(
-            painter = painterResource(id = R.drawable.img_wavy_buddies_preparing_your_food),
+            painter = painterResource(id = R.drawable.pizza),
             contentDescription = cuisineType.name,
             modifier = Modifier
                 .width(90.dp)
                 .height(80.dp)
-                .clip(RoundedCornerShape(8.dp)) ,
+                .clip(RoundedCornerShape(6.dp))
+                .clickable {
+
+                },
             contentScale = ContentScale.Crop,
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(6.dp))
         Text(
             text = cuisineType.name,
             style = defaultCustomTypographyScheme.p_smallSemiBold,

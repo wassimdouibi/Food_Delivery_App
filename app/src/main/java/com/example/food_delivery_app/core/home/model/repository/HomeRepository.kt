@@ -1,7 +1,9 @@
 package com.example.food_delivery_app.core.home.model.repository
 
+import android.util.Log
 import com.example.food_delivery_app.core.home.model.entity.Category
 import com.example.food_delivery_app.core.home.model.entity.CuisineType
+import com.example.food_delivery_app.core.home.model.entity.Review
 import com.example.food_delivery_app.core.home.model.services.HomeService
 import com.example.food_delivery_app.core.home.model.services.response.FoodResponse
 import com.example.food_delivery_app.core.home.model.services.response.RestaurantResponse
@@ -21,6 +23,7 @@ class HomeRepository(private val homeService: HomeService) {
     suspend fun getCuisineTypes(): List<CuisineType> {
         return try {
             val response = homeService.getCuisineTypes()
+            Log.d("Heeere", "Cuisines types response : ${response}")
             response.ifEmpty {
                 emptyList()
             }
@@ -70,11 +73,15 @@ class HomeRepository(private val homeService: HomeService) {
     }
 
     suspend fun getFoodsByRestaurantId(restaurantId: Int): List<FoodResponse> {
-        val response = homeService.getFoodsByRestaurantId(restaurantId)
-        if (response.isSuccessful) {
-            return response.body() ?: emptyList()
-        } else {
-            throw Exception("Error fetching foods: ${response.errorBody()?.string()}")
+        return try {
+            Log.d("Heeere", "let's get foods baby : $restaurantId")
+            val response = homeService.getFoodsByRestaurantId(restaurantId)
+            Log.d("Heeere", "getting foods baby : $response")
+            response.ifEmpty {
+                emptyList()
+            }
+        } catch (e: Exception) {
+            throw Exception("Error fetching foods: ${e.message}")
         }
     }
 
@@ -84,6 +91,17 @@ class HomeRepository(private val homeService: HomeService) {
             return response.body() ?: throw Exception("Food not found")
         } else {
             throw Exception("Error fetching food: ${response.errorBody()?.string()}")
+        }
+    }
+
+    suspend fun getRestaurantReviews(restaurantId: Int): List<Review> {
+        Log.d("reviews here", "response reviews : ${restaurantId}")
+        val response = homeService.getRestaurantReviews(restaurantId)
+        Log.d("reviews here", "response reviews : ${response.body()}")
+        if (response.isSuccessful) {
+            return response.body() ?: emptyList()
+        } else {
+            throw Exception("Error fetching restaurant reviews: ${response.errorBody()?.string()}")
         }
     }
 

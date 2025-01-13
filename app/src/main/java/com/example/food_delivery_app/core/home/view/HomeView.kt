@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.food_delivery_app.core.components.*
 import com.example.food_delivery_app.core.home.view.components.CuisineIcon
-import com.example.food_delivery_app.core.home.view.components.RestaurantSection
 import com.example.food_delivery_app.core.home.view.components.SectionTitle
 import com.example.food_delivery_app.core.home.viewModel.HomeViewModel
 
@@ -49,9 +48,8 @@ fun HomeView(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
             .fillMaxSize()
-            .padding(16.dp)
     ) {
-        // Loading and Error Handling
+
         if (isLoading) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
         }
@@ -82,40 +80,58 @@ fun HomeView(
         SectionTitle("Cuisines")
         Spacer(modifier = Modifier.height(8.dp))
         LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(cuisineTypes.size) { index ->
-                CuisineIcon(
-                    cuisineType = cuisineTypes[index],
-                    onClick = {
-//                        navController.navigate("cuisine/${cuisineTypes[index].id}")
-                    }
-                )
+                CuisineIcon( cuisineType = cuisineTypes[index] )
             }
         }
+
+
         Spacer(modifier = Modifier.height(24.dp))
+
 
         // Top Categories
         SectionTitle("Top Categories")
         Spacer(modifier = Modifier.height(8.dp))
         LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(foodCategories.size) { index ->
-                CuisineIcon(
-                    cuisineType = foodCategories[index],
-                    onClick = {
-//                        navController.navigate("category/${foodCategories[index].id}")
-                    }
-                )
+                CuisineIcon(cuisineType = foodCategories[index])
             }
         }
+
+
         Spacer(modifier = Modifier.height(24.dp))
 
         // Restaurant Sections
-        RestaurantSection("Top Restaurants", restaurants, navController)
-        RestaurantSection("Near Restaurants", restaurants, navController)
+        SectionTitle(title = "Top Restaurants")
+        Spacer(modifier = Modifier.height(8.dp))
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            items(restaurants.size) { index ->
+                RestaurantCard( restaurant = restaurants[index], navController = navController)
+            }
+        }
+
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+
+        SectionTitle(title = "Near Restaurants")
+        Spacer(modifier = Modifier.height(8.dp))
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            items(restaurants.size) { index ->
+                RestaurantCard( restaurant = restaurants[index], navController = navController )
+            }
+        }
     }
 }

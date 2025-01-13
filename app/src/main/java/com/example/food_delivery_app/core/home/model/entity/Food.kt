@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName
 import java.math.BigDecimal
 
 data class Food(
-    @SerializedName("menu_id")
+    @SerializedName("menuId")
     val menuId: Int,
-    @SerializedName("restaurant_id")
+    @SerializedName("restaurantId")
     val restaurantId: Int,
     @SerializedName("name")
     val name: String,

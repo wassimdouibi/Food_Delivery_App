@@ -4,10 +4,10 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.food_delivery_app.auth.Model.service.request.UpdateNameRequest
-import com.example.food_delivery_app.auth.Model.service.request.UpdatePhoneNumberRequest
-import com.example.food_delivery_app.auth.Model.service.request.UpdateProfilePictureRequest
-import com.example.food_delivery_app.auth.Model.service.response.UserFieldResponse
+import com.example.food_delivery_app.auth.model.service.request.UpdateNameRequest
+import com.example.food_delivery_app.auth.model.service.request.UpdatePhoneNumberRequest
+import com.example.food_delivery_app.auth.model.service.request.UpdateProfilePictureRequest
+import com.example.food_delivery_app.auth.model.service.response.UserFieldResponse
 import com.example.food_delivery_app.core.profile.model.repository.ProfileRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,7 +28,7 @@ class ProfileViewModel(val profileRepository: ProfileRepository) : ViewModel() {
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                val response = profileRepository.getUserFields(userId)
+                profileRepository.getUserFields(userId.toInt())
                     .onSuccess { userFields ->
                         _userFields.value = userFields
                         _error.value = null
@@ -48,14 +48,7 @@ class ProfileViewModel(val profileRepository: ProfileRepository) : ViewModel() {
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                profileRepository.updateUserName(UpdateNameRequest(userId, newName))
-                    .onSuccess { userFieldResponse ->
-                        _userFields.value = userFieldResponse.copy(name = newName)
-                        _error.value = null
-                    }
-                    .onFailure { exception ->
-                        _error.value = "Failed to update user name: ${exception.message}"
-                    }
+                profileRepository.updateUserName(userId.toInt(), newName)
             } catch (e: Exception) {
                 _error.value = e.localizedMessage ?: "An unknown error occurred"
             } finally {
@@ -68,14 +61,7 @@ class ProfileViewModel(val profileRepository: ProfileRepository) : ViewModel() {
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                profileRepository.updateUserPhoneNumber(UpdatePhoneNumberRequest(userId, phoneNumber))
-                    .onSuccess { userFieldResponse ->
-                        _userFields.value = userFieldResponse.copy(phonenumber = phoneNumber)
-                        _error.value = null
-                    }
-                    .onFailure { exception ->
-                        _error.value = "Failed to update phone number: ${exception.message}"
-                    }
+                profileRepository.updateUserPhoneNumber(userId.toInt(), phoneNumber)
             } catch (e: Exception) {
                 _error.value = e.localizedMessage ?: "An unknown error occurred"
             } finally {
@@ -88,14 +74,7 @@ class ProfileViewModel(val profileRepository: ProfileRepository) : ViewModel() {
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                profileRepository.updateProfilePicture(UpdateProfilePictureRequest(userId, profilePicture))
-                    .onSuccess { userFieldResponse ->
-                        _userFields.value = userFieldResponse.copy(profilepicture = profilePicture)
-                        _error.value = null
-                    }
-                    .onFailure { exception ->
-                        _error.value = "Failed to update profile picture: ${exception.message}"
-                    }
+                profileRepository.updateProfilePicture(userId.toInt(), profilePicture)
             } catch (e: Exception) {
                 _error.value = e.localizedMessage ?: "An unknown error occurred"
             } finally {

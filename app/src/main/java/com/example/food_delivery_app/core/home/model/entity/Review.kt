@@ -3,16 +3,16 @@ package com.example.food_delivery_app.core.home.model.entity
 import com.google.gson.annotations.SerializedName
 
 data class Review(
-    @SerializedName("review_id")
+    @SerializedName("reviewId")
     val reviewId: Int,
-    @SerializedName("user_id")
+    @SerializedName("userId")
     val userId: Int,
-    @SerializedName("restaurant_id")
+    @SerializedName("restaurantId")
     val restaurantId: Int,
     @SerializedName("rating")
     val rating: Int,
     @SerializedName("title")
     val title: String?,
-    @SerializedName("review_text")
+    @SerializedName("reviewText")
     val reviewText: String?
 )

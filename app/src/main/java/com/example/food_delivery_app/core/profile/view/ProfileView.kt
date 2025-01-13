@@ -1,5 +1,6 @@
 package com.example.food_delivery_app.core.profile.view
 
+import android.content.SharedPreferences
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -21,7 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.food_delivery_app.R
-import com.example.food_delivery_app.auth.ViewModel.AuthViewModel
+import com.example.food_delivery_app.auth.viewModel.AuthViewModel
 import com.example.food_delivery_app.core.profile.viewmodel.ProfileViewModel
 import com.example.food_delivery_app.core.components.BorderlessTextButton
 import com.example.food_delivery_app.core.components.CustomSwitch
@@ -35,7 +36,8 @@ import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
 fun ProfileView(
     navController: NavController,
     authViewModel: AuthViewModel,
-    profileViewModel: ProfileViewModel
+    profileViewModel: ProfileViewModel,
+    pref: SharedPreferences
 ) {
     val scope = rememberCoroutineScope()
 
@@ -57,7 +59,7 @@ fun ProfileView(
 
 
     // Fetch user data when userId is available
-    LaunchedEffect(userId) {
+    LaunchedEffect(1) {
         userId?.let { id ->
             profileViewModel.getUserFields(id)
         }
@@ -133,7 +135,7 @@ fun ProfileView(
                 title = stringResource(R.string.edit_profile_title),
                 icon = R.drawable.profile_outline
             ) {
-                navController.navigate(Router.EditProfileScreen.route)
+                navController.navigate(Router.EditProfileScreen.createRoute())
             }
 
             ProfileItem(
@@ -188,7 +190,7 @@ fun ProfileView(
     if (ConfirmLogoutAlertBox) {
         ConfirmLogoutAlertBox(
             onLogout = {
-                authViewModel.logout()
+                authViewModel.logout(pref)
                 navController.navigate(Router.LoginScreen.route)
                 ConfirmLogoutAlertBox = false
             },

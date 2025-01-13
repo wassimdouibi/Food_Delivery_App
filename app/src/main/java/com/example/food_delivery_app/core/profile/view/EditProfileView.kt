@@ -1,5 +1,6 @@
 package com.example.food_delivery_app.core.profile.view
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -18,9 +19,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.food_delivery_app.R
-import com.example.food_delivery_app.auth.Model.service.response.UserFieldResponse
-import com.example.food_delivery_app.auth.ViewModel.AuthViewModel
-import com.example.food_delivery_app.auth.View.components.BackUpBar
+import com.example.food_delivery_app.auth.model.service.response.UserFieldResponse
+import com.example.food_delivery_app.auth.viewModel.AuthViewModel
+import com.example.food_delivery_app.auth.view.components.BackUpBar
 import com.example.food_delivery_app.core.profile.viewmodel.ProfileViewModel
 import com.example.food_delivery_app.core.components.FilledTextButton
 import com.example.food_delivery_app.core.components.FoodDeliveryTextField
@@ -34,7 +35,8 @@ import kotlinx.coroutines.launch
 fun EditProfileView(
     navController: NavController,
     authViewModel: AuthViewModel,
-    profileViewModel: ProfileViewModel
+    profileViewModel: ProfileViewModel,
+    isFromSignup: Boolean = false
 ) {
     var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
@@ -47,40 +49,38 @@ fun EditProfileView(
     val userFields: UserFieldResponse? by profileViewModel.userFields.collectAsState(initial = null)
     val isLoading: Boolean by profileViewModel.isLoading.collectAsState(initial = false)
     val error: String? by profileViewModel.error.collectAsState(initial = null)
-    var isNewAccount = true
 
-    // Create a coroutine scope for launching the suspend function
-    val coroutineScope = rememberCoroutineScope()
 
-    // Fetch user data when userId is available
-    LaunchedEffect(userId) {
-        userId?.let { id ->
-            profileViewModel.getUserFields(id)
+    // Only fetch user data if NOT coming from signup
+    LaunchedEffect(1) {
+        if (!isFromSignup) {
+            userId?.let { id ->
+                profileViewModel.getUserFields(id)
+            }
         }
     }
 
-    // Update UI when user fields are received
+    // Update UI when user fields are received (only if not from signup)
     LaunchedEffect(userFields) {
-        userFields?.let { fields ->
-            // Handle nullable name field
-            fields.name?.let { fullName ->
-                firstName = fullName.substringBefore(" ", "")
-                lastName = fullName.substringAfter(" ", "")
+        if (!isFromSignup) {
+            userFields?.let { fields ->
+                fields.name?.let { fullName ->
+                    firstName = fullName.substringBefore(" ", "")
+                    lastName = fullName.substringAfter(" ", "")
+                }
+                phonenumber = fields.phonenumber ?: ""
+                profilePicture = fields.profilepicture ?: ""
             }
-            // Handle nullable phone number
-            phonenumber = fields.phonenumber ?: ""
-            // Handle nullable profile picture
-            profilePicture = fields.profilepicture ?: ""
         }
     }
 
 
     //  Handle error messages
-    LaunchedEffect(error) {
-        error?.let {
-            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-        }
-    }
+//    LaunchedEffect(error) {
+//        error?.let {
+//            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+//        }
+//    }
 
     // Show loading state
     if (isLoading) {
@@ -170,23 +170,28 @@ fun EditProfileView(
                 textStyle = LocalCustomTypographyScheme.current.p_mediumBold,
                 modifier = Modifier.padding(),
                 onClick = {
-                    if (firstName.isNotEmpty() && lastName.isNotEmpty() && phonenumber.isNotEmpty() && profilePicture.isNotEmpty()) {
-                        coroutineScope.launch {
-                            userId?.let { id ->
-                                // Call suspend functions inside the coroutine scope
-                                profileViewModel.updateUserName(id, "$firstName $lastName")
-                                profileViewModel.updateUserPhoneNumber(id, phonenumber)
-                                profileViewModel.updateProfilePicture(id, profilePicture)
-                            }
-                            navController.navigate(Router.ProfileScreen.route)
+                    if(firstName != "" && lastName != "") {
+                        userId?.let { id ->
+                            Log.d("Heeere", "Full name modification ; user id is : $id")
+                            profileViewModel.updateUserName(id, "$firstName $lastName")
                         }
-                    } else {
-                        Toast.makeText(
-                            context,
-                            "Please fill all the fields",
-                            Toast.LENGTH_SHORT
-                        )
                     }
+                    if(phonenumber != "") {
+                        userId?.let { id ->
+                            Log.d("Heeere", "Phone number modification ; user id is : $id")
+                            profileViewModel.updateUserPhoneNumber(id, phonenumber)
+                        }
+                    }
+                    if(profilePicture != ""){
+                        userId?.let { id ->
+                            Log.d("Heeere", "Profile picture modification ; user id is : $id")
+                            profileViewModel.updateProfilePicture(id, profilePicture)
+                        }
+                    }
+                    userId?.let { id ->
+                        profileViewModel.getUserFields(id)
+                    }
+                    navController.navigate(Router.ProfileScreen.route)
                 }
             )
         }
