@@ -22,6 +22,7 @@ import com.example.food_delivery_app.core.components.*
 import com.example.food_delivery_app.core.home.view.components.CuisineIcon
 import com.example.food_delivery_app.core.home.view.components.SectionTitle
 import com.example.food_delivery_app.core.home.viewModel.HomeViewModel
+import com.example.food_delivery_app.router.Router
 
 
 @Composable
@@ -64,11 +65,11 @@ fun HomeView(
             placeHolderText = stringResource(R.string.input_search_restaurant),
             leadingIconVector = Icons.Default.Search,
             trailingIconId = R.drawable.ri_equalizer_fill,
-            modifier = Modifier.fillMaxWidth(.9f).align(Alignment.CenterHorizontally),
+            modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally),
             changeShowFilterState = { showFilterState = !showFilterState },
             keyboardActions = KeyboardActions(
                 onSearch = {
-                    navController.navigate("search_results/${search}")
+                    navController.navigate(Router.HomeSearchResultScreen.createRoute(search))
                 }
             ),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search)

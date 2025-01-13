@@ -41,8 +41,11 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.food_delivery_app.R
+import com.example.food_delivery_app.auth.model.entity.AuthPreferences
+import com.example.food_delivery_app.auth.viewModel.AuthViewModel
 import com.example.food_delivery_app.core.components.CustomerReview
 import com.example.food_delivery_app.core.components.FoodMenuCard
+import com.example.food_delivery_app.core.favorites.viewModel.FavoritesViewModel
 import com.example.food_delivery_app.core.home.model.services.response.FoodResponse
 import com.example.food_delivery_app.core.home.model.services.response.RestaurantResponse
 import com.example.food_delivery_app.core.home.view.components.SectionTitle
@@ -51,7 +54,7 @@ import com.example.food_delivery_app.core.profile.viewmodel.ProfileViewModel
 import com.example.food_delivery_app.ui.theme.Colors.defaultCustomColorScheme
 import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
 import com.example.food_delivery_app.ui.theme.Typography.defaultCustomTypographyScheme
-
+import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -60,11 +63,15 @@ fun RestaurantDetailsView(
     navController : NavController,
     homeViewModel: HomeViewModel,
     profileViewModel: ProfileViewModel,
+    favoritesViewModel: FavoritesViewModel,
     restaurantId: Int
 ) {
     val context = LocalContext.current
     val isLoading by homeViewModel.isLoading.collectAsState()
     val error by homeViewModel.error.collectAsState()
+    val authPreferences = AuthPreferences(context)
+    val coroutineScope = rememberCoroutineScope()
+
 
     var isFavorite by remember { mutableStateOf(false) }
     val mealTypes = listOf("All", "Breakfast", "Lunch & Dinner", "Desserts", "Drinks")
@@ -72,6 +79,7 @@ fun RestaurantDetailsView(
     val selectedRestaurant by homeViewModel.selectedRestaurant.collectAsState()
     val foodsFromRestaurant by homeViewModel.foodsFromRestaurant.collectAsState()
     val restaurantReviews by homeViewModel.restaurantReviews.collectAsState()
+
 
     LaunchedEffect(1) {
         homeViewModel.getRestaurantById(restaurantId)
@@ -82,6 +90,14 @@ fun RestaurantDetailsView(
     LaunchedEffect(error) {
         error?.let {
             Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    var userId by remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(authPreferences) {
+        authPreferences.userIdFlow.collect {
+            userId = it
         }
     }
 
@@ -108,7 +124,17 @@ fun RestaurantDetailsView(
                         )
 
                         IconButton(
-                            onClick = { isFavorite = !isFavorite },
+                            onClick = {
+                                isFavorite = !isFavorite
+                                coroutineScope.launch {
+                                    if (userId != "-1") {
+                                        Log.d("Favorites", "user id is : $userId")
+                                        favoritesViewModel.addRestaurantToFavorites(userId!!.toInt(), restaurantId)
+                                    } else {
+                                        Log.d("Favorites", "No userId found")
+                                    }
+                                }
+                            },
                             modifier = Modifier
                                 .align(Alignment.TopEnd)
                                 .padding(8.dp)

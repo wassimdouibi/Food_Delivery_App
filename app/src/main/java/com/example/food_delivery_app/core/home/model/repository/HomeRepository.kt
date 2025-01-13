@@ -74,9 +74,7 @@ class HomeRepository(private val homeService: HomeService) {
 
     suspend fun getFoodsByRestaurantId(restaurantId: Int): List<FoodResponse> {
         return try {
-            Log.d("Heeere", "let's get foods baby : $restaurantId")
             val response = homeService.getFoodsByRestaurantId(restaurantId)
-            Log.d("Heeere", "getting foods baby : $response")
             response.ifEmpty {
                 emptyList()
             }

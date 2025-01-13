@@ -45,9 +45,9 @@ fun SigninCard(
     LaunchedEffect(authState) {
         when (authState) {
             is AuthState.Success -> {
-                navController.navigate(Router.FoodDeliveryNavScreen.route)
+                navController.navigate(Router.FavoritesScreen.route)
             }
-            else -> {} // Handle other states if needed
+            else -> {}
         }
     }
 

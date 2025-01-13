@@ -1,9 +1,5 @@
 package com.example.food_delivery_app.router
 
-import androidx.navigation.NavType
-import com.example.food_delivery_app.core.RestaurantDetailsView
-import com.example.food_delivery_app.core.home.model.services.response.RestaurantResponse
-import com.google.gson.Gson
 
 sealed class Router(val route:String) {
     object Splash: Router("/splash")
@@ -31,14 +27,14 @@ sealed class Router(val route:String) {
             return "/restaurant/$restaurantId"
         }
     }
+    object HomeSearchResultScreen: Router("/search_result/{initialSearchInput}"){
+        fun createRoute(initialSearchInput: String): String {
+            return "/search_result/$initialSearchInput"
+        }
+    }
+    object FavoritesScreen: Router("/favorites")
 
-    //    object HomeSearchResultScreen: Router("/search_result/{initialSearchInput}"){
-//        fun createRoute(initialSearchInput: String): String = "/search_result/$initialSearchInput"
-//    }
-//
-//    object OrdersScreen: Router("/orders")
-//    object FavoritesScreen: Router("/favorites")
-//
+    //    object OrdersScreen: Router("/orders")
     object ProfileScreen: Router("/profile")
     object EditProfileScreen: Router("/profile-edit?fromSignup={fromSignup}") {
         fun createRoute(fromSignup: Boolean = false): String {

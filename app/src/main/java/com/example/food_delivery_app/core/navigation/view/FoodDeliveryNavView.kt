@@ -17,8 +17,6 @@ import com.example.food_delivery_app.core.Home.HomeView
 import com.example.food_delivery_app.core.home.viewModel.HomeViewModel
 import com.example.food_delivery_app.core.navigation.model.NavItem
 import com.example.food_delivery_app.core.navigation.view.components.NavItemBox
-import com.example.food_delivery_app.core.orders.viewModel.OrdersViewModel
-import com.example.food_delivery_app.core.favorites.viewModel.FavoritesViewModel
 import com.example.food_delivery_app.core.profile.view.ProfileView
 import com.example.food_delivery_app.core.profile.viewmodel.ProfileViewModel
 import com.example.food_delivery_app.router.Router
@@ -82,7 +80,7 @@ fun FoodDeliveryNavView(
 //                            favoritesViewModel = FavoritesViewModel
 //                        )
 //                    }
-                    composable(route = Router.ProfileScreen.route) {
+                    composable(Router.ProfileScreen.route) {
                         ProfileView(
                             navController = navController,
                             authViewModel = authViewModel,

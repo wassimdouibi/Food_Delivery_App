@@ -1,10 +1,7 @@
 package com.example.food_delivery_app.router
 
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.navigation.compose.composable
 import com.example.food_delivery_app.auth.viewModel.AuthViewModel
 import com.example.food_delivery_app.core.profile.view.EditProfileView
@@ -21,13 +18,14 @@ import com.example.food_delivery_app.auth.view.forgotpassword.view.OTPView
 import com.example.food_delivery_app.auth.view.login.view.LoginView
 import com.example.food_delivery_app.auth.view.signup.view.SignupView
 import com.example.food_delivery_app.core.Home.HomeView
+import com.example.food_delivery_app.core.HomeSearchResultView
 import com.example.food_delivery_app.core.RestaurantDetailsView
-import com.example.food_delivery_app.core.home.model.services.response.RestaurantResponse
+import com.example.food_delivery_app.core.favorites.view.FavoritesView
+import com.example.food_delivery_app.core.favorites.viewModel.FavoritesViewModel
 import com.example.food_delivery_app.core.home.viewModel.HomeViewModel
 import com.example.food_delivery_app.core.navigation.view.FoodDeliveryNavView
 import com.example.food_delivery_app.core.profile.viewmodel.ProfileViewModel
 import com.example.food_delivery_app.onboarding.view.OnboardingView
-import com.google.gson.Gson
 
 @Composable
 fun NavigationHost(
@@ -37,8 +35,8 @@ fun NavigationHost(
     authViewModel: AuthViewModel,
     profileViewModel: ProfileViewModel,
     homeViewModel: HomeViewModel,
+    favoritesViewModel: FavoritesViewModel
 //    ordersViewModel: OrdersViewModel,
-//    favoritesViewModel: FavoritesViewModel
 ) {
 //    val isLogin = pref.getBoolean("isLogin", false)
 //    Log.d("FoodDeliveryApp", "existing user id is : $isLogin")
@@ -53,6 +51,7 @@ fun NavigationHost(
         }
 
 
+
         //  -------------------  Authentication Screens  -------------------
         composable(Router.LoginScreen.route) {
             LoginView(navController = navController, authViewModel = authViewModel, pref = pref)
@@ -63,7 +62,6 @@ fun NavigationHost(
         composable(Router.ForgotPasswordScreen.route) {
             ForgotPasswordView(navController = navController, authViewModel = authViewModel, pref= pref)
         }
-
         composable(
             route = Router.OTPScreen.route,
             arguments = listOf(
@@ -89,11 +87,12 @@ fun NavigationHost(
         }
 
 
+
+
         // -------------------  Profile Screens  -------------------
         composable(Router.ProfileScreen.route) {
             ProfileView(navController = navController, authViewModel = authViewModel, profileViewModel = profileViewModel, pref = pref)
         }
-
         composable(
             route = Router.EditProfileScreen.route,
             arguments = listOf(
@@ -106,10 +105,11 @@ fun NavigationHost(
             val isFromSignup = navBackStackEntry.arguments?.getBoolean("fromSignup") ?: false
             EditProfileView(navController = navController, authViewModel = authViewModel, profileViewModel = profileViewModel, isFromSignup = isFromSignup)
         }
-
         composable(Router.NotificationsSettingsScreen.route) {
             NotificationsSettingsView(navController = navController)
         }
+
+
 
         //  -------------------  Home  -------------------
         composable(Router.FoodDeliveryNavScreen.route) {
@@ -121,7 +121,6 @@ fun NavigationHost(
                 pref = pref
             )
         }
-
         composable(Router.HomeScreen.route) {
             HomeView(navController = navController, homeViewModel = homeViewModel)
         }
@@ -141,36 +140,44 @@ fun NavigationHost(
                 navController = navController,
                 homeViewModel = homeViewModel,
                 profileViewModel = profileViewModel,
+                favoritesViewModel = favoritesViewModel,
                 restaurantId = restaurantId
             )
         }
+        composable(
+            route = Router.HomeSearchResultScreen.route,
+            arguments = listOf(
+                navArgument("initialSearchInput") {
+                    type = NavType.StringType
+                    nullable = false
+                    defaultValue = ""
+                }
+            )
+        ) {
+            backStackEntry ->
+            val initialSearchInput: String = backStackEntry.arguments?.getString("initialSearchInput") ?: ""
+            HomeSearchResultView(
+                navController = navController,
+                homeViewModel = homeViewModel,
+                initialSearchInput = initialSearchInput
+            )
+        }
 
-//        composable(Router.HomeSearchResultScreen.route) {
-//            backStackEntry ->
-//            val initialSearchInput: String = backStackEntry.arguments?.getString("initialSearchInput")!!
-//            HomeSearchResultView(navController = navController, initialSearchInput = initialSearchInput)
-//        }
-//
-//
-//        //  ------------------- Main NavScreen -------------------
-//        composable(Router.FoodDeliveryNavScreen.route) {
-//            FoodDeliveryNavView(
-//                navController = navController,
-//                ordersViewModel = ordersViewModel,
-//                favoritesViewModel = favoritesViewModel
-//            )
-//        }
-//
-//
+
+
+
 //        //  ------------------- Orders Screen -------------------
 //        composable(Router.OrdersScreen.route) {
 //            OrdersView(navController = navController, ordersViewModel = ordersViewModel)
 //        }
 //
 //
-//        //  ------------------- Favorites Screen -------------------
-//        composable(Router.FavoritesScreen.route) {
-//            FavoritesView(navController = navController, favoritesViewModel = favoritesViewModel)
-//        }
+        //  ------------------- Favorites Screen -------------------
+        composable(Router.FavoritesScreen.route) {
+            FavoritesView(
+                navController = navController,
+                favoritesViewModel = favoritesViewModel
+            )
+        }
     }
 }

@@ -19,9 +19,7 @@ import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
 import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
 
 @Composable
-fun EmptyFavoritesScreen(
-    navController: NavController,
-) {
+fun EmptyFavoritesScreen() {
     var selectedIndex by remember { mutableStateOf(0) }
 
     Box(

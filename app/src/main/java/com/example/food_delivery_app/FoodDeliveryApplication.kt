@@ -5,6 +5,8 @@ import android.util.Log
 import com.example.food_delivery_app.auth.model.entity.AuthPreferences
 import com.example.food_delivery_app.auth.model.repository.AuthRepository
 import com.example.food_delivery_app.auth.model.service.AuthService
+import com.example.food_delivery_app.core.favorites.model.repository.FavoritesRepository
+import com.example.food_delivery_app.core.favorites.model.service.FavoritesService
 import com.example.food_delivery_app.core.home.model.repository.HomeRepository
 import com.example.food_delivery_app.core.home.model.services.HomeService
 import com.example.food_delivery_app.core.profile.model.repository.ProfileRepository
@@ -34,13 +36,10 @@ class FoodDeliveryApplication : Application() {
 //        OrdersRepository(ordersService)
 //    }
 //
-//    // Favorites
-//    val favoritesService: FavoritesService by lazy {
-//        retrofit.create(FavoritesService::class.java)
-//    }
-//    val favoritesRepository: FavoritesRepository by lazy {
-//        FavoritesRepository(favoritesService)
-//    }
+
+   // Favorites
+    val favoritesService: FavoritesService by lazy { FavoritesService.getInstance() }
+    val favoritesRepository: FavoritesRepository by lazy { FavoritesRepository(favoritesService) }
 
     override fun onCreate() {
         super.onCreate()

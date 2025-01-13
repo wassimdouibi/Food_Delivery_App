@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import com.example.food_delivery_app.R
 import com.example.food_delivery_app.core.navigation.view.components.CustomIconType
+import com.example.food_delivery_app.router.Router
 
 sealed class NavItem(
     val id: Int,
@@ -20,7 +21,7 @@ sealed class NavItem(
             iconDescription = "Home"
         ),
         label = "Home",
-        route = "home"
+        route = Router.HomeScreen.route
     )
 
     object Orders : NavItem(
@@ -40,7 +41,7 @@ sealed class NavItem(
             iconDescription = "Favorites"
         ),
         label = "Favorites",
-        route = "favorites"
+        route = Router.FavoritesScreen.route
     )
 
     object Profile : NavItem(
@@ -50,7 +51,7 @@ sealed class NavItem(
             iconDescription = "Profile"
         ),
         label = "Profile",
-        route = "profile_view"
+        route = Router.ProfileScreen.route
     )
 
     companion object {

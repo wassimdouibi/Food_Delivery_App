@@ -19,6 +19,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.compose.rememberNavController
 import com.example.food_delivery_app.auth.viewModel.AuthViewModel
+import com.example.food_delivery_app.core.favorites.viewModel.FavoritesViewModel
 import com.example.food_delivery_app.core.home.viewModel.HomeViewModel
 import com.example.food_delivery_app.router.NavigationHost
 import com.example.food_delivery_app.core.profile.viewmodel.ProfileViewModel
@@ -41,16 +42,18 @@ class MainActivity : ComponentActivity() {
             (application as FoodDeliveryApplication).homeRepository
         )
     }
+    private val favoritesViewModel: FavoritesViewModel by viewModels {
+        FavoritesViewModel.Factory(
+            (application as FoodDeliveryApplication).favoritesRepository
+        )
+    }
+
 //    private val ordersViewModel: OrdersViewModel by viewModels {
 //        OrdersViewModel.Factory(
 //            (application as FoodDeliveryApplication).ordersRepository
 //        )
 //    }
-//    private val favoritesViewModel: FavoritesViewModel by viewModels {
-//        FavoritesViewModel.Factory(
-//            (application as FoodDeliveryApplication).favoritesRepository
-//        )
-//    }
+
 
 //    private fun requestNotificationPermission() {
 //        if (Build.VERSION.SDK_INT > -Build.VERSION_CODES.TIRAMISU) {
@@ -85,8 +88,8 @@ class MainActivity : ComponentActivity() {
                         authViewModel = authViewModel,
                         profileViewModel = profileViewModel,
                         homeViewModel = homeViewModel,
+                        favoritesViewModel = favoritesViewModel,
 //                        ordersViewModel = ordersViewModel,
-//                        favoritesViewModel = favoritesViewModel,
                         pref = pref
                     )
 

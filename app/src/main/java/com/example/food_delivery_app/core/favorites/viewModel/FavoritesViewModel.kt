@@ -1,5 +1,6 @@
 package com.example.food_delivery_app.core.favorites.viewModel
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -10,31 +11,32 @@ import com.example.food_delivery_app.core.home.model.services.response.Restauran
 import com.example.food_delivery_app.core.favorites.model.repository.FavoritesRepository
 import com.example.food_delivery_app.core.favorites.model.service.request.AddFavoriteFoodRequest
 import com.example.food_delivery_app.core.favorites.model.service.request.AddFavoriteRestaurantRequest
-import com.example.food_delivery_app.core.favorites.model.service.response.AddFavoriteFoodResponse
-import com.example.food_delivery_app.core.favorites.model.service.response.AddFavoriteRestaurantResponse
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class FavoritesViewModel(val favoritesRepository: FavoritesRepository): ViewModel() {
 
-    private val _favoriteRestaurants = mutableStateOf<List<RestaurantResponse>>(emptyList())
-    val favoriteRestaurants: State<List<RestaurantResponse>> = _favoriteRestaurants
+    private val _favoriteRestaurants = MutableStateFlow<List<RestaurantResponse>>(emptyList())
+    val favoriteRestaurants: StateFlow<List<RestaurantResponse>> = _favoriteRestaurants
     // -----------------------------------------------------------------------------------------------------------------------------
-    private val _favoriteFoods = mutableStateOf<List<FoodResponse>>(emptyList())
-    val favoriteFoods: State<List<FoodResponse>> = _favoriteFoods
+    private val _favoriteFoods = MutableStateFlow<List<FoodResponse>>(emptyList())
+    val favoriteFoods: StateFlow<List<FoodResponse>> = _favoriteFoods
     // -----------------------------------------------------------------------------------------------------------------------------
-    private val _addFavoriteFoodRequestStatus = mutableStateOf<AddFavoriteFoodResponse?>(null)
-    val addFavoriteFoodRequestStatus: State<AddFavoriteFoodResponse?> = _addFavoriteFoodRequestStatus
+    private val _addFavoriteFoodRequestStatus = MutableStateFlow<Int?>(null)
+    val addFavoriteFoodRequestStatus: StateFlow<Int?> = _addFavoriteFoodRequestStatus
     // -----------------------------------------------------------------------------------------------------------------------------
-    private val _addFavoriteRestaurantRequestStatus = mutableStateOf<AddFavoriteRestaurantResponse?>(null)
-    val addFavoriteRestaurantRequestStatus: State<AddFavoriteRestaurantResponse?> = _addFavoriteRestaurantRequestStatus
+    private val _addFavoriteRestaurantRequestStatus = MutableStateFlow<Int?>(null)
+    val addFavoriteRestaurantRequestStatus: StateFlow<Int?> = _addFavoriteRestaurantRequestStatus
 
 
-    private val _isLoading = mutableStateOf(true)
-    val isLoading: State<Boolean> = _isLoading
-    private val _error = mutableStateOf<String?>(null)
-    val error: State<String?> = _error
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading = _isLoading.asStateFlow()
+    private val _error = MutableStateFlow<String?>(null)
+    val error = _error.asStateFlow()
 
 
     fun getFavoriteRestaurants(userId: Int) {
