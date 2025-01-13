@@ -2,6 +2,7 @@ package com.example.food_delivery_app.router
 
 import android.content.SharedPreferences
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.navigation.compose.composable
 import com.example.food_delivery_app.auth.viewModel.AuthViewModel
 import com.example.food_delivery_app.core.profile.view.EditProfileView
@@ -41,16 +42,16 @@ fun NavigationHost(
     favoritesViewModel: FavoritesViewModel
 //    ordersViewModel: OrdersViewModel,
 ) {
-//    val isLogin = pref.getBoolean("isLogin", false)
-//    Log.d("FoodDeliveryApp", "existing user id is : $isLogin")
-//    val startRouter = if (!isLogin) Router.Splash.route else Router.LoginScreen.route
+    val startDestination = remember {
+        calculateStartDestination(pref)
+    }
 
-    NavHost(navController = navController, startDestination = Router.LoginScreen.route) {
+    NavHost(navController = navController, startDestination = startDestination) {
         composable(Router.Splash.route) {
             Splash(navController = navController)
         }
         composable(Router.OnboardingScreen.route) {
-            OnboardingView(navController = navController)
+            OnboardingView(navController = navController, pref = pref)
         }
 
 
@@ -226,5 +227,17 @@ fun NavigationHost(
                 favoritesViewModel = favoritesViewModel
             )
         }
+    }
+}
+
+
+private fun calculateStartDestination(pref: SharedPreferences): String {
+    val isLogin = pref.getBoolean("isLogin", false)
+    val isOnboardingComplete = pref.getBoolean("isOnboardingComplete", false)
+
+    return when {
+        !isOnboardingComplete -> Router.OnboardingScreen.route
+        !isLogin -> Router.LoginScreen.route
+        else -> Router.FoodDeliveryNavScreen.route
     }
 }

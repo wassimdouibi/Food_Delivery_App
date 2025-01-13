@@ -45,7 +45,9 @@ fun SigninCard(
     LaunchedEffect(authState) {
         when (authState) {
             is AuthState.Success -> {
-                navController.navigate(Router.FoodDeliveryNavScreen.route)
+                navController.navigate(Router.FoodDeliveryNavScreen.route){
+                    popUpTo(Router.LoginScreen.route){ inclusive = true }
+                }
             }
             else -> {}
         }

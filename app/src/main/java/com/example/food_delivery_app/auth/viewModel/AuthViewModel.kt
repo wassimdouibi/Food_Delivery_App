@@ -58,7 +58,6 @@ class AuthViewModel (val authRepository: AuthRepository, val authPreferences: Au
                 .onSuccess { response ->
                     authPreferences.saveAuthData(response.userId, response.token)
                     pref.edit().putBoolean("isLogin", true).apply()
-                    Log.d("Auth", "Saved user ID: ${response.userId}")
                     _userId.value = response.userId
                     _authState.value = AuthState.Success(response)
                 }
@@ -101,16 +100,13 @@ class AuthViewModel (val authRepository: AuthRepository, val authPreferences: Au
                         pref.edit().putBoolean("isLogin", true).apply()
                         _userId.value = response.userId
                         _authState.value = AuthState.Success(response)
-                        Log.d("Registration", "User ID from register: ${response.userId}")
                     },
                     onFailure = { exception ->
                         _authState.value = AuthState.Error(exception.message ?: "Unknown error")
-                        Log.d("Registration", "Exception from register: ${exception.message}")
                     }
                 )
             } catch (e: Exception) {
                 _authState.value = AuthState.Error(e.message ?: "Unknown error")
-                Log.d("Registration", "Exception: ${e.message}")
             }
         }
     }

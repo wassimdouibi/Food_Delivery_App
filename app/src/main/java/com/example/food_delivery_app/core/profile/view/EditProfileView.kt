@@ -191,7 +191,9 @@ fun EditProfileView(
                     userId?.let { id ->
                         profileViewModel.getUserFields(id)
                     }
-                    navController.navigate(Router.ProfileScreen.route)
+                    navController.navigate(Router.ProfileScreen.route){
+                        popUpTo(Router.LoginScreen.route) { inclusive = true } // Clear login screen from back stack
+                    }
                 }
             )
         }

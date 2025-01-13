@@ -1,5 +1,6 @@
 package com.example.food_delivery_app.onboarding.view
 
+import android.content.SharedPreferences
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
@@ -28,7 +29,7 @@ import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
 import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
 
 @Composable
-fun OnboardingView(navController: NavController) {
+fun OnboardingView(navController: NavController, pref: SharedPreferences) {
     val onboardingItems: List<OnboardingItem> = OnboardingItem.get();
     var selectedItem = remember { mutableStateOf(0) }
 
@@ -78,6 +79,7 @@ fun OnboardingView(navController: NavController) {
             if (selectedItem.value == onboardingItems.size - 1) {
                 FilledTextButton(
                     onClick = {
+                        pref.edit().putBoolean("isOnboardingComplete", true).apply()
                         navController.navigate(Router.SignupScreen.route)
                     },
                     textContent = stringResource(R.string.cta_get_started),
