@@ -12,15 +12,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.food_delivery_app.R
 import com.example.food_delivery_app.core.home.model.entity.Category
 import com.example.food_delivery_app.core.home.model.entity.CuisineType
+import com.example.food_delivery_app.router.Router
 import com.example.food_delivery_app.ui.theme.Colors.defaultCustomColorScheme
 import com.example.food_delivery_app.ui.theme.Typography.defaultCustomTypographyScheme
 
 @Composable
 fun CuisineIcon(
-    cuisineType: CuisineType
+    cuisineType: CuisineType,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,

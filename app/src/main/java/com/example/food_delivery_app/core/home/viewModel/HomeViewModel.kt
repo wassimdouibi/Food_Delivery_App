@@ -8,6 +8,8 @@ import com.example.food_delivery_app.core.home.model.entity.Category
 import com.example.food_delivery_app.core.home.model.entity.CuisineType
 import com.example.food_delivery_app.core.home.model.entity.Review
 import com.example.food_delivery_app.core.home.model.repository.HomeRepository
+import com.example.food_delivery_app.core.home.model.services.request.FoodFilterRequest
+import com.example.food_delivery_app.core.home.model.services.request.RestaurantFilterRequest
 import com.example.food_delivery_app.core.home.model.services.response.FoodResponse
 import com.example.food_delivery_app.core.home.model.services.response.RestaurantResponse
 import kotlinx.coroutines.Dispatchers
@@ -95,13 +97,13 @@ class HomeViewModel(val homeRepository: HomeRepository): ViewModel() {
         }
     }
 
-    fun getRestaurantsOfCuisineType(cuisineType: CuisineType){
+    fun getRestaurantsOfCuisineType(restaurantFilterRequest: RestaurantFilterRequest){
         viewModelScope.launch {
             try {
                 _isLoading.value = true
                 _error.value = null
                 val response = withContext(Dispatchers.IO) {
-                    homeRepository.getRestaurantsCuisineType(cuisineType)
+                    homeRepository.getRestaurantsCuisineType(restaurantFilterRequest)
                 }
                 _restaurantsFromSpecificCuisineType.emit(response)
             } catch (e: Exception) {
@@ -112,13 +114,13 @@ class HomeViewModel(val homeRepository: HomeRepository): ViewModel() {
         }
     }
 
-    fun getFoodsFromSpecificCategory(foodCategory: Category){
+    fun getFoodsFromSpecificCategory(foodFilterRequest: FoodFilterRequest){
         viewModelScope.launch {
             try {
                 _isLoading.value = true
                 _error.value = null
                 val response = withContext(Dispatchers.IO) {
-                    homeRepository.getFoodsFromSpecificCategory(foodCategory)
+                    homeRepository.getFoodsFromSpecificCategory(foodFilterRequest)
                 }
                 _foodsFromSpecificCategory.emit(response)
             } catch (e: Exception) {

@@ -45,93 +45,99 @@ fun HomeView(
         homeViewModel.getCuisineTypes()
     }
 
-    Column(
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-            .fillMaxSize()
-    ) {
-
-        if (isLoading) {
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+    if (isLoading) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            CircularProgressIndicator()
         }
-        error?.let {
-            Text(text = it, color = MaterialTheme.colorScheme.error, modifier = Modifier.align(Alignment.CenterHorizontally))
-        }
+    } else {
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .fillMaxSize()
+        ) {
+            error?.let {
+                Text(text = it, color = MaterialTheme.colorScheme.error, modifier = Modifier.align(Alignment.CenterHorizontally))
+            }
 
-        // Search Bar
-        FoodDeliveryTextField(
-            value = search,
-            onValueChange = { search = it },
-            placeHolderText = stringResource(R.string.input_search_restaurant),
-            leadingIconVector = Icons.Default.Search,
-            trailingIconId = R.drawable.ri_equalizer_fill,
-            modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally),
-            changeShowFilterState = { showFilterState = !showFilterState },
-            keyboardActions = KeyboardActions(
-                onSearch = {
-                    navController.navigate(Router.HomeSearchResultScreen.createRoute(search))
+            // Search Bar
+            FoodDeliveryTextField(
+                value = search,
+                onValueChange = { search = it },
+                placeHolderText = stringResource(R.string.input_search_restaurant),
+                leadingIconVector = Icons.Default.Search,
+                trailingIconId = R.drawable.ri_equalizer_fill,
+                modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally),
+                changeShowFilterState = { showFilterState = !showFilterState },
+                keyboardActions = KeyboardActions(
+                    onSearch = {
+                        navController.navigate(Router.HomeSearchResultScreen.createRoute(search))
+                    }
+                ),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search)
+            )
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            // Cuisines Section
+            SectionTitle("Cuisines")
+            Spacer(modifier = Modifier.height(8.dp))
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(cuisineTypes.size) { index ->
+                    CuisineIcon( cuisineType = cuisineTypes[index] )
                 }
-            ),
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search)
-        )
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        // Cuisines Section
-        SectionTitle("Cuisines")
-        Spacer(modifier = Modifier.height(8.dp))
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(cuisineTypes.size) { index ->
-                CuisineIcon( cuisineType = cuisineTypes[index] )
             }
-        }
 
 
-        Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
 
-        // Top Categories
-        SectionTitle("Top Categories")
-        Spacer(modifier = Modifier.height(8.dp))
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(foodCategories.size) { index ->
-                CuisineIcon(cuisineType = foodCategories[index])
+            // Top Categories
+            SectionTitle("Top Categories")
+            Spacer(modifier = Modifier.height(8.dp))
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(foodCategories.size) { index ->
+                    CuisineIcon(cuisineType = foodCategories[index])
+                }
             }
-        }
 
 
-        Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-        // Restaurant Sections
-        SectionTitle(title = "Top Restaurants")
-        Spacer(modifier = Modifier.height(8.dp))
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(restaurants.size) { index ->
-                RestaurantCard( restaurant = restaurants[index], navController = navController)
+            // Restaurant Sections
+            SectionTitle(title = "Top Restaurants")
+            Spacer(modifier = Modifier.height(8.dp))
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(restaurants.size) { index ->
+                    RestaurantCard( restaurant = restaurants[index], navController = navController)
+                }
             }
-        }
 
 
-        Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
 
-        SectionTitle(title = "Near Restaurants")
-        Spacer(modifier = Modifier.height(8.dp))
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(restaurants.size) { index ->
-                RestaurantCard( restaurant = restaurants[index], navController = navController )
+            SectionTitle(title = "Near Restaurants")
+            Spacer(modifier = Modifier.height(8.dp))
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(restaurants.size) { index ->
+                    RestaurantCard( restaurant = restaurants[index], navController = navController )
+                }
             }
         }
     }

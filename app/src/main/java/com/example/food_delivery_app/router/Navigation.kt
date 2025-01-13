@@ -23,6 +23,7 @@ import com.example.food_delivery_app.core.HomeSearchResultView
 import com.example.food_delivery_app.core.RestaurantDetailsView
 import com.example.food_delivery_app.core.favorites.view.FavoritesView
 import com.example.food_delivery_app.core.favorites.viewModel.FavoritesViewModel
+import com.example.food_delivery_app.core.home.view.CuisineRestaurantsView
 import com.example.food_delivery_app.core.home.viewModel.HomeViewModel
 import com.example.food_delivery_app.core.navigation.view.FoodDeliveryNavView
 import com.example.food_delivery_app.core.profile.viewmodel.ProfileViewModel
@@ -183,6 +184,17 @@ fun NavigationHost(
                 navController = navController,
                 homeViewModel = homeViewModel,
                 initialSearchInput = initialSearchInput
+            )
+        }
+        composable(
+            route = Router.CuisineRestaurantsScreen.route,
+            arguments = listOf(navArgument("cuisineTypeId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val cuisineTypeId: Int = backStackEntry.arguments?.getInt("cuisineTypeId") ?: -1
+            CuisineRestaurantsView(
+                navController = navController,
+                homeViewModel = homeViewModel,
+                cuisineTypeId = cuisineTypeId
             )
         }
 

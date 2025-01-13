@@ -43,12 +43,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.food_delivery_app.R
 import com.example.food_delivery_app.auth.model.entity.AuthPreferences
-import com.example.food_delivery_app.auth.viewModel.AuthViewModel
 import com.example.food_delivery_app.core.components.CustomerReview
 import com.example.food_delivery_app.core.components.FoodMenuCard
 import com.example.food_delivery_app.core.favorites.viewModel.FavoritesViewModel
-import com.example.food_delivery_app.core.home.model.services.response.FoodResponse
-import com.example.food_delivery_app.core.home.model.services.response.RestaurantResponse
 import com.example.food_delivery_app.core.home.view.components.SectionTitle
 import com.example.food_delivery_app.core.home.viewModel.HomeViewModel
 import com.example.food_delivery_app.core.profile.viewmodel.ProfileViewModel

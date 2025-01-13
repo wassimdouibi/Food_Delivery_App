@@ -5,6 +5,8 @@ import com.example.food_delivery_app.core.home.model.entity.Category
 import com.example.food_delivery_app.core.home.model.entity.CuisineType
 import com.example.food_delivery_app.core.home.model.entity.Review
 import com.example.food_delivery_app.core.home.model.services.HomeService
+import com.example.food_delivery_app.core.home.model.services.request.FoodFilterRequest
+import com.example.food_delivery_app.core.home.model.services.request.RestaurantFilterRequest
 import com.example.food_delivery_app.core.home.model.services.response.FoodResponse
 import com.example.food_delivery_app.core.home.model.services.response.RestaurantResponse
 
@@ -32,9 +34,9 @@ class HomeRepository(private val homeService: HomeService) {
         }
     }
 
-    suspend fun getRestaurantsCuisineType(cuisineType: CuisineType): List<RestaurantResponse> {
+    suspend fun getRestaurantsCuisineType(restaurantFilterRequest: RestaurantFilterRequest): List<RestaurantResponse> {
         return try {
-            val response = homeService.getRestaurantsCuisineType(cuisineType)
+            val response = homeService.filterRestaurants(restaurantFilterRequest)
             response.ifEmpty {
                 emptyList()
             }
@@ -43,9 +45,9 @@ class HomeRepository(private val homeService: HomeService) {
         }
     }
 
-    suspend fun getFoodsFromSpecificCategory(foodCategory: Category): List<FoodResponse> {
+    suspend fun getFoodsFromSpecificCategory(foodFilterRequest: FoodFilterRequest): List<FoodResponse> {
         return try {
-            val response = homeService.getFoodsFromSpecificCategory(foodCategory)
+            val response = homeService.filterMenus(foodFilterRequest)
             response.ifEmpty {
                 emptyList()
             }

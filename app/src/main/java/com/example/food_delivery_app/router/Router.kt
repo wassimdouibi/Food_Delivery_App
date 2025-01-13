@@ -22,21 +22,29 @@ sealed class Router(val route:String) {
     object FoodDeliveryNavScreen: Router("/nav")
 
     object HomeScreen: Router("/home")
+
     object RestaurantDetailsScreen : Router("/restaurant/{restaurantId}") {
         fun createRoute(restaurantId: Int): String {
             return "/restaurant/$restaurantId"
         }
     }
+
     object FoodDetailsScreen : Router("/food/{foodId}") {
         fun createRoute(foodId: Int): String {
             return "/food/$foodId"
         }
     }
+
     object HomeSearchResultScreen: Router("/search_result/{initialSearchInput}"){
         fun createRoute(initialSearchInput: String): String {
             return "/search_result/$initialSearchInput"
         }
     }
+
+    object CuisineRestaurantsScreen : Router("cuisine_restaurants/{cuisineTypeId}") {
+        fun createRoute(cuisineTypeId: Int) = "cuisine_restaurants/$cuisineTypeId"
+    }
+
     object FavoritesScreen: Router("/favorites")
 
     //    object OrdersScreen: Router("/orders")

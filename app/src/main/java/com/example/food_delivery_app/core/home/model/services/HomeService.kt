@@ -5,13 +5,17 @@ import com.example.food_delivery_app.core.home.model.entity.Category
 import com.example.food_delivery_app.core.home.model.entity.CuisineType
 import com.example.food_delivery_app.core.home.model.entity.Restaurant
 import com.example.food_delivery_app.core.home.model.entity.Review
+import com.example.food_delivery_app.core.home.model.services.request.FoodFilterRequest
+import com.example.food_delivery_app.core.home.model.services.request.RestaurantFilterRequest
 import com.example.food_delivery_app.core.home.model.services.response.FoodResponse
 import com.example.food_delivery_app.core.home.model.services.response.RestaurantResponse
 import com.example.food_delivery_app.core.profile.model.service.ProfileService
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface HomeService {
@@ -21,11 +25,11 @@ interface HomeService {
     @GET ("restaurants/cuisinetypes")
     suspend fun getCuisineTypes(): List<CuisineType>
 
-    @GET("restaurants/filter")
-    suspend fun getRestaurantsCuisineType(cuisineType: CuisineType): List<RestaurantResponse>
+    @POST("restaurants/filter")
+    suspend fun filterRestaurants(@Body request: RestaurantFilterRequest): List<RestaurantResponse>
 
-    @GET("menus/filter")
-    suspend fun getFoodsFromSpecificCategory(foodCategory: Category): List<FoodResponse>
+    @POST("menus/filter")
+    suspend fun filterMenus(@Body request: FoodFilterRequest): List<FoodResponse>
 
     @GET("restaurants")
     suspend fun getAllRestaurants(): Response<List<RestaurantResponse>>
