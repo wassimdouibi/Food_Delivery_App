@@ -40,7 +40,7 @@ fun Navigation(
 
     NavHost(
         navController = navController,
-        startDestination = if (isLoggedIn) Screen.ProfileView.route else Screen.Onboarding.route
+        startDestination = if (isLoggedIn) Screen.Home.route else Screen.Home.route
     ) {
         composable(Screen.Splash.route) {
             Splash(navController = navController)

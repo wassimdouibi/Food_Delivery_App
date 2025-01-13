@@ -62,7 +62,7 @@ fun FoodMenuCard(
     Column(
         modifier = modifier ,
     ) {
-        CardImageSection( pictures = restaurant.restaurantPictures, rating = restaurant.rating)
+        CardImageSection( pictures = listOf("",""), rating = restaurant.rating)
 
         Spacer(modifier = Modifier.height(8.dp))
 

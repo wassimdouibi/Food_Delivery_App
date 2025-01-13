@@ -69,10 +69,11 @@ class MainActivity : ComponentActivity() {
                     val pref = context.getSharedPreferences("local", Context.MODE_PRIVATE)
                     //PreviewHomeScreen()
                     //PreviewHomeSearchResultScreen()
-                    Navigation(
+                    previewFoodDetailsScreen()
+                   /* Navigation(
                         authViewModel = authViewModel,
                         pref = pref
-                    )
+                    )*/
 
 
                 }

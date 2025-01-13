@@ -64,7 +64,7 @@ fun RestaurantCard(
                 //shape = RoundedCornerShape(8.dp)
             )*/
     ) {
-        CardImageSection( pictures = restaurant.restaurantPictures, rating = restaurant.rating)
+        CardImageSection( pictures = listOf("",""), rating = restaurant.rating)
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -158,38 +158,29 @@ fun RestaurantCard(
 
 
 @Composable
-fun CardImageSection(pictures : List<Int> , rating: Double){
+fun CardImageSection(
+    pictures: List<String>,
+    rating: Double
+){
     // Image Section
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(260.dp)
-
+        modifier = Modifier.fillMaxWidth().height(200.dp)
     ) {
         // Left: Main Image
-        Box(
-            modifier = Modifier
-                .weight(1f)
-                .padding(end = 2.dp)
-
-        ) {
+        Box(modifier = Modifier.weight(1f)) {
             Image(
-                painter = painterResource(id = pictures[0]), // First image
+                painter = painterResource(id = R.drawable.img_food_two), // First image
                 contentDescription = null,
-                modifier = Modifier
-                    .fillMaxWidth(),
-                //.height(200.dp)
-                //.clip(RoundedCornerShape(8.dp)),
+                modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
             // Star Rating
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
-                    //.padding(8.dp)
                     .background(
-                        color = Color(0xFFFFA500),
-                        shape = RoundedCornerShape(4.dp)
+                        color = defaultCustomColorScheme.primary400,
+                        shape = RoundedCornerShape(topEnd = 6.dp)
                     )
                     .padding(horizontal = 8.dp, vertical = 4.dp)
             ) {
@@ -204,31 +195,36 @@ fun CardImageSection(pictures : List<Int> , rating: Double){
                     Text(
                         text = rating.toString(),
                         color = Color.White,
-                        style = defaultCustomTypographyScheme.p_mediumBold
+                        style = defaultCustomTypographyScheme.p_medium
                     )
                 }
             }
         }
-        // Right: Two Small Images
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-            pictures.drop(1).forEachIndexed { index, imageRes ->
-                Image(
-                    painter = painterResource(id = imageRes),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth()
-                        .padding(vertical = if (index == 0) 0.dp else 2.dp),
 
-                    contentScale = ContentScale.Crop
-                )
-            }
+        Spacer(modifier = Modifier.width(2.dp))
+
+        // Right: Two Small Images
+        Column(modifier = Modifier.weight(1f)) {
+            Image(
+                painter = painterResource(id = R.drawable.img_food_one), // First image
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                contentScale = ContentScale.Crop
+            )
+            Spacer(modifier = Modifier.height(2.dp))
+            Image(
+                painter = painterResource(id = R.drawable.img_food_three), // First image
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                contentScale = ContentScale.Crop
+            )
         }
     }
 }
-
 
 @Composable
 fun PreviewRestaurantCard() {

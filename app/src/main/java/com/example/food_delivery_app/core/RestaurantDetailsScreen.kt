@@ -69,7 +69,7 @@ fun RestaurantDetailsScreen(
     navController : NavController,
      restaurantID: Int
 ) {
-    val restaurant : Restaurant = restaurant1  // get the restaurant using API
+    val restaurant: Restaurant = restaurant1  // get the restaurant using API
 
     var isFavorite by remember { mutableStateOf(false) }
     val mealTypes = listOf("All", "Breakfast", "Lunch & Dinner", "Desserts", "Drinks")
@@ -257,16 +257,16 @@ fun RestaurantDetailsScreen(
         }
 
     }
-}
 
 
-@Composable
-fun previewRestDetailsScreen ()
-    {
-    val restaurant : Restaurant = restaurant1
 
-    RestaurantDetailsScreen(
-    navController = rememberNavController(),
-    restaurantID = 1
-    )
+    @Composable
+    fun previewRestDetailsScreen() {
+        val restaurant: Restaurant = restaurant1
+
+        RestaurantDetailsScreen(
+            navController = rememberNavController(),
+            restaurantID = 1
+        )
+    }
 }
