@@ -63,6 +63,7 @@ fun FoodDetailsView(
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val isLoading by homeViewModel.isLoading.collectAsState()
+    val isLoadingOrders by ordersViewModel.isLoading.collectAsState()
     val error by homeViewModel.error.collectAsState()
     val authPreferences = AuthPreferences(context)
 
@@ -104,7 +105,7 @@ fun FoodDetailsView(
     }
 
 
-    if (isLoading) {
+    if (isLoading || isLoadingOrders) {
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -120,7 +121,10 @@ fun FoodDetailsView(
                         price = foodRes.food.price.toFloat(),
                         initialValue = 1,
                         addOrder = {
-
+                            ordersViewModel.addMenuToCart(
+                                userId = userId!!.toInt(),
+                                menuId = foodRes.food.menuId
+                            )
                         },
                         modifier = Modifier
                             .background(Color.White)
@@ -327,98 +331,6 @@ fun FoodDetailsView(
                 }
 
             }
-        }
-    }
-}
-
-
-@Composable
-fun BottomBar(quantity: Int, foodPrice: Double, onQuantityChange: (Int) -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color.White) // Add a background color for clarity
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        // Quantity Controls
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            // Minus Icon
-
-            IconButton(
-                onClick = {
-                    if (quantity > 0) onQuantityChange(quantity - 1)
-                },
-                enabled = quantity > 0,
-                modifier = Modifier.border(0.dp, Color.Transparent, RectangleShape)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_minus),
-                    contentDescription = "minus icon",
-                    modifier = Modifier
-                        .size(30.dp)
-                )
-            }
-
-            // Spacer between minus and quantity
-
-            // Quantity Text
-            Text(
-                text = "$quantity",
-                fontSize = 18.sp,
-                modifier = Modifier.padding(horizontal = 8.dp)
-            )
-
-            // Spacer between quantity and plus
-
-            // Plus Icon
-            IconButton(
-                onClick = {
-                    onQuantityChange(quantity + 1)
-                },
-                modifier = Modifier.border(0.dp, Color.Transparent, RectangleShape)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_plus),
-                    contentDescription = "plus icon",
-                    modifier = Modifier
-                        .size(30.dp)
-                )
-            }
-
-
-        }
-
-        // Spacer between Quantity Controls and Add to Cart Button
-        Spacer(modifier = Modifier.width(16.dp))
-
-        // Add to Cart Button
-        Button(
-            onClick = { /* Add to cart logic here */ },
-            shape = RectangleShape,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFFF9B66) // Set custom background color
-            )
-        ) {
-            // Cart Text
-            Text(text = "Add to Cart", modifier = Modifier.padding(end = 4.dp))
-
-            // Cart Icon
-            Image(
-                painter = painterResource(id = R.drawable.orders),
-                contentDescription = "Cart icon",
-                modifier = Modifier.size(20.dp)
-            )
-
-            // Price Text
-            Text(
-                text = " ${quantity * foodPrice} DZD",
-                modifier = Modifier.padding(start = 4.dp)
-            )
         }
     }
 }

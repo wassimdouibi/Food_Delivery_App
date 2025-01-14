@@ -91,7 +91,7 @@ fun HomeView(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(cuisineTypes.size) { index ->
-                    CuisineIcon( cuisineType = cuisineTypes[index] , navController = navController)
+                    CuisineIcon( index = index, cuisineType = cuisineTypes[index] , navController = navController)
                 }
             }
 
@@ -107,7 +107,7 @@ fun HomeView(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(foodCategories.size) { index ->
-                    CuisineIcon(cuisineType = foodCategories[index], navController = navController)
+                    CuisineIcon( index = index, cuisineType = foodCategories[index], navController = navController)
                 }
             }
 

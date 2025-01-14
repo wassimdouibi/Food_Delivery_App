@@ -41,9 +41,9 @@ fun FavoritesView(
     var search by remember { mutableStateOf("") }
 
     val context = LocalContext.current
+    val authPreferences = AuthPreferences(context)
     val isLoading by favoritesViewModel.isLoading.collectAsState()
     val error by favoritesViewModel.error.collectAsState()
-    val authPreferences = AuthPreferences(context)
     val coroutineScope = rememberCoroutineScope()
 
     var showFilterState by rememberSaveable { mutableStateOf(false) }

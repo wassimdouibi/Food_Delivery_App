@@ -14,15 +14,33 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.example.food_delivery_app.R
 import com.example.food_delivery_app.core.home.model.entity.Category
 import com.example.food_delivery_app.core.home.model.entity.CuisineType
 import com.example.food_delivery_app.router.Router
 import com.example.food_delivery_app.ui.theme.Colors.defaultCustomColorScheme
 import com.example.food_delivery_app.ui.theme.Typography.defaultCustomTypographyScheme
+import org.jetbrains.annotations.Async
+
+val cuisineTypeUrls = listOf(
+    "https://images.pexels.com/photos/2232/vegetables-italian-pizza-restaurant.jpg", // Italian
+    "https://images.pexels.com/photos/1435907/pexels-photo-1435907.jpeg", // Chinese
+    "https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg", // Mexican
+    "https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg", // Japanese
+    "https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg", // French
+    "https://images.pexels.com/photos/539451/pexels-photo-539451.jpeg",
+    "https://images.pexels.com/photos/539451/pexels-photo-539451.jpeg",
+    "https://images.pexels.com/photos/539451/pexels-photo-539451.jpeg",
+    "https://images.pexels.com/photos/539451/pexels-photo-539451.jpeg",
+)
+
+
+
 
 @Composable
 fun CuisineIcon(
+    index: Int,
     cuisineType: CuisineType,
     navController: NavController
 ) {
@@ -30,8 +48,8 @@ fun CuisineIcon(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.wrapContentWidth()
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.pizza),
+        AsyncImage(
+            model = cuisineTypeUrls[index],
             contentDescription = cuisineType.name,
             modifier = Modifier
                 .width(90.dp)
@@ -52,8 +70,22 @@ fun CuisineIcon(
 }
 
 
+val categoryUrls = listOf(
+    "https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg", // Fast Food
+    "https://images.pexels.com/photos/1132558/pexels-photo-1132558.jpeg", // Desserts
+    "https://images.pexels.com/photos/1132558/pexels-photo-1132558.jpeg", // Beverages
+    "https://images.pexels.com/photos/286215/pexels-photo-286215.jpeg", // Seafood
+    "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg", // Vegetarian
+    "https://images.pexels.com/photos/539451/pexels-photo-539451.jpeg",
+    "https://images.pexels.com/photos/539451/pexels-photo-539451.jpeg",
+    "https://images.pexels.com/photos/539451/pexels-photo-539451.jpeg",
+    "https://images.pexels.com/photos/539451/pexels-photo-539451.jpeg",
+)
+
+
 @Composable
 fun CuisineIcon(
+    index: Int,
     cuisineType: Category,
     navController: NavController
 ) {
@@ -61,8 +93,8 @@ fun CuisineIcon(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.wrapContentWidth()
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.pizza),
+        AsyncImage(
+            model = categoryUrls[index],
             contentDescription = cuisineType.name,
             modifier = Modifier
                 .width(90.dp)

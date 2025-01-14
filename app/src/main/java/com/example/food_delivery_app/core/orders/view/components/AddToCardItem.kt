@@ -2,10 +2,12 @@ package com.example.food_delivery_app.core.orders.view.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.example.food_delivery_app.core.components.IncrementDecrementRow
 import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
+import kotlinx.coroutines.launch
 
 @Composable
 fun AddToCardOrder(
@@ -14,6 +16,8 @@ fun AddToCardOrder(
     addOrder: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val scope = rememberCoroutineScope()
+
     Row(
         modifier = modifier
             .fillMaxWidth(),
@@ -31,7 +35,9 @@ fun AddToCardOrder(
             modifier = modifier.weight(.65f),
             price=price,
             onClick = {
-                addOrder()
+                scope.launch {
+                    addOrder()
+                }
             },
             cardColor = LocalCustomColorScheme.current.primary400
         )
