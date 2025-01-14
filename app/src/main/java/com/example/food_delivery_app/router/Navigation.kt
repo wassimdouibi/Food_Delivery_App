@@ -242,7 +242,7 @@ private fun calculateStartDestination(pref: SharedPreferences): String {
     val isOnboardingComplete = pref.getBoolean("isOnboardingComplete", false)
 
     return when {
-        !isOnboardingComplete -> Router.OnboardingScreen.route
+        !isOnboardingComplete -> Router.Splash.route
         !isLogin -> Router.LoginScreen.route
         else -> Router.FoodDeliveryNavScreen.route
     }
