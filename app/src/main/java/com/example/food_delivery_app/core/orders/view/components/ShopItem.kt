@@ -1,13 +1,10 @@
-package com.example.food_delivery_app.core.components
+package com.example.food_delivery_app.core.orders.view.components
 
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,7 +14,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.food_delivery_app.R
 import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
 import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme

@@ -25,12 +25,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.food_delivery_app.R
 import com.example.food_delivery_app.auth.model.entity.AuthPreferences
-import com.example.food_delivery_app.core.components.AddToCardOrder
+import com.example.food_delivery_app.core.orders.view.components.AddToCardOrder
 import com.example.food_delivery_app.core.components.CustomerReview
 import com.example.food_delivery_app.core.favorites.viewModel.FavoritesViewModel
 import com.example.food_delivery_app.core.home.view.components.FoodCardImageSection
 import com.example.food_delivery_app.core.home.view.components.SectionTitle
 import com.example.food_delivery_app.core.home.viewModel.HomeViewModel
+import com.example.food_delivery_app.core.orders.viewModel.OrdersViewModel
 import com.example.food_delivery_app.core.profile.viewmodel.ProfileViewModel
 import com.example.food_delivery_app.ui.theme.Colors.defaultCustomColorScheme
 import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
@@ -56,6 +57,7 @@ fun FoodDetailsView(
     homeViewModel: HomeViewModel,
     profileViewModel: ProfileViewModel,
     favoritesViewModel: FavoritesViewModel,
+    ordersViewModel: OrdersViewModel,
     foodID : Int
 ) {
     val context = LocalContext.current

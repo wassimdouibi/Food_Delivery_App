@@ -19,6 +19,8 @@ import com.example.food_delivery_app.core.favorites.viewModel.FavoritesViewModel
 import com.example.food_delivery_app.core.home.viewModel.HomeViewModel
 import com.example.food_delivery_app.core.navigation.model.NavItem
 import com.example.food_delivery_app.core.navigation.view.components.NavItemBox
+import com.example.food_delivery_app.core.orders.view.OrdersView
+import com.example.food_delivery_app.core.orders.viewModel.OrdersViewModel
 import com.example.food_delivery_app.core.profile.view.ProfileView
 import com.example.food_delivery_app.core.profile.viewmodel.ProfileViewModel
 import com.example.food_delivery_app.router.Router
@@ -32,7 +34,7 @@ fun FoodDeliveryNavView(
     homeViewModel: HomeViewModel,
     profileViewModel: ProfileViewModel,
     favoritesViewModel: FavoritesViewModel,
-//    ordersViewModel: OrdersViewModel,
+    ordersViewModel: OrdersViewModel,
     pref: SharedPreferences
 ) {
     val navBarController = rememberNavController()
@@ -57,11 +59,8 @@ fun FoodDeliveryNavView(
         },
         content = {
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(24.dp),
-                ) {
-
+                modifier = Modifier.fillMaxSize().padding(24.dp)
+            ) {
                 NavHost(navController = navBarController, startDestination = Router.HomeScreen.route)
                 {
                     composable(route = Router.HomeScreen.route) {
@@ -70,12 +69,12 @@ fun FoodDeliveryNavView(
                             homeViewModel = homeViewModel
                         )
                     }
-//                    composable(route = Router.OrdersScreen.route) {
-//                        OrdersView(
-//                            navController = navController,
-//                            ordersViewModel = OrdersViewModel
-//                        )
-//                    }
+                    composable(route = Router.OrdersScreen.route) {
+                        OrdersView(
+                            navController = navController,
+                            ordersViewModel = ordersViewModel
+                        )
+                    }
                     composable(route = Router.FavoritesScreen.route) {
                         FavoritesView(
                             navController = navController,

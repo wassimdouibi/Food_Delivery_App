@@ -51,12 +51,15 @@ sealed class Router(val route:String) {
 
     object FavoritesScreen: Router("/favorites")
 
-    //    object OrdersScreen: Router("/orders")
     object ProfileScreen: Router("/profile")
+
     object EditProfileScreen: Router("/profile-edit?fromSignup={fromSignup}") {
         fun createRoute(fromSignup: Boolean = false): String {
             return "/profile-edit?fromSignup=$fromSignup"
         }
     }
+
     object NotificationsSettingsScreen: Router("/notification_settings")
+
+    object OrdersScreen: Router("/orders")
 }

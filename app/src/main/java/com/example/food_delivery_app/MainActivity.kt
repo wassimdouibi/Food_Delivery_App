@@ -21,6 +21,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.food_delivery_app.auth.viewModel.AuthViewModel
 import com.example.food_delivery_app.core.favorites.viewModel.FavoritesViewModel
 import com.example.food_delivery_app.core.home.viewModel.HomeViewModel
+import com.example.food_delivery_app.core.orders.viewModel.OrdersViewModel
 import com.example.food_delivery_app.router.NavigationHost
 import com.example.food_delivery_app.core.profile.viewmodel.ProfileViewModel
 
@@ -48,11 +49,11 @@ class MainActivity : ComponentActivity() {
         )
     }
 
-//    private val ordersViewModel: OrdersViewModel by viewModels {
-//        OrdersViewModel.Factory(
-//            (application as FoodDeliveryApplication).ordersRepository
-//        )
-//    }
+    private val ordersViewModel: OrdersViewModel by viewModels {
+        OrdersViewModel.Factory(
+            (application as FoodDeliveryApplication).ordersRepository
+        )
+    }
 
 
 //    private fun requestNotificationPermission() {
@@ -89,7 +90,7 @@ class MainActivity : ComponentActivity() {
                         profileViewModel = profileViewModel,
                         homeViewModel = homeViewModel,
                         favoritesViewModel = favoritesViewModel,
-//                        ordersViewModel = ordersViewModel,
+                        ordersViewModel = ordersViewModel,
                         pref = pref
                     )
 

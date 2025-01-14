@@ -1,9 +1,10 @@
-package com.example.food_delivery_app.core.components
+package com.example.food_delivery_app.core.orders.view.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.example.food_delivery_app.core.components.IncrementDecrementRow
 import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
 
 @Composable

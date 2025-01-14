@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.food_delivery_app.core.orders.model.entity.Order
 import com.example.food_delivery_app.core.orders.model.repository.OrdersRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -18,10 +20,20 @@ class OrdersViewModel(val ordersRepository: OrdersRepository): ViewModel() {
     val ordersWithSpecificStatus: State<List<Order>> get() = _ordersWithSpecificStatus
     // -----------------------------------------------------------------------------------------------------------------------------
 
-    private val _isLoading = mutableStateOf(true)
-    val isLoading: State<Boolean> = _isLoading
-    private val _error = mutableStateOf<String?>(null)
-    val error: State<String?> = _error
+
+
+
+    // -----------------------------------------------------------------------------------------------------------------------------
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading = _isLoading.asStateFlow()
+    // -----------------------------------------------------------------------------------------------------------------------------
+    private val _error = MutableStateFlow<String?>(null)
+    val error = _error.asStateFlow()
+    // -----------------------------------------------------------------------------------------------------------------------------
+
+
+
+
 
     fun getOrdersWithSpecificStatus(status: String) {
         viewModelScope.launch {

@@ -1,4 +1,4 @@
-package com.example.food_delivery_app.core.components
+package com.example.food_delivery_app.core.orders.view.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
@@ -10,23 +10,38 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.food_delivery_app.R
+import com.example.food_delivery_app.core.components.Dot
+import com.example.food_delivery_app.core.components.IconType
 import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
-import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
+
 
 @SuppressLint("DefaultLocale")
 @Composable
-fun OrderDelivered(
+fun OrderConfirmed(
     orderLoc: String,
     deliveryLoc: String,
     price: Float,
-    cardColor: Color
+
+    onButton1Click: () -> Unit,
+    onButton2Click: () -> Unit,
+
+    cardColor: Color,
+    ghostBtnColor: Color = LocalCustomColorScheme.current.utilityError,
+    filledBtnContentColor : Color = LocalCustomColorScheme.current.utilityWhiteBackground,
+    filledBtnContainerColor : Color = LocalCustomColorScheme.current.primary400
+
+
 ) {
+    val orderStatus = remember { mutableStateOf("Not Confirmed") }
+
     Card(
         modifier = Modifier.padding(16.dp),
         border = BorderStroke(1.dp, LocalCustomColorScheme.current.ink200),
@@ -36,7 +51,7 @@ fun OrderDelivered(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(cardColor)
-                .padding(16.dp)
+                .padding(16.dp),
         ) {
             // Informations de la commande
             OrderInfoRow(
@@ -52,7 +67,6 @@ fun OrderDelivered(
                 containerColor = LocalCustomColorScheme.current.utilitySuccess
             )
 
-
             Column(
                 verticalArrangement = Arrangement.spacedBy(2.dp)
             ) {
@@ -60,7 +74,6 @@ fun OrderDelivered(
                 Dot(height = 10.dp)
                 Dot(height = 6.dp)
             }
-
 
             OrderInfoRow(
                 label = stringResource(R.string.delivery_location),
@@ -92,15 +105,17 @@ fun OrderDelivered(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Bouton "Order Delivered"
-            FilledTextButton(
-                modifier = Modifier.fillMaxWidth(),
-                enabled = false,
-                onClick = {},
-                textContent = stringResource(R.string.cta_order_delivered),
-                textStyle = LocalCustomTypographyScheme.current.p_mediumBold,
-                contentColor = LocalCustomColorScheme.current.ink500,
-                containerColor = LocalCustomColorScheme.current.ink100
+            // Boutons d'action avec OrderActionRow
+            OrderActionRow(
+                button1Text = stringResource(R.string.cta_cancel),
+                button2Text = stringResource(R.string.cta_track_order),
+
+                onB1Click = onButton1Click,
+                onB2Click = onButton2Click,
+
+                ghostButtonColor = ghostBtnColor,
+                filledButtonContentColor = filledBtnContentColor,
+                filledButtonContainerColor = filledBtnContainerColor,
             )
         }
     }

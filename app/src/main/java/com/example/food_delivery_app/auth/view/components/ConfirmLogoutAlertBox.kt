@@ -1,4 +1,4 @@
-package com.example.food_delivery_app.core.components
+package com.example.food_delivery_app.auth.view.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -9,6 +9,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.food_delivery_app.core.components.BorderlessTextButton
 import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
 import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
 

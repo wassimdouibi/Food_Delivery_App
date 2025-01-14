@@ -82,126 +82,125 @@ fun ProfileView(
 
     // Show loading state
     if (isLoading) {
-        CircularProgressIndicator()
-    }
-
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .systemBarsPadding()
-            .padding(horizontal = 24.dp)
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            Text(
-                text = stringResource(R.string.profile_title),
-                style = LocalCustomTypographyScheme.current.heading3
-            )
-            DropdownMenuWithDetails()
-        }
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.Center
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.profile_pic),
-                contentDescription = "Profile pic",
-                modifier = Modifier
-                    .size(120.dp)
-                    .clip(CircleShape),
-            )
-            Text(
-                text = fullName,
-                style = LocalCustomTypographyScheme.current.p_largeBold
-            )
-            Text(
-                text = email,
-                style = LocalCustomTypographyScheme.current.p_medium
-            )
+            CircularProgressIndicator()
         }
-
-        HorizontalDivider(modifier = Modifier.padding(vertical = 24.dp,),)
-
-
+    } else {
         Column(
-            verticalArrangement = Arrangement.spacedBy(24.dp)
+            modifier = Modifier.fillMaxSize(),
         ) {
-            ProfileItem(
-                title = stringResource(R.string.edit_profile_title),
-                icon = R.drawable.profile_outline
-            ) {
-                navController.navigate(Router.EditProfileScreen.createRoute())
-            }
-
-            ProfileItem(
-                title = stringResource(R.string.payement),
-                icon = R.drawable.wallet_outlined
-            ) {
-
-            }
-
-            ProfileItem(
-                title = stringResource(R.string.notifications),
-                icon = R.drawable.notification_outlined
-            ) {
-                navController.navigate(Router.NotificationsSettingsScreen.route)
-            }
-
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Text(
+                    text = stringResource(R.string.profile_title),
+                    style = LocalCustomTypographyScheme.current.heading3
+                )
+                DropdownMenuWithDetails()
+            }
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.show_outlined),
-                    contentDescription = "Themes",
-                    colorFilter = ColorFilter.tint(LocalCustomColorScheme.current.ink500),
-                    modifier = Modifier.size(32.dp),
+                    painter = painterResource(id = R.drawable.profile_pic),
+                    contentDescription = "Profile pic",
+                    modifier = Modifier
+                        .size(120.dp)
+                        .clip(CircleShape),
                 )
-                Spacer(modifier = Modifier.width(16.dp))
                 Text(
-                    text = stringResource(R.string.theme),
-                    style = LocalCustomTypographyScheme.current.heading5,
-                    color = LocalCustomColorScheme.current.ink500
+                    text = fullName,
+                    style = LocalCustomTypographyScheme.current.p_largeBold
                 )
-                Spacer(modifier = Modifier.weight(1f))
-                CustomSwitch(
-                    value = darkThemeColor.value,
-                    onCheckChange = {darkThemeColor.value = it},
+                Text(
+                    text = email,
+                    style = LocalCustomTypographyScheme.current.p_medium
                 )
             }
 
-            ProfileItem(
-                title = stringResource(R.string.logout),
-                icon = R.drawable.logout_outlined, color = LocalCustomColorScheme.current.utilityError
+            HorizontalDivider(modifier = Modifier.padding(vertical = 24.dp,),)
+
+
+            Column(
+                verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
-                ConfirmLogoutAlertBox = true
+                ProfileItem(
+                    title = stringResource(R.string.edit_profile_title),
+                    icon = R.drawable.profile_outline
+                ) {
+                    navController.navigate(Router.EditProfileScreen.createRoute())
+                }
+
+                ProfileItem(
+                    title = stringResource(R.string.payement),
+                    icon = R.drawable.wallet_outlined
+                ) {
+
+                }
+
+                ProfileItem(
+                    title = stringResource(R.string.notifications),
+                    icon = R.drawable.notification_outlined
+                ) {
+                    navController.navigate(Router.NotificationsSettingsScreen.route)
+                }
+
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.show_outlined),
+                        contentDescription = "Themes",
+                        colorFilter = ColorFilter.tint(LocalCustomColorScheme.current.ink500),
+                        modifier = Modifier.size(32.dp),
+                    )
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(
+                        text = stringResource(R.string.theme),
+                        style = LocalCustomTypographyScheme.current.heading5,
+                        color = LocalCustomColorScheme.current.ink500
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    CustomSwitch(
+                        value = darkThemeColor.value,
+                        onCheckChange = {darkThemeColor.value = it},
+                    )
+                }
+
+                ProfileItem(
+                    title = stringResource(R.string.logout),
+                    icon = R.drawable.logout_outlined, color = LocalCustomColorScheme.current.utilityError
+                ) {
+                    ConfirmLogoutAlertBox = true
+                }
+
             }
 
         }
 
+        if (ConfirmLogoutAlertBox) {
+            ConfirmLogoutAlertBox(
+                onLogout = {
+                    authViewModel.logout(pref)
+                    navController.navigate(Router.LoginScreen.route)
+                    ConfirmLogoutAlertBox = false
+                },
+                onCancel = {
+                    ConfirmLogoutAlertBox = false
+                }
+            )
+        }
     }
-
-    if (ConfirmLogoutAlertBox) {
-        ConfirmLogoutAlertBox(
-            onLogout = {
-                authViewModel.logout(pref)
-                navController.navigate(Router.LoginScreen.route)
-                ConfirmLogoutAlertBox = false
-            },
-            onCancel = {
-                ConfirmLogoutAlertBox = false
-            }
-        )
-    }
-
-
-
 }
 
 

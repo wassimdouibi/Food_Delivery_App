@@ -31,7 +31,7 @@ sealed class NavItem(
             iconDescription = "Orders"
         ),
         label = "Orders",
-        route = "orders"
+        route = Router.OrdersScreen.route
     )
 
     object Favorites : NavItem(

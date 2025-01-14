@@ -19,6 +19,7 @@ import com.example.food_delivery_app.core.home.model.services.response.Restauran
 
 @Composable
 fun FavoritesResult(
+    modifier: Modifier = Modifier,
     selectedIndex: Int,
     favoriteFoods: List<FoodResponse> = emptyList(),
     favoriteRestaurants: List<RestaurantResponse> = emptyList(),
@@ -27,7 +28,7 @@ fun FavoritesResult(
     val listState = rememberLazyListState()
 
     LazyColumn(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         state = listState,
         verticalArrangement = Arrangement.spacedBy(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally

@@ -1,4 +1,4 @@
-package com.example.food_delivery_app.core.components
+package com.example.food_delivery_app.core.orders.view.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import com.example.food_delivery_app.core.components.RoundedIconBtn
 import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
 import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
 

@@ -1,4 +1,4 @@
-package com.example.food_delivery_app.core.components
+package com.example.food_delivery_app.core.orders.view.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.food_delivery_app.core.components.RectangularIconBtn
 import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
 import com.example.food_delivery_app.ui.theme.LocalCustomTypographyScheme
 

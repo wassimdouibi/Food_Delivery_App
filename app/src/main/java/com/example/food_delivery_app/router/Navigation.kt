@@ -21,6 +21,7 @@ import com.example.food_delivery_app.auth.view.signup.view.SignupView
 import com.example.food_delivery_app.core.FoodDetailsView
 import com.example.food_delivery_app.core.Home.HomeView
 import com.example.food_delivery_app.core.HomeSearchResultView
+import com.example.food_delivery_app.core.Orders.View.OrderNotConfirmedView
 import com.example.food_delivery_app.core.RestaurantDetailsView
 import com.example.food_delivery_app.core.favorites.view.FavoritesView
 import com.example.food_delivery_app.core.favorites.viewModel.FavoritesViewModel
@@ -28,6 +29,9 @@ import com.example.food_delivery_app.core.home.view.CuisineRestaurantsView
 import com.example.food_delivery_app.core.home.view.FoodCategoryView
 import com.example.food_delivery_app.core.home.viewModel.HomeViewModel
 import com.example.food_delivery_app.core.navigation.view.FoodDeliveryNavView
+import com.example.food_delivery_app.core.orders.view.EmptyOrdersView
+import com.example.food_delivery_app.core.orders.view.OrdersView
+import com.example.food_delivery_app.core.orders.viewModel.OrdersViewModel
 import com.example.food_delivery_app.core.profile.viewmodel.ProfileViewModel
 import com.example.food_delivery_app.onboarding.view.OnboardingView
 
@@ -39,8 +43,8 @@ fun NavigationHost(
     authViewModel: AuthViewModel,
     profileViewModel: ProfileViewModel,
     homeViewModel: HomeViewModel,
-    favoritesViewModel: FavoritesViewModel
-//    ordersViewModel: OrdersViewModel,
+    favoritesViewModel: FavoritesViewModel,
+    ordersViewModel: OrdersViewModel
 ) {
     val startDestination = remember {
         calculateStartDestination(pref)
@@ -123,6 +127,7 @@ fun NavigationHost(
                 homeViewModel = homeViewModel,
                 profileViewModel = profileViewModel,
                 favoritesViewModel = favoritesViewModel,
+                ordersViewModel = ordersViewModel,
                 pref = pref
             )
         }
@@ -166,6 +171,7 @@ fun NavigationHost(
                 homeViewModel = homeViewModel,
                 profileViewModel = profileViewModel,
                 favoritesViewModel = favoritesViewModel,
+                ordersViewModel = ordersViewModel,
                 foodID = foodId
             )
         }
@@ -213,13 +219,15 @@ fun NavigationHost(
 
 
 
+        //  ------------------- Orders Screen -------------------
+        composable(Router.OrdersScreen.route) {
+            OrdersView(
+                navController = navController,
+                ordersViewModel = ordersViewModel
+            )
+        }
 
-//        //  ------------------- Orders Screen -------------------
-//        composable(Router.OrdersScreen.route) {
-//            OrdersView(navController = navController, ordersViewModel = ordersViewModel)
-//        }
-//
-//
+
         //  ------------------- Favorites Screen -------------------
         composable(Router.FavoritesScreen.route) {
             FavoritesView(

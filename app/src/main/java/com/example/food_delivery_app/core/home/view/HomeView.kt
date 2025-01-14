@@ -58,6 +58,7 @@ fun HomeView(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
                 .fillMaxSize()
+                .padding(16.dp)
         ) {
             error?.let {
                 Text(text = it, color = MaterialTheme.colorScheme.error, modifier = Modifier.align(Alignment.CenterHorizontally))

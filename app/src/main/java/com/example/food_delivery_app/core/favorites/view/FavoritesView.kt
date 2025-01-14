@@ -72,7 +72,13 @@ fun FavoritesView(
 
 
     if (isLoading) {
-        CircularProgressIndicator()
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            CircularProgressIndicator()
+        }
     } else if ( favoriteRestaurants.isNotEmpty() || favoriteFoods.isNotEmpty() ){
         Box(
             modifier = Modifier
@@ -80,9 +86,7 @@ fun FavoritesView(
                 .systemBarsPadding()
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(24.dp),
+                modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(48.dp)
             ) {
@@ -119,6 +123,7 @@ fun FavoritesView(
                     changeShowFilterState = {showFilterState = !showFilterState}
                 )
                 FavoritesResult(
+                    modifier = Modifier.padding(16.dp),
                     selectedIndex = selectedIndex,
                     favoriteFoods = favoriteFoods,
                     favoriteRestaurants = favoriteRestaurants,

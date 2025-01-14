@@ -76,129 +76,134 @@ fun EditProfileView(
 
 
     //  Handle error messages
-//    LaunchedEffect(error) {
-//        error?.let {
-//            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-//        }
-//    }
+    LaunchedEffect(error) {
+        error?.let {
+            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+        }
+    }
 
     // Show loading state
     if (isLoading) {
-        CircularProgressIndicator()
-    }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .systemBarsPadding()
-            .padding(horizontal = 24.dp),
-        verticalArrangement = Arrangement.SpaceBetween,
-    ) {
-        BackUpBar(
-            title = stringResource(R.string.edit_profile_title),
-            navController = navController
-        )
-
-        Spacer(modifier = Modifier.weight(1f))
-
         Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(32.dp),
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Box {
-                Image(
-                    painter = painterResource(id = R.drawable.profile_pic),
-                    contentDescription = "Profile picture",
-                    modifier = Modifier
-                        .size(120.dp)
-                        .clip(CircleShape),
-                    contentScale = ContentScale.Fit
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.edit_square_bold),
-                    contentDescription = "Edit picture",
-                    colorFilter = ColorFilter.tint(LocalCustomColorScheme.current.primary400),
-                    modifier = Modifier
-                        .size(35.dp)
-                        .align(Alignment.BottomEnd)
-                        .offset(x = (-3).dp, y = (-4).dp)
-                        .clickable {
+            CircularProgressIndicator()
+        }
+    } else {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp),
+            verticalArrangement = Arrangement.SpaceBetween,
+        ) {
+            BackUpBar(
+                title = stringResource(R.string.edit_profile_title),
+                navController = navController
+            )
 
-                        }
+            Spacer(modifier = Modifier.weight(1f))
+
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(32.dp),
+            ) {
+                Box {
+                    Image(
+                        painter = painterResource(id = R.drawable.profile_pic),
+                        contentDescription = "Profile picture",
+                        modifier = Modifier
+                            .size(120.dp)
+                            .clip(CircleShape),
+                        contentScale = ContentScale.Fit
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.edit_square_bold),
+                        contentDescription = "Edit picture",
+                        colorFilter = ColorFilter.tint(LocalCustomColorScheme.current.primary400),
+                        modifier = Modifier
+                            .size(35.dp)
+                            .align(Alignment.BottomEnd)
+                            .offset(x = (-3).dp, y = (-4).dp)
+                            .clickable {
+
+                            }
+                    )
+                }
+
+                FoodDeliveryTextField(
+                    value = firstName,
+                    onValueChange = {
+                        firstName = it
+                    },
+                    placeHolderText = stringResource(R.string.field_first_name),
+                    leadingIconId = R.drawable.profile_outline,
+                    leadingIconDescription = "Full name"
+                )
+                FoodDeliveryTextField(
+                    value = lastName,
+                    onValueChange = {
+                        lastName = it
+                    },
+                    placeHolderText = stringResource(R.string.field_last_name),
+                    leadingIconId = R.drawable.message_outlined,
+                    leadingIconDescription = "Full name"
+                )
+
+                FoodDeliveryTextField(
+                    value = phonenumber,
+                    onValueChange = {
+                        phonenumber = it
+                    },
+                    placeHolderText = stringResource(R.string.field_phone_number),
+                    leadingIconId = R.drawable.phone,
+                    leadingIconDescription = "Phone number",
                 )
             }
 
-            FoodDeliveryTextField(
-                value = firstName,
-                onValueChange = {
-                    firstName = it
-                },
-                placeHolderText = stringResource(R.string.field_first_name),
-                leadingIconId = R.drawable.profile_outline,
-                leadingIconDescription = "Full name"
-            )
-            FoodDeliveryTextField(
-                value = lastName,
-                onValueChange = {
-                    lastName = it
-                },
-                placeHolderText = stringResource(R.string.field_last_name),
-                leadingIconId = R.drawable.message_outlined,
-                leadingIconDescription = "Full name"
-            )
+            Spacer(modifier = Modifier.weight(1f))
 
-            FoodDeliveryTextField(
-                value = phonenumber,
-                onValueChange = {
-                    phonenumber = it
-                },
-                placeHolderText = stringResource(R.string.field_phone_number),
-                leadingIconId = R.drawable.phone,
-                leadingIconDescription = "Phone number",
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+            ) {
+                FilledTextButton(
+                    textContent = stringResource(R.string.update_profile_infos),
+                    textStyle = LocalCustomTypographyScheme.current.p_mediumBold,
+                    modifier = Modifier.padding(),
+                    onClick = {
+                        if(firstName != "" && lastName != "") {
+                            userId?.let { id ->
+                                Log.d("Heeere", "Full name modification ; user id is : $id")
+                                profileViewModel.updateUserName(id, "$firstName $lastName")
+                            }
+                        }
+                        if(phonenumber != "") {
+                            userId?.let { id ->
+                                Log.d("Heeere", "Phone number modification ; user id is : $id")
+                                profileViewModel.updateUserPhoneNumber(id, phonenumber)
+                            }
+                        }
+                        if(profilePicture != ""){
+                            userId?.let { id ->
+                                Log.d("Heeere", "Profile picture modification ; user id is : $id")
+                                profileViewModel.updateProfilePicture(id, profilePicture)
+                            }
+                        }
+                        userId?.let { id ->
+                            profileViewModel.getUserFields(id)
+                        }
+                        navController.navigate(Router.ProfileScreen.route){
+                            popUpTo(Router.LoginScreen.route) { inclusive = true } // Clear login screen from back stack
+                        }
+                    }
+                )
+            }
+
+            Spacer(modifier = Modifier.weight(1f))
+
         }
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-        ) {
-            FilledTextButton(
-                textContent = stringResource(R.string.update_profile_infos),
-                textStyle = LocalCustomTypographyScheme.current.p_mediumBold,
-                modifier = Modifier.padding(),
-                onClick = {
-                    if(firstName != "" && lastName != "") {
-                        userId?.let { id ->
-                            Log.d("Heeere", "Full name modification ; user id is : $id")
-                            profileViewModel.updateUserName(id, "$firstName $lastName")
-                        }
-                    }
-                    if(phonenumber != "") {
-                        userId?.let { id ->
-                            Log.d("Heeere", "Phone number modification ; user id is : $id")
-                            profileViewModel.updateUserPhoneNumber(id, phonenumber)
-                        }
-                    }
-                    if(profilePicture != ""){
-                        userId?.let { id ->
-                            Log.d("Heeere", "Profile picture modification ; user id is : $id")
-                            profileViewModel.updateProfilePicture(id, profilePicture)
-                        }
-                    }
-                    userId?.let { id ->
-                        profileViewModel.getUserFields(id)
-                    }
-                    navController.navigate(Router.ProfileScreen.route){
-                        popUpTo(Router.LoginScreen.route) { inclusive = true } // Clear login screen from back stack
-                    }
-                }
-            )
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-
     }
 }

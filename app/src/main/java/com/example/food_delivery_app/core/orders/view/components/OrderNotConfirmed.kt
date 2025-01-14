@@ -1,4 +1,4 @@
-package com.example.food_delivery_app.core.components
+package com.example.food_delivery_app.core.orders.view.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
@@ -17,6 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.food_delivery_app.R
+import com.example.food_delivery_app.core.components.IconType
 import com.example.food_delivery_app.ui.theme.LocalCustomColorScheme
 
 

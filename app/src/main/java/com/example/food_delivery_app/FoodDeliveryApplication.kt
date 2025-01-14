@@ -9,6 +9,8 @@ import com.example.food_delivery_app.core.favorites.model.repository.FavoritesRe
 import com.example.food_delivery_app.core.favorites.model.service.FavoritesService
 import com.example.food_delivery_app.core.home.model.repository.HomeRepository
 import com.example.food_delivery_app.core.home.model.services.HomeService
+import com.example.food_delivery_app.core.orders.model.repository.OrdersRepository
+import com.example.food_delivery_app.core.orders.model.service.OrdersService
 import com.example.food_delivery_app.core.profile.model.repository.ProfileRepository
 import com.example.food_delivery_app.core.profile.model.service.ProfileService
 
@@ -17,7 +19,7 @@ class FoodDeliveryApplication : Application() {
 
 
     // Auth
-    private val authService by lazy { AuthService.getInstance() }
+    private val authService: AuthService by lazy { AuthService.getInstance() }
     val authRepository: AuthRepository by lazy { AuthRepository(authService) }
 
     // Profile
@@ -29,13 +31,9 @@ class FoodDeliveryApplication : Application() {
     val homeRepository: HomeRepository by lazy { HomeRepository(homeService) }
 
 //    // Orders
-//    val ordersService: OrdersService by lazy {
-//        retrofit.create(OrdersService::class.java)
-//    }
-//    val ordersRepository: OrdersRepository by lazy {
-//        OrdersRepository(ordersService)
-//    }
-//
+    val ordersService: OrdersService by lazy { OrdersService.getInstance() }
+    val ordersRepository: OrdersRepository by lazy { OrdersRepository(ordersService) }
+
 
    // Favorites
     val favoritesService: FavoritesService by lazy { FavoritesService.getInstance() }
