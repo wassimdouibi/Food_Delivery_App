@@ -6,19 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,11 +14,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,6 +31,7 @@ import com.example.food_delivery_app.R
 import com.example.food_delivery_app.auth.model.entity.AuthPreferences
 import com.example.food_delivery_app.core.components.CustomerReview
 import com.example.food_delivery_app.core.components.FoodMenuCard
+import com.example.food_delivery_app.core.components.RestaurantInfo
 import com.example.food_delivery_app.core.favorites.viewModel.FavoritesViewModel
 import com.example.food_delivery_app.core.home.view.components.SectionTitle
 import com.example.food_delivery_app.core.home.viewModel.HomeViewModel
@@ -55,7 +42,10 @@ import com.example.food_delivery_app.ui.theme.Typography.defaultCustomTypography
 import kotlinx.coroutines.launch
 
 
-@OptIn(ExperimentalLayoutApi::class)
+
+
+
+@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun RestaurantDetailsView(
     navController : NavController,
@@ -77,6 +67,10 @@ fun RestaurantDetailsView(
     val selectedRestaurant by homeViewModel.selectedRestaurant.collectAsState()
     val foodsFromRestaurant by homeViewModel.foodsFromRestaurant.collectAsState()
     val restaurantReviews by homeViewModel.restaurantReviews.collectAsState()
+
+    // State for ModalBottomSheet
+    var showRestaurantInfo by rememberSaveable { mutableStateOf(false) }
+    val cancelShowFilterState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
 
     LaunchedEffect(1) {
@@ -107,8 +101,12 @@ fun RestaurantDetailsView(
             CircularProgressIndicator()
         }
     } else {
-        selectedRestaurant?.let {
-            restaurantRes ->
+        selectedRestaurant?.let { restaurantRes ->
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .systemBarsPadding()
+            ) {
                 Column(
                     modifier = Modifier
                         .verticalScroll(rememberScrollState())
@@ -174,7 +172,7 @@ fun RestaurantDetailsView(
                     ) {
                         Column(
                             verticalArrangement = Arrangement.spacedBy(8.dp)
-                        ){
+                        ) {
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -191,7 +189,12 @@ fun RestaurantDetailsView(
                                     text = "More Info",
                                     style = defaultCustomTypographyScheme.p_mediumBold,
                                     color = defaultCustomColorScheme.ink400,
-                                    modifier = Modifier.clickable { }  // add navigation to the restaurant details component
+                                    modifier = Modifier.clickable {
+                                        showRestaurantInfo = true
+                                        coroutineScope.launch {
+                                            cancelShowFilterState.show()
+                                        }
+                                    }  // add navigation to the restaurant details component
                                 )
                             }
 
@@ -287,12 +290,12 @@ fun RestaurantDetailsView(
                                     }
                                 }
                                 // Filter the food list based on the selected category
-                                items(filteredFoods.size) {
-                                        foodResponse -> FoodMenuCard(
-                                    navController = navController,
-                                    foodResponse = filteredFoods[foodResponse],
-                                    restaurantResponse = selectedRestaurant!!
-                                )
+                                items(filteredFoods.size) { foodResponse ->
+                                    FoodMenuCard(
+                                        navController = navController,
+                                        foodResponse = filteredFoods[foodResponse],
+                                        restaurantResponse = selectedRestaurant!!
+                                    )
                                 }
                             }
                         }
@@ -319,6 +322,29 @@ fun RestaurantDetailsView(
 
                     }
                 }
+
+                if (showRestaurantInfo) {
+                    ModalBottomSheet(
+                        sheetState = cancelShowFilterState,
+                        onDismissRequest = {
+                            coroutineScope.launch { cancelShowFilterState.hide() }.invokeOnCompletion {
+                                if (!cancelShowFilterState.isVisible) {
+                                    showRestaurantInfo = false
+                                }
+                            }
+                        },
+                    ) {
+                        RestaurantInfo(
+                            restaurant = restaurantRes.restaurant,
+                            onClose = {
+                                coroutineScope.launch { cancelShowFilterState.hide() }.invokeOnCompletion {
+                                    showRestaurantInfo = false
+                                }
+                            }
+                        )
+                    }
+                }
+        }
         } ?: run {
             Text("Restaurant not found")
         }
