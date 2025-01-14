@@ -105,7 +105,13 @@ fun FoodDetailsView(
 
 
     if (isLoading) {
-        CircularProgressIndicator()
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            CircularProgressIndicator()
+        }
     } else {
         selectedFood?.let { foodRes ->
             Scaffold(
@@ -165,7 +171,7 @@ fun FoodDetailsView(
                             modifier = Modifier
                                 .align(Alignment.TopStart)
                                 .padding(8.dp)
-                                .background(Color.Transparent, shape = RoundedCornerShape(8.dp))
+                                .background(LocalCustomColorScheme.current.primary100, shape = RoundedCornerShape(8.dp))
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.ArrowBackIosNew,
