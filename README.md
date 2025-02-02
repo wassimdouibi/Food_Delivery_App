@@ -19,6 +19,16 @@ Clone this repository and import into Android Studio
 `git clone https://github.com/wassimdouibi/Food_Delivery_App.git`
 
 ### 3. How to run the project
+#### Prerequisites
+Before running the project, ensure you have the following installed:
+  - Android Studio (Latest stable version)
+  - Java Development Kit (JDK) 11+
+  - Android SDK (Updated)
+  - Gradle (Bundled with Android Studio)
+  - An Android Emulator or Physical Device (USB Debugging enabled)
+#### Run the App
+  - Select a device/emulator from the top menu
+  - Click "Run" or press the play button
 
 ### 4. Resources
   - For more details about the app features: https://drive.google.com/drive/folders/1sYqOsZXgRE-4HYbGnsk5Vfgjqea5RE3H?usp=sharing
